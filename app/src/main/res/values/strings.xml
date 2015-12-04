@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">MoneyTracker</string>
     <string name="action_settings">Settings</string>
+
+    <string name="nav_drawer_expenses">Траты</string>
+    <string name="nav_drawer_categories">Категории</string>
+    <string name="nav_drawer_statistics">Статистика</string>
+    <string name="nav_drawer_settings">Настройки</string>
+    <string name="my_name">Анрей Качур</string>
+    <string name="my_email">tmnkach@mail.ru</string>
+    <string name="content_description_avatar">avatar_circle_image</string>
 </resources>

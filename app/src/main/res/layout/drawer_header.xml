@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/drawer_header_height"
+    android:background="@mipmap/drawer_patt"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/drawer_header_padding_top"
+    android:paddingRight="@dimen/drawer_header_padding_left_right"
+    android:paddingBottom="@dimen/drawer_header_padding_bottom"
+    android:paddingLeft="@dimen/drawer_header_padding_left_right"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <ImageView
+        android:layout_width="@dimen/drawer_header_avatar_circle_radius"
+        android:layout_height="@dimen/drawer_header_avatar_circle_radius"
+        android:id="@+id/avatar"
+        android:src="@mipmap/avatar"
+        android:contentDescription="@string/content_description_avatar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/drawer_header_subtitle_height"
+        android:id="@+id/subtitle"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/drawer_header_name_email"
+            android:text="@string/my_name"
+            android:textSize="@dimen/drawer_header_name_email_text"
+            android:fontFamily="sans-serif-medium"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/drawer_header_name_email"
+            android:text="@string/my_email"
+            android:textSize="@dimen/drawer_header_name_email_text"
+            android:fontFamily="sans-serif"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
