@@ -48,17 +48,22 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Fragment findingFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
+
         if(findingFragment != null) {
+            int item_id = R.id.drawer_expenses;
+
             if(findingFragment instanceof ExpensesFragment) {
                 getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                navigationView.getMenu().findItem(R.id.drawer_expenses).setChecked(true);
+                item_id = R.id.drawer_expenses;
             } else if(findingFragment instanceof CategoriesFragment) {
-                navigationView.getMenu().findItem(R.id.drawer_categories).setChecked(true);
+                item_id = R.id.drawer_categories;
             } else if(findingFragment instanceof StatisticsFragment) {
-                navigationView.getMenu().findItem(R.id.drawer_statistics).setChecked(true);
+                item_id = R.id.drawer_statistics;
             } else if(findingFragment instanceof SettingsFragment) {
-                navigationView.getMenu().findItem(R.id.drawer_settings).setChecked(true);
+                item_id = R.id.drawer_settings;
             }
+
+            navigationView.getMenu().findItem(item_id).setChecked(true);
         }
 
     }
