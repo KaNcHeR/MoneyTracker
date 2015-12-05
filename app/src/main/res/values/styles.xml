@@ -14,4 +14,19 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Container">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="Container.MainBackground">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="Container.DarkBackground">
+        <item name="android:background">@color/colorAccent</item>
+    </style>
+
 </resources>
