@@ -13,4 +13,5 @@
     <string name="no_expenses">Не траты</string>
     <string name="list_item_name">Name</string>
     <string name="list_item_sum">Sum</string>
+    <string name="list_item_date">Дата</string>
 </resources>
