@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private Fragment fragment;
     private DrawerLayout drawerLayout;
+    NavigationView navigationView;
 
 
     @Override
@@ -47,14 +48,24 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Fragment findingFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
-        if(findingFragment != null && findingFragment instanceof ExpensesFragment) {
-            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        if(findingFragment != null) {
+            if(findingFragment instanceof ExpensesFragment) {
+                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                navigationView.getMenu().findItem(R.id.drawer_expenses).setChecked(true);
+            } else if(findingFragment instanceof CategoriesFragment) {
+                navigationView.getMenu().findItem(R.id.drawer_categories).setChecked(true);
+            } else if(findingFragment instanceof StatisticsFragment) {
+                navigationView.getMenu().findItem(R.id.drawer_statistics).setChecked(true);
+            } else if(findingFragment instanceof SettingsFragment) {
+                navigationView.getMenu().findItem(R.id.drawer_settings).setChecked(true);
+            }
         }
+
     }
 
     private void setupDrawer() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
