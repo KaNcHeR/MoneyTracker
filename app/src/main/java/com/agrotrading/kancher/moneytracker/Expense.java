@@ -3,18 +3,21 @@ package com.agrotrading.kancher.moneytracker;
 public class Expense {
 
     public String title;
-    public String sum;
+    public int sum;
 
-    public Expense(String title, String sum) {
+    public Expense(String title, int sum) {
         this.title = title;
         this.sum = sum;
     }
 
-    public String getSum() {
+    public int getSum() {
         return sum;
     }
+    public String getSumStr() {
+        return Integer.toString(sum);
+    }
 
-    public void setSum(String sum) {
+    public void setSum(int sum) {
         this.sum = sum;
     }
 

@@ -27,8 +27,8 @@ public class OtherFragment extends Fragment {
 
     private List<Expense> getDataList() {
         List<Expense> data = new ArrayList<>();
-        data.add(new Expense("Telephone", "1000"));
-        data.add(new Expense("Clothes", "5000"));
+        data.add(new Expense("Telephone", 1000));
+        data.add(new Expense("Clothes", 5000));
         return data;
     }
 }
