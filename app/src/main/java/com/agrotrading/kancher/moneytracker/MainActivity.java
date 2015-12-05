@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setupToolbar();
         setupDrawer();
         if(savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new ExpensesFagment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new ExpensesFragment()).commit();
         }
     }
 
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Fragment findingFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
-        if(findingFragment != null && findingFragment instanceof ExpensesFagment) {
+        if(findingFragment != null && findingFragment instanceof ExpensesFragment) {
             getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
     }
@@ -58,11 +58,22 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                if(menuItem.getItemId() == R.id.drawer_expenses) {
-                    fragment = new ExpensesFagment();
-                } else {
-                    fragment = new OtherFragment();
+
+                switch (menuItem.getItemId()){
+                    case R.id.drawer_expenses:
+                        fragment = new ExpensesFragment();
+                        break;
+                    case R.id.drawer_categories:
+                        fragment = new CategoriesFragment();
+                        break;
+                    case R.id.drawer_statistics:
+                        fragment = new StatisticsFragment();
+                        break;
+                    case R.id.drawer_settings:
+                        fragment = new SettingsFragment();
+                        break;
                 }
+
                 getSupportFragmentManager().beginTransaction().replace(R.id.main_container, fragment).addToBackStack(null).commit();
                 menuItem.setChecked(true);
                 drawerLayout.closeDrawers();
@@ -79,6 +90,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 }

@@ -12,25 +12,24 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Random;
 
+public class CategoriesAdapter extends ArrayAdapter {
 
-public class ExpensesAdapter extends ArrayAdapter {
+    List<Category> categories;
 
-    List<Expense> expenses;
-
-    public ExpensesAdapter(Context context, List<Expense> expenses) {
-        super(context, 0, expenses);
-        this.expenses = expenses;
+    public CategoriesAdapter(Context context, List<Category> categories) {
+        super(context, 0, categories);
+        this.categories = categories;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Expense expense = (Expense) getItem(position);
+        Category category = (Category) getItem(position);
         Random rnd = new Random();
         int bgColor;
 
         if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.categories_list_item, parent, false);
         }
 
         bgColor = Color.argb(40, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
@@ -38,12 +37,8 @@ public class ExpensesAdapter extends ArrayAdapter {
         field.setBackgroundColor(bgColor);
 
         TextView name = (TextView) convertView.findViewById(R.id.name_text);
-        TextView sum = (TextView) convertView.findViewById(R.id.sum_text);
-        TextView date = (TextView) convertView.findViewById(R.id.date_text);
 
-        name.setText(expense.getTitle());
-        sum.setText(expense.getSumStr());
-        date.setText(expense.getDateStr());
+        name.setText(category.getTitle());
 
         return convertView;
     }

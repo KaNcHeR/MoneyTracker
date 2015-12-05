@@ -9,9 +9,9 @@
     <string name="my_name">Андрей Качур</string>
     <string name="my_email">tmnkach@mail.ru</string>
     <string name="content_description_avatar">avatar_circle_image</string>
-    <string name="expenses">Траты</string>
-    <string name="no_expenses">Не траты</string>
     <string name="list_item_name">Name</string>
     <string name="list_item_sum">Sum</string>
-    <string name="list_item_date">Дата</string>
+    <string name="list_item_date">Date</string>
+    <string name="statistics_fragment_description">Здесь будет статистика</string>
+    <string name="settings_fragment_description">Здесь будут настройки</string>
 </resources>
