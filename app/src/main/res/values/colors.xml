@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="drawer_header_name_email">#FFFFFF</color>
+    <color name="white">#F7F7F7</color>
 </resources>
