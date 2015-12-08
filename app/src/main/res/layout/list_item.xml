@@ -27,8 +27,8 @@
             android:textSize="@dimen/list_item_text_size"
             android:layout_toLeftOf="@+id/date_text"
             android:layout_toStartOf="@+id/date_text"
-            android:layout_marginRight="30dp"
-            android:layout_marginEnd="30dp" />
+            android:layout_marginRight="@dimen/list_item_text_view_sum_margin_right"
+            android:layout_marginEnd="@dimen/list_item_text_view_sum_margin_end" />
 
         <TextView
             android:id="@+id/date_text"

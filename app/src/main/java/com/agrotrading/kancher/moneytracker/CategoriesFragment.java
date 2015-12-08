@@ -30,13 +30,13 @@ public class CategoriesFragment extends Fragment {
         category_electronics.setTitle("Electronics");
 
         Category category_foodstuffs = new Category();
-        category_electronics.setTitle("Foodstuffs");
+        category_foodstuffs.setTitle("Foodstuffs");
 
         Category category_chemicals = new Category();
-        category_electronics.setTitle("Household chemicals");
+        category_chemicals.setTitle("Household chemicals");
 
         Category category_clothes = new Category();
-        category_electronics.setTitle("Clothes");
+        category_clothes.setTitle("Clothes");
 
         data.add(category_electronics);
         data.add(category_foodstuffs);
