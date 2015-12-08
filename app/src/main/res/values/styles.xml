@@ -31,7 +31,7 @@
 
     <style name="Container.Formatted">
         <item name="android:background">@color/white</item>
-        <item name="android:padding">@dimen/activity_vertical_margin</item>
+        <item name="android:padding">@dimen/list_item_card_view_child_relative_layout_padding</item>
     </style>
 
 </resources>
