@@ -2,8 +2,9 @@ package com.agrotrading.kancher.moneytracker;
 
 public class Category {
 
-    public String title;
+    private String title;
 
+    public Category(){}
     public Category(String title) {
         this.title = title;
     }

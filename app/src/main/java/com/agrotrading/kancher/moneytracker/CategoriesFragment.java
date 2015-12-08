@@ -25,10 +25,23 @@ public class CategoriesFragment extends Fragment {
 
     private List<Category> getDataList() {
         List<Category> data = new ArrayList<>();
-        data.add(new Category("Electronics"));
-        data.add(new Category("Foodstuffs"));
-        data.add(new Category("Household chemicals"));
-        data.add(new Category("Clothes"));
+
+        Category category_electronics = new Category();
+        category_electronics.setTitle("Electronics");
+
+        Category category_foodstuffs = new Category();
+        category_electronics.setTitle("Foodstuffs");
+
+        Category category_chemicals = new Category();
+        category_electronics.setTitle("Household chemicals");
+
+        Category category_clothes = new Category();
+        category_electronics.setTitle("Clothes");
+
+        data.add(category_electronics);
+        data.add(category_foodstuffs);
+        data.add(category_chemicals);
+        data.add(category_clothes);
         return data;
     }
 }

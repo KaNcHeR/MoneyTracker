@@ -7,15 +7,17 @@ import java.util.Date;
 
 public class Expense {
 
-    public String title;
-    public int sum;
-    public Date date;
+    private String title;
+    private int sum;
+    private Date date;
 
     public Expense(String title, int sum, Date date) {
         this.title = title;
         this.sum = sum;
         this.date = date;
     }
+
+    public Expense() {}
 
     public int getSum() {
         return sum;

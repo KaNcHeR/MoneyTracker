@@ -1,50 +1,52 @@
 package com.agrotrading.kancher.moneytracker;
 
-import android.content.Context;
-import android.graphics.Color;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Random;
 
 
-public class ExpensesAdapter extends ArrayAdapter {
+public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.CardViewHolder> {
 
     List<Expense> expenses;
 
-    public ExpensesAdapter(Context context, List<Expense> expenses) {
-        super(context, 0, expenses);
+    public ExpensesAdapter(List<Expense> expenses) {
         this.expenses = expenses;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+        return new CardViewHolder(convertView);
+    }
 
-        Expense expense = (Expense) getItem(position);
-        Random rnd = new Random();
-        int bgColor;
+    @Override
+    public void onBindViewHolder(CardViewHolder holder, int position) {
+        Expense expense = expenses.get(position);
+        holder.name_text.setText(expense.getTitle());
+        holder.sum_text.setText(expense.getSumStr());
+        holder.date_text.setText(expense.getDateStr());
+    }
 
-        if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
+    @Override
+    public int getItemCount() {
+        return expenses.size();
+    }
+
+    public class CardViewHolder extends RecyclerView.ViewHolder {
+
+        protected TextView name_text;
+        protected TextView sum_text;
+        protected TextView date_text;
+
+        public CardViewHolder(View itemView) {
+            super(itemView);
+            name_text = (TextView) itemView.findViewById(R.id.name_text);
+            sum_text = (TextView) itemView.findViewById(R.id.sum_text);
+            date_text = (TextView) itemView.findViewById(R.id.date_text);
         }
-
-        bgColor = Color.argb(40, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-        RelativeLayout field = (RelativeLayout) convertView.findViewById(R.id.field_item);
-        field.setBackgroundColor(bgColor);
-
-        TextView name = (TextView) convertView.findViewById(R.id.name_text);
-        TextView sum = (TextView) convertView.findViewById(R.id.sum_text);
-        TextView date = (TextView) convertView.findViewById(R.id.date_text);
-
-        name.setText(expense.getTitle());
-        sum.setText(expense.getSumStr());
-        date.setText(expense.getDateStr());
-
-        return convertView;
     }
 }
