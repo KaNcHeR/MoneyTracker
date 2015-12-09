@@ -32,34 +32,34 @@ public class CategoriesFragment extends Fragment {
     private List<Category> getDataList() {
         List<Category> data = new ArrayList<>();
 
-        Category category_electronics = new Category();
-        category_electronics.setTitle("Electronics");
+        Category categoryElectronics = new Category();
+        categoryElectronics.setTitle("Electronics");
 
-        Category category_foodstuffs = new Category();
-        category_foodstuffs.setTitle("Foodstuffs");
+        Category categoryFoodstuffs = new Category();
+        categoryFoodstuffs.setTitle("Foodstuffs");
 
-        Category category_chemicals = new Category();
-        category_chemicals.setTitle("Household chemicals");
+        Category categoryChemicals = new Category();
+        categoryChemicals.setTitle("Household chemicals");
 
-        Category category_clothes = new Category();
-        category_clothes.setTitle("Clothes");
+        Category categoryClothes = new Category();
+        categoryClothes.setTitle("Clothes");
 
-        data.add(category_electronics);
-        data.add(category_foodstuffs);
-        data.add(category_chemicals);
-        data.add(category_clothes);
-        data.add(category_electronics);
-        data.add(category_foodstuffs);
-        data.add(category_chemicals);
-        data.add(category_clothes);
-        data.add(category_electronics);
-        data.add(category_foodstuffs);
-        data.add(category_chemicals);
-        data.add(category_clothes);
-        data.add(category_electronics);
-        data.add(category_foodstuffs);
-        data.add(category_chemicals);
-        data.add(category_clothes);
+        data.add(categoryElectronics);
+        data.add(categoryFoodstuffs);
+        data.add(categoryChemicals);
+        data.add(categoryClothes);
+        data.add(categoryElectronics);
+        data.add(categoryFoodstuffs);
+        data.add(categoryChemicals);
+        data.add(categoryClothes);
+        data.add(categoryElectronics);
+        data.add(categoryFoodstuffs);
+        data.add(categoryChemicals);
+        data.add(categoryClothes);
+        data.add(categoryElectronics);
+        data.add(categoryFoodstuffs);
+        data.add(categoryChemicals);
+        data.add(categoryClothes);
         return data;
     }
 }

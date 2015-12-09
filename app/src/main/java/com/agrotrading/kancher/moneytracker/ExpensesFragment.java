@@ -39,42 +39,42 @@ public class ExpensesFragment extends Fragment {
         List<Expense> data = new ArrayList<>();
         long millis = Calendar.getInstance().getTimeInMillis();
 
-        Expense expense_telephone = new Expense();
-        expense_telephone.setTitle("Telephone");
-        expense_telephone.setSum(1000);
-        expense_telephone.setDate(new Date(millis));
+        Expense expenseTelephone = new Expense();
+        expenseTelephone.setTitle("Telephone");
+        expenseTelephone.setSum(1000);
+        expenseTelephone.setDate(new Date(millis));
 
-        Expense expense_flat = new Expense();
-        expense_flat.setTitle("Clothes");
-        expense_flat.setSum(2000);
-        expense_flat.setDate(new Date(millis));
+        Expense expenseFlat = new Expense();
+        expenseFlat.setTitle("Clothes");
+        expenseFlat.setSum(2000);
+        expenseFlat.setDate(new Date(millis));
 
-        Expense expense_pc = new Expense();
-        expense_pc.setTitle("Pc");
-        expense_pc.setSum(3000);
-        expense_pc.setDate(new Date(millis));
+        Expense expensePc = new Expense();
+        expensePc.setTitle("Pc");
+        expensePc.setSum(3000);
+        expensePc.setDate(new Date(millis));
 
-        data.add(expense_telephone);
-        data.add(expense_flat);
-        data.add(expense_pc);
-        data.add(expense_telephone);
-        data.add(expense_flat);
-        data.add(expense_pc);
-        data.add(expense_telephone);
-        data.add(expense_flat);
-        data.add(expense_pc);
-        data.add(expense_telephone);
-        data.add(expense_flat);
-        data.add(expense_pc);
-        data.add(expense_telephone);
-        data.add(expense_flat);
-        data.add(expense_pc);
-        data.add(expense_telephone);
-        data.add(expense_flat);
-        data.add(expense_pc);
-        data.add(expense_telephone);
-        data.add(expense_flat);
-        data.add(expense_pc);
+        data.add(expenseTelephone);
+        data.add(expenseFlat);
+        data.add(expensePc);
+        data.add(expenseTelephone);
+        data.add(expenseFlat);
+        data.add(expensePc);
+        data.add(expenseTelephone);
+        data.add(expenseFlat);
+        data.add(expensePc);
+        data.add(expenseTelephone);
+        data.add(expenseFlat);
+        data.add(expensePc);
+        data.add(expenseTelephone);
+        data.add(expenseFlat);
+        data.add(expensePc);
+        data.add(expenseTelephone);
+        data.add(expenseFlat);
+        data.add(expensePc);
+        data.add(expenseTelephone);
+        data.add(expenseFlat);
+        data.add(expensePc);
 
         return data;
     }

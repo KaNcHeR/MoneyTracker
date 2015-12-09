@@ -56,20 +56,20 @@ public class MainActivity extends AppCompatActivity {
         Fragment findingFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
 
         if(findingFragment != null) {
-            int item_id = R.id.drawer_expenses;
+            int itemId = R.id.drawer_expenses;
 
             if(findingFragment instanceof ExpensesFragment) {
                 getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                item_id = R.id.drawer_expenses;
+                itemId = R.id.drawer_expenses;
             } else if(findingFragment instanceof CategoriesFragment) {
-                item_id = R.id.drawer_categories;
+                itemId = R.id.drawer_categories;
             } else if(findingFragment instanceof StatisticsFragment) {
-                item_id = R.id.drawer_statistics;
+                itemId = R.id.drawer_statistics;
             } else if(findingFragment instanceof SettingsFragment) {
-                item_id = R.id.drawer_settings;
+                itemId = R.id.drawer_settings;
             }
 
-            navigationView.getMenu().findItem(item_id).setChecked(true);
+            navigationView.getMenu().findItem(itemId).setChecked(true);
         }
 
     }

@@ -4,7 +4,9 @@ public class Category {
 
     private String title;
 
-    public Category(){}
+    public Category() {
+    }
+
     public Category(String title) {
         this.title = title;
     }

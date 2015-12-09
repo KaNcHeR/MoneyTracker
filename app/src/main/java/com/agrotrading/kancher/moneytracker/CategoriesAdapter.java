@@ -25,7 +25,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.RL
     @Override
     public void onBindViewHolder(RLayoutHolder holder, int position) {
         Category category = categories.get(position);
-        holder.name_text.setText(category.getTitle());
+        holder.nameText.setText(category.getTitle());
     }
 
     @Override
@@ -35,11 +35,11 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.RL
 
     public class RLayoutHolder extends RecyclerView.ViewHolder {
 
-        protected TextView name_text;
+        protected TextView nameText;
 
         public RLayoutHolder(View itemView) {
             super(itemView);
-            name_text = (TextView) itemView.findViewById(R.id.name_text);
+            nameText = (TextView) itemView.findViewById(R.id.name_text);
         }
     }
 }
