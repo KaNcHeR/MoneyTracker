@@ -1,45 +1,45 @@
 package com.agrotrading.kancher.moneytracker;
 
-import android.content.Context;
-import android.graphics.Color;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Random;
 
-public class CategoriesAdapter extends ArrayAdapter {
+public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.RLayoutHolder> {
 
     List<Category> categories;
 
-    public CategoriesAdapter(Context context, List<Category> categories) {
-        super(context, 0, categories);
+    public CategoriesAdapter(List<Category> categories) {
         this.categories = categories;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public RLayoutHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.categories_list_item, parent, false);
+        return new RLayoutHolder(convertView);
+    }
 
-        Category category = (Category) getItem(position);
-        Random rnd = new Random();
-        int bgColor;
+    @Override
+    public void onBindViewHolder(RLayoutHolder holder, int position) {
+        Category category = categories.get(position);
+        holder.nameText.setText(category.getTitle());
+    }
 
-        if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.categories_list_item, parent, false);
+    @Override
+    public int getItemCount() {
+        return categories.size();
+    }
+
+    public class RLayoutHolder extends RecyclerView.ViewHolder {
+
+        protected TextView nameText;
+
+        public RLayoutHolder(View itemView) {
+            super(itemView);
+            nameText = (TextView) itemView.findViewById(R.id.name_text);
         }
-
-        bgColor = Color.argb(40, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-        RelativeLayout field = (RelativeLayout) convertView.findViewById(R.id.field_item);
-        field.setBackgroundColor(bgColor);
-
-        TextView name = (TextView) convertView.findViewById(R.id.name_text);
-
-        name.setText(category.getTitle());
-
-        return convertView;
     }
 }
