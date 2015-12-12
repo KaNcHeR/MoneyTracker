@@ -1,6 +1,8 @@
 package com.agrotrading.kancher.moneytracker;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +29,16 @@ public class ExpensesFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         expensesRecyclerView.setLayoutManager(linearLayoutManager);
+
+        FloatingActionButton floatingActionButton = (FloatingActionButton) mainView.findViewById(R.id.fab);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddExpenseActivity_.class);
+                getActivity().startActivity(intent);
+            }
+        });
 
         getActivity().setTitle(getString(R.string.nav_drawer_expenses));
 
