@@ -1,20 +1,38 @@
-package com.agrotrading.kancher.moneytracker;
+package com.agrotrading.kancher.moneytracker.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.agrotrading.kancher.moneytracker.InMemoryExpenseFinder;
+import com.agrotrading.kancher.moneytracker.R;
+import com.agrotrading.kancher.moneytracker.interfaces.ExpenseFinder;
+import com.agrotrading.kancher.moneytracker.models.Expense;
+
+import org.androidannotations.annotations.AfterInject;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.RootContext;
+
 import java.util.List;
 
-
+@EBean
 public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.CardViewHolder> {
 
     List<Expense> expenses;
 
-    public ExpensesAdapter(List<Expense> expenses) {
-        this.expenses = expenses;
+    @Bean(InMemoryExpenseFinder.class)
+    ExpenseFinder expenseFinder;
+
+    @RootContext
+    Context context;
+
+    @AfterInject
+    void initAdapter() {
+        expenses = expenseFinder.findAll();
     }
 
     @Override

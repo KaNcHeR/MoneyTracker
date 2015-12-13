@@ -1,4 +1,4 @@
-package com.agrotrading.kancher.moneytracker;
+package com.agrotrading.kancher.moneytracker.models;
 
 import android.annotation.SuppressLint;
 

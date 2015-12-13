@@ -1,19 +1,38 @@
-package com.agrotrading.kancher.moneytracker;
+package com.agrotrading.kancher.moneytracker.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.agrotrading.kancher.moneytracker.InMemoryCategoryFinder;
+import com.agrotrading.kancher.moneytracker.R;
+import com.agrotrading.kancher.moneytracker.interfaces.CategoryFinder;
+import com.agrotrading.kancher.moneytracker.models.Category;
+
+import org.androidannotations.annotations.AfterInject;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.RootContext;
+
 import java.util.List;
 
+@EBean
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.RLayoutHolder> {
 
     List<Category> categories;
 
-    public CategoriesAdapter(List<Category> categories) {
-        this.categories = categories;
+    @Bean(InMemoryCategoryFinder.class)
+    CategoryFinder categoryFinder;
+
+    @RootContext
+    Context context;
+
+    @AfterInject
+    void initAdapter() {
+        categories = categoryFinder.findAll();
     }
 
     @Override

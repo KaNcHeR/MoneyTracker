@@ -7,92 +7,80 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
+import com.agrotrading.kancher.moneytracker.fragments.CategoriesFragment_;
+import com.agrotrading.kancher.moneytracker.fragments.ExpensesFragment_;
+import com.agrotrading.kancher.moneytracker.fragments.SettingsFragment_;
+import com.agrotrading.kancher.moneytracker.fragments.StatisticsFragment_;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.InstanceState;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.ViewById;
+
+@EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity {
 
-    private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private Fragment fragment;
-    private DrawerLayout drawerLayout;
+
+    @ViewById
+    Toolbar toolbar;
+
+    @ViewById(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+
+    @ViewById(R.id.navigation_view)
     NavigationView navigationView;
 
+    @InstanceState
+    Bundle savedInstanceState;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(LOG_TAG, "onCreate()");
-        setContentView(R.layout.activity_main);
+    @AfterViews
+    void ready() {
         setupToolbar();
         setupDrawer();
         if(savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new ExpensesFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new ExpensesFragment_()).commit();
         }
+    }
+
+    @OptionsItem(android.R.id.home)
+    void openDrawer() {
+        drawerLayout.openDrawer(GravityCompat.START);
     }
 
     private void setupToolbar() {
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.mipmap.ic_menu_white_24dp);
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_menu_white_24dp);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        setTitle(getString(R.string.add_expense));
     }
 
-    @Override
-    public void onBackPressed() {
-
-        if(drawerLayout.isDrawerOpen(navigationView)) {
-            drawerLayout.closeDrawers();
-            return;
-        }
-
-        super.onBackPressed();
-        Fragment findingFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
-
-        if(findingFragment != null) {
-            int itemId = R.id.drawer_expenses;
-
-            if(findingFragment instanceof ExpensesFragment) {
-                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                itemId = R.id.drawer_expenses;
-            } else if(findingFragment instanceof CategoriesFragment) {
-                itemId = R.id.drawer_categories;
-            } else if(findingFragment instanceof StatisticsFragment) {
-                itemId = R.id.drawer_statistics;
-            } else if(findingFragment instanceof SettingsFragment) {
-                itemId = R.id.drawer_settings;
-            }
-
-            navigationView.getMenu().findItem(itemId).setChecked(true);
-        }
-
-    }
 
     private void setupDrawer() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
 
-                switch (menuItem.getItemId()){
+                switch (menuItem.getItemId()) {
                     case R.id.drawer_expenses:
-                        fragment = new ExpensesFragment();
+                        fragment = new ExpensesFragment_();
                         break;
                     case R.id.drawer_categories:
-                        fragment = new CategoriesFragment();
+                        fragment = new CategoriesFragment_();
                         break;
                     case R.id.drawer_statistics:
-                        fragment = new StatisticsFragment();
+                        fragment = new StatisticsFragment_();
                         break;
                     case R.id.drawer_settings:
-                        fragment = new SettingsFragment();
+                        fragment = new SettingsFragment_();
                         break;
                 }
 
@@ -105,12 +93,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if(id == android.R.id.home) {
-            drawerLayout.openDrawer(GravityCompat.START);
+    public void onBackPressed() {
+
+        if(drawerLayout.isDrawerOpen(navigationView)) {
+            drawerLayout.closeDrawers();
+            return;
         }
-        return super.onOptionsItemSelected(item);
+
+        super.onBackPressed();
+
+        Fragment findingFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
+
+        if(findingFragment != null) {
+            int itemId = R.id.drawer_expenses;
+
+            if(findingFragment instanceof ExpensesFragment_) {
+                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                itemId = R.id.drawer_expenses;
+            } else if(findingFragment instanceof CategoriesFragment_) {
+                itemId = R.id.drawer_categories;
+            } else if(findingFragment instanceof StatisticsFragment_) {
+                itemId = R.id.drawer_statistics;
+            } else if(findingFragment instanceof SettingsFragment_) {
+                itemId = R.id.drawer_settings;
+            }
+
+            navigationView.getMenu().findItem(itemId).setChecked(true);
+        }
+
     }
 
 }

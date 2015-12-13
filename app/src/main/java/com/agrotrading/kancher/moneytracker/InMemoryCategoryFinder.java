@@ -1,32 +1,19 @@
 package com.agrotrading.kancher.moneytracker;
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import com.agrotrading.kancher.moneytracker.interfaces.CategoryFinder;
+import com.agrotrading.kancher.moneytracker.models.Category;
+
+import org.androidannotations.annotations.EBean;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriesFragment extends Fragment {
+@EBean
+public class InMemoryCategoryFinder implements CategoryFinder {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View mainView = inflater.inflate(R.layout.categories_fragment, container, false);
-        RecyclerView categoriesRecyclerView = (RecyclerView) mainView.findViewById(R.id.context_recyclerview);
-        List<Category> adapterList = getDataList();
-        CategoriesAdapter categoriesAdapter = new CategoriesAdapter(adapterList);
-        categoriesRecyclerView.setAdapter(categoriesAdapter);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        categoriesRecyclerView.setLayoutManager(linearLayoutManager);
-
-        getActivity().setTitle(getString(R.string.nav_drawer_categories));
-        return mainView;
+    public List<Category> findAll() {
+        return getDataList();
     }
 
     private List<Category> getDataList() {
