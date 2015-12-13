@@ -27,4 +27,6 @@
 
     <string name="add_expense_grid_layout_column_count">2</string>
 
+    <string name="date_format" translatable="false">%d/%d/%d</string>
+
 </resources>

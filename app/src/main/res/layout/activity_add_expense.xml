@@ -42,8 +42,21 @@
             android:text="@string/add_expense_date"/>
 
         <EditText
+            android:id="@+id/add_expense_datefield"
             style="@style/AddExpenseTextViewAndEditText"
-            android:hint="@string/add_expense_date_hint"/>
+            android:hint="@string/add_expense_date_hint"
+            android:inputType="none"
+            android:focusableInTouchMode="false"
+            android:cursorVisible="false"/>
+
+        <DatePicker
+            android:id="@+id/date_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2"
+            android:calendarViewShown="false"
+            android:spinnersShown="true"/>
 
     </GridLayout>
+
 </LinearLayout>
