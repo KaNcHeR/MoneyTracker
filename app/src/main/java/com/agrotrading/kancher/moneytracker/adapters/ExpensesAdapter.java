@@ -11,8 +11,6 @@ import com.agrotrading.kancher.moneytracker.ViewWrapper;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 
-import java.util.List;
-
 @EBean
 public class ExpensesAdapter extends RecyclerViewAdapterBase<Expenses, ExpenseItemView> {
 
@@ -31,9 +29,4 @@ public class ExpensesAdapter extends RecyclerViewAdapterBase<Expenses, ExpenseIt
         return ExpenseItemView_.build(parent.getContext());
     }
 
-    @Override
-    public ExpensesAdapter setItems(List<Expenses> items) {
-        super.setItems(items);
-        return this;
-    }
 }

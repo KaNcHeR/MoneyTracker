@@ -5,8 +5,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.agrotrading.kancher.moneytracker.R;
-import com.agrotrading.kancher.moneytracker.models.Category;
-import com.agrotrading.kancher.moneytracker.models.Expense;
+import com.agrotrading.kancher.moneytracker.database.Categories;
 
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
@@ -21,7 +20,7 @@ public class CategoryItemView extends RelativeLayout {
         super(context);
     }
 
-    public void bind(Category expense) {
-        nameText.setText(expense.getTitle());
+    public void bind(Categories categories) {
+        nameText.setText(categories.name);
     }
 }

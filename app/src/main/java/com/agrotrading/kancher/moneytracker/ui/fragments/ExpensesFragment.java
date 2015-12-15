@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.activeandroid.query.Select;
-import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.database.Expenses;
 import com.agrotrading.kancher.moneytracker.ui.activities.AddExpenseActivity_;
 import com.agrotrading.kancher.moneytracker.R;
@@ -50,10 +49,6 @@ public class ExpensesFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         expensesRecyclerView.setLayoutManager(linearLayoutManager);
-        Categories categoryFun = new Categories("Fun");
-        categoryFun.save();
-        Expenses expenses = new Expenses("321", "Cinema", "15/12/15", categoryFun);
-        expenses.save();
         getActivity().setTitle(getString(R.string.nav_drawer_expenses));
     }
 
