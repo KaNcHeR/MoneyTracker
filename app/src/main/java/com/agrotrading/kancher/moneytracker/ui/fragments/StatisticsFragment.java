@@ -1,4 +1,4 @@
-package com.agrotrading.kancher.moneytracker.fragments;
+package com.agrotrading.kancher.moneytracker.ui.fragments;
 
 import android.support.v4.app.Fragment;
 

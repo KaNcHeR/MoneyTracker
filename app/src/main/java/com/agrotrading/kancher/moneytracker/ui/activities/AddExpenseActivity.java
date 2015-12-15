@@ -1,9 +1,11 @@
-package com.agrotrading.kancher.moneytracker;
+package com.agrotrading.kancher.moneytracker.ui.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.DatePicker;
 import android.widget.EditText;
+
+import com.agrotrading.kancher.moneytracker.R;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

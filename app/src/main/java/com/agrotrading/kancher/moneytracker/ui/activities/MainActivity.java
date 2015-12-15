@@ -1,4 +1,4 @@
-package com.agrotrading.kancher.moneytracker;
+package com.agrotrading.kancher.moneytracker.ui.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -10,10 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.agrotrading.kancher.moneytracker.fragments.CategoriesFragment_;
-import com.agrotrading.kancher.moneytracker.fragments.ExpensesFragment_;
-import com.agrotrading.kancher.moneytracker.fragments.SettingsFragment_;
-import com.agrotrading.kancher.moneytracker.fragments.StatisticsFragment_;
+import com.agrotrading.kancher.moneytracker.R;
+import com.agrotrading.kancher.moneytracker.ui.fragments.CategoriesFragment_;
+import com.agrotrading.kancher.moneytracker.ui.fragments.ExpensesFragment_;
+import com.agrotrading.kancher.moneytracker.ui.fragments.SettingsFragment_;
+import com.agrotrading.kancher.moneytracker.ui.fragments.StatisticsFragment_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
