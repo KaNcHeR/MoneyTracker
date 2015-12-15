@@ -5,7 +5,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.agrotrading.kancher.moneytracker.R;
-import com.agrotrading.kancher.moneytracker.models.Expense;
+import com.agrotrading.kancher.moneytracker.database.Expenses;
 
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
@@ -26,9 +26,9 @@ public class ExpenseItemView extends RelativeLayout {
         super(context);
     }
 
-    public void bind(Expense expense) {
-        nameText.setText(expense.getTitle());
-        sumText.setText(expense.getSumStr());
-        dateText.setText(expense.getDateStr());
+    public void bind(Expenses expenses) {
+        nameText.setText(expenses.name);
+        sumText.setText(expenses.price);
+        dateText.setText(expenses.date);
     }
 }

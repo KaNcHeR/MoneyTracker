@@ -4,16 +4,21 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.activeandroid.query.Select;
+import com.agrotrading.kancher.moneytracker.database.Categories;
+import com.agrotrading.kancher.moneytracker.database.Expenses;
 import com.agrotrading.kancher.moneytracker.ui.activities.AddExpenseActivity_;
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.adapters.ExpensesAdapter;
-import com.agrotrading.kancher.moneytracker.models.Expense;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -21,9 +26,6 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @EFragment
@@ -45,11 +47,13 @@ public class ExpensesFragment extends Fragment {
 
     @AfterViews
     void ready() {
-        expensesAdapter.setItems(getDataList());
-        expensesRecyclerView.setAdapter(expensesAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         expensesRecyclerView.setLayoutManager(linearLayoutManager);
+        Categories categoryFun = new Categories("Fun");
+        categoryFun.save();
+        Expenses expenses = new Expenses("321", "Cinema", "15/12/15", categoryFun);
+        expenses.save();
         getActivity().setTitle(getString(R.string.nav_drawer_expenses));
     }
 
@@ -60,47 +64,41 @@ public class ExpensesFragment extends Fragment {
         return mainView;
     }
 
-    private List<Expense> getDataList() {
-        List<Expense> data = new ArrayList<>();
-        long millis = Calendar.getInstance().getTimeInMillis();
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+    }
 
-        Expense expenseTelephone = new Expense();
-        expenseTelephone.setTitle("Telephone");
-        expenseTelephone.setSum(1000);
-        expenseTelephone.setDate(new Date(millis));
+    private void loadData(){
+        getLoaderManager().restartLoader(0, null, new LoaderManager.LoaderCallbacks<List<Expenses>>() {
+            @Override
+            public Loader<List<Expenses>> onCreateLoader(int id, Bundle args) {
+                final AsyncTaskLoader<List<Expenses>> loader = new AsyncTaskLoader<List<Expenses>>(getActivity()) {
+                    @Override
+                    public List<Expenses> loadInBackground() {
+                        return getDataList();
+                    }
+                };
+                loader.forceLoad();
+                return loader;
+            }
 
-        Expense expenseFlat = new Expense();
-        expenseFlat.setTitle("Clothes");
-        expenseFlat.setSum(2000);
-        expenseFlat.setDate(new Date(millis));
+            @Override
+            public void onLoadFinished(Loader<List<Expenses>> loader, List<Expenses> data) {
+                expensesRecyclerView.setAdapter(new ExpensesAdapter().setItems(data));
+            }
 
-        Expense expensePc = new Expense();
-        expensePc.setTitle("Pc");
-        expensePc.setSum(3000);
-        expensePc.setDate(new Date(millis));
+            @Override
+            public void onLoaderReset(Loader<List<Expenses>> loader) {
 
-        data.add(expenseTelephone);
-        data.add(expenseFlat);
-        data.add(expensePc);
-        data.add(expenseTelephone);
-        data.add(expenseFlat);
-        data.add(expensePc);
-        data.add(expenseTelephone);
-        data.add(expenseFlat);
-        data.add(expensePc);
-        data.add(expenseTelephone);
-        data.add(expenseFlat);
-        data.add(expensePc);
-        data.add(expenseTelephone);
-        data.add(expenseFlat);
-        data.add(expensePc);
-        data.add(expenseTelephone);
-        data.add(expenseFlat);
-        data.add(expensePc);
-        data.add(expenseTelephone);
-        data.add(expenseFlat);
-        data.add(expensePc);
+            }
+        });
+    }
 
-        return data;
+    private List<Expenses> getDataList() {
+        return new Select()
+                .from(Expenses.class)
+                .execute();
     }
 }

@@ -3,10 +3,10 @@ package com.agrotrading.kancher.moneytracker.adapters;
 import android.content.Context;
 import android.view.ViewGroup;
 
+import com.agrotrading.kancher.moneytracker.database.Expenses;
 import com.agrotrading.kancher.moneytracker.views.ExpenseItemView;
 import com.agrotrading.kancher.moneytracker.views.ExpenseItemView_;
 import com.agrotrading.kancher.moneytracker.ViewWrapper;
-import com.agrotrading.kancher.moneytracker.models.Expense;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
@@ -14,7 +14,7 @@ import org.androidannotations.annotations.RootContext;
 import java.util.List;
 
 @EBean
-public class ExpensesAdapter extends RecyclerViewAdapterBase<Expense, ExpenseItemView> {
+public class ExpensesAdapter extends RecyclerViewAdapterBase<Expenses, ExpenseItemView> {
 
     @RootContext
     Context context;
@@ -22,17 +22,18 @@ public class ExpensesAdapter extends RecyclerViewAdapterBase<Expense, ExpenseIte
     @Override
     public void onBindViewHolder(ViewWrapper<ExpenseItemView> holder, int position) {
         ExpenseItemView view = holder.getView();
-        Expense expense = items.get(position);
-        view.bind(expense);
+        Expenses expenses = items.get(position);
+        view.bind(expenses);
     }
 
     @Override
     protected ExpenseItemView onCreateItemView(ViewGroup parent, int viewType) {
-        return ExpenseItemView_.build(context);
+        return ExpenseItemView_.build(parent.getContext());
     }
 
     @Override
-    public void setItems(List<Expense> items) {
+    public ExpensesAdapter setItems(List<Expenses> items) {
         super.setItems(items);
+        return this;
     }
 }

@@ -32,7 +32,8 @@ public class CategoriesAdapter extends RecyclerViewAdapterBase<Category, Categor
     }
 
     @Override
-    public void setItems(List<Category> items) {
+    public CategoriesAdapter setItems(List<Category> items) {
         super.setItems(items);
+        return this;
     }
 }
