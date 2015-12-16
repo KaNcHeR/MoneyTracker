@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Container.DarkBackground">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:columnCount="@string/add_expense_grid_layout_column_count"
+        android:padding="@dimen/activity_vertical_margin">
+
+        <TextView
+            style="@style/AddExpenseTextViewAndEditText"
+            android:text="@string/add_expense_sum"/>
+
+        <EditText
+            style="@style/AddExpenseTextViewAndEditText"
+            android:hint="@string/add_expense_sum_hint"/>
+
+        <TextView
+            style="@style/AddExpenseTextViewAndEditText"
+            android:text="@string/add_expense_comment"/>
+
+        <EditText
+            style="@style/AddExpenseTextViewAndEditText"
+            android:hint="@string/add_expense_comment_hint"/>
+
+        <TextView
+            style="@style/AddExpenseTextViewAndEditText"
+            android:text="@string/add_expense_category"/>
+
+        <EditText
+            style="@style/AddExpenseTextViewAndEditText"
+            android:hint="@string/add_expense_category_hint"/>
+
+        <TextView
+            style="@style/AddExpenseTextViewAndEditText"
+            android:text="@string/add_expense_date"/>
+
+        <EditText
+            android:id="@+id/add_expense_datefield"
+            style="@style/AddExpenseTextViewAndEditText"
+            android:hint="@string/add_expense_date_hint"
+            android:inputType="none"
+            android:focusableInTouchMode="false"
+            android:cursorVisible="false"/>
+
+        <DatePicker
+            android:id="@+id/date_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2"
+            android:calendarViewShown="false"
+            android:spinnersShown="true"/>
+
+    </GridLayout>
+
+</LinearLayout>

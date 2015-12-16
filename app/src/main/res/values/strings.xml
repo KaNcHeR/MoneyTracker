@@ -14,4 +14,19 @@
     <string name="list_item_date">Date</string>
     <string name="statistics_fragment_description">Здесь будет статистика</string>
     <string name="settings_fragment_description">Здесь будут настройки</string>
+
+    <string name="add_expense">Добавить трату</string>
+    <string name="add_expense_sum">Сумма</string>
+    <string name="add_expense_sum_hint">1000</string>
+    <string name="add_expense_comment">Примечание</string>
+    <string name="add_expense_comment_hint">Небольшой коментарий</string>
+    <string name="add_expense_category">Категория</string>
+    <string name="add_expense_category_hint">напр. Электроника</string>
+    <string name="add_expense_date">Дата</string>
+    <string name="add_expense_date_hint">напр. 21/03/15</string>
+
+    <string name="add_expense_grid_layout_column_count">2</string>
+
+    <string name="date_format" translatable="false">%d/%d/%d</string>
+
 </resources>

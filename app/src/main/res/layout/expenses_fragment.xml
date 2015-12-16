@@ -17,6 +17,6 @@
         android:src="@mipmap/ic_add_white_24dp"
         app:layout_anchor="@+id/context_recyclerview"
         app:layout_anchorGravity="bottom|right|end"
-        app:layout_behavior=".ScrollFABBehavior"/>
+        app:layout_behavior=".utils.ScrollFABBehavior"/>
 
 </android.support.design.widget.CoordinatorLayout>
