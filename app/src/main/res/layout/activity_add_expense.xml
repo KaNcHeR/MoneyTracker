@@ -19,7 +19,7 @@
 
         <EditText
             style="@style/AddExpenseTextViewAndEditText"
-            android:hint="@string/add_expense_sum_hint"/>
+            android:hint="@string/add_expense_sum_hint" />
 
         <TextView
             style="@style/AddExpenseTextViewAndEditText"
@@ -33,16 +33,18 @@
             style="@style/AddExpenseTextViewAndEditText"
             android:text="@string/add_expense_category"/>
 
-        <EditText
+        <Spinner
+            android:id="@+id/categories_spinner"
             style="@style/AddExpenseTextViewAndEditText"
-            android:hint="@string/add_expense_category_hint"/>
+
+            />
 
         <TextView
             style="@style/AddExpenseTextViewAndEditText"
             android:text="@string/add_expense_date"/>
 
         <EditText
-            android:id="@+id/add_expense_datefield"
+            android:id="@+id/date_field"
             style="@style/AddExpenseTextViewAndEditText"
             android:hint="@string/add_expense_date_hint"
             android:inputType="none"
