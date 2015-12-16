@@ -30,4 +30,11 @@ public class Categories extends Model {
     public String toString() {
         return name;
     }
+
+    public static List<Categories> getAll() {
+        return new Select()
+                .from(Categories.class)
+                .orderBy("Name ASC")
+                .execute();
+    }
 }

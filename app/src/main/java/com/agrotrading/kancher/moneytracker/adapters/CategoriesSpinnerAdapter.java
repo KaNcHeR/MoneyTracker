@@ -1,53 +1,80 @@
 package com.agrotrading.kancher.moneytracker.adapters;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
-import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.database.Categories;
+import com.agrotrading.kancher.moneytracker.views.CategorySpinnerDropDownItemView;
+import com.agrotrading.kancher.moneytracker.views.CategorySpinnerDropDownItemView_;
+import com.agrotrading.kancher.moneytracker.views.CategorySpinnerItemView;
+import com.agrotrading.kancher.moneytracker.views.CategorySpinnerItemView_;
+
+import org.androidannotations.annotations.AfterInject;
+import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.RootContext;
 
 import java.util.List;
 
-public class CategoriesSpinnerAdapter extends ArrayAdapter implements SpinnerAdapter {
+@EBean
+public class CategoriesSpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
 
     List<Categories> categories;
 
-    public CategoriesSpinnerAdapter(Context context, List<Categories> categories) {
-        super(context, 0, categories);
-        this.categories = categories;
+    @RootContext
+    Context context;
+
+    @AfterInject
+    void initAdapter() {
+        categories = Categories.getAll();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Categories category = (Categories) getItem(position);
+        CategorySpinnerItemView categorySpinnerItemView;
 
-        if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.spinner_categories, parent, false);
+        if (convertView == null) {
+            categorySpinnerItemView = CategorySpinnerItemView_.build(context);
+        } else {
+            categorySpinnerItemView = (CategorySpinnerItemView) convertView;
         }
 
-        TextView name = (TextView) convertView.findViewById(R.id.name_text);
-        name.setText(category.name);
+        categorySpinnerItemView.bind(getItem(position));
 
-        return convertView;
+        return categorySpinnerItemView;
     }
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        Categories category = (Categories) getItem(position);
 
-        if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.spinner_categories, parent, false);
+        CategorySpinnerDropDownItemView categorySpinnerDropDownItemView;
+
+        if (convertView == null) {
+            categorySpinnerDropDownItemView = CategorySpinnerDropDownItemView_.build(context);
+        } else {
+            categorySpinnerDropDownItemView = (CategorySpinnerDropDownItemView) convertView;
         }
 
-        TextView name = (TextView) convertView.findViewById(R.id.name_text);
-        name.setText(category.name);
+        categorySpinnerDropDownItemView.bind(getItem(position));
 
-        return convertView;
+        return categorySpinnerDropDownItemView;
+    }
+
+    @Override
+    public int getCount() {
+        return categories.size();
+    }
+
+    @Override
+    public Categories getItem(int position) {
+        return categories.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 }

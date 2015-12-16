@@ -3,7 +3,6 @@ package com.agrotrading.kancher.moneytracker.ui.activities;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -16,6 +15,7 @@ import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.database.Expenses;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
@@ -26,8 +26,6 @@ import java.util.List;
 
 @EActivity(R.layout.activity_add_expense)
 public class AddExpenseActivity extends AppCompatActivity {
-
-    CategoriesSpinnerAdapter categoriesSpinnerAdapter;
 
     @ViewById
     Toolbar toolbar;
@@ -46,6 +44,9 @@ public class AddExpenseActivity extends AppCompatActivity {
 
     @ViewById(R.id.date_picker)
     DatePicker datePicker;
+
+    @Bean
+    CategoriesSpinnerAdapter categoriesSpinnerAdapter;
 
     @OptionsItem(R.id.home)
     void back() {
@@ -75,8 +76,12 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         expenseDate.setText(String.format(getString(R.string.date_format), datePicker.getDayOfMonth(), datePicker.getMonth() + 1, datePicker.getYear()));
 
-        setupCategorySpinner();
         setTitle(getString(R.string.add_expense));
+    }
+
+    @AfterViews
+    void bindAdapter() {
+        categorySpinner.setAdapter(categoriesSpinnerAdapter);
     }
 
     @Click(R.id.cancel_button)
@@ -94,11 +99,6 @@ public class AddExpenseActivity extends AppCompatActivity {
         Expenses expense = new Expenses(expenseSum.getText().toString(), expenseComment.getText().toString(), expenseDate.getText().toString(), category);
         expense.save();
         back();
-    }
-
-    private void setupCategorySpinner() {
-        categoriesSpinnerAdapter = new CategoriesSpinnerAdapter(this, getDataList());
-        categorySpinner.setAdapter(categoriesSpinnerAdapter);
     }
 
     private List<Categories> getDataList() {
