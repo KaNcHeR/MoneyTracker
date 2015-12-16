@@ -28,5 +28,9 @@
     <string name="add_expense_grid_layout_column_count">2</string>
 
     <string name="date_format" translatable="false">%d/%d/%d</string>
+    <string name="add_button">Добавить</string>
+    <string name="cancel_button">Отмена</string>
+
+    <string name="error_required_field">Заполнены не все поля</string>
 
 </resources>

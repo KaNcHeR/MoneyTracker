@@ -39,7 +39,6 @@ public class CategoriesSpinnerAdapter extends ArrayAdapter implements SpinnerAda
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-
         Categories category = (Categories) getItem(position);
 
         if(convertView == null) {
