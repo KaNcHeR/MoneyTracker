@@ -72,7 +72,7 @@ public class ExpensesFragment extends Fragment {
                 final AsyncTaskLoader<List<Expenses>> loader = new AsyncTaskLoader<List<Expenses>>(getActivity()) {
                     @Override
                     public List<Expenses> loadInBackground() {
-                        return getDataList();
+                        return Expenses.getAllExpenses();
                     }
                 };
                 loader.forceLoad();
@@ -91,9 +91,4 @@ public class ExpensesFragment extends Fragment {
         });
     }
 
-    private List<Expenses> getDataList() {
-        return new Select()
-                .from(Expenses.class)
-                .execute();
-    }
 }

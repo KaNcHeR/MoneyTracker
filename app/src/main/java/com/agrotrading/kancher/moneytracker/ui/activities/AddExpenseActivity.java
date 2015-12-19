@@ -1,14 +1,13 @@
 package com.agrotrading.kancher.moneytracker.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.activeandroid.query.Select;
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.adapters.CategoriesSpinnerAdapter;
 import com.agrotrading.kancher.moneytracker.database.Categories;
@@ -21,8 +20,8 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.Calendar;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @EActivity(R.layout.activity_add_expense)
 public class AddExpenseActivity extends AppCompatActivity {
@@ -42,9 +41,6 @@ public class AddExpenseActivity extends AppCompatActivity {
     @ViewById(R.id.categories_spinner)
     Spinner categorySpinner;
 
-    @ViewById(R.id.date_picker)
-    DatePicker datePicker;
-
     @Bean
     CategoriesSpinnerAdapter categoriesSpinnerAdapter;
 
@@ -61,20 +57,8 @@ public class AddExpenseActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        Calendar calendar = Calendar.getInstance();
-
-        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
-                    @Override
-                    public void onDateChanged(DatePicker view, int year,
-                                              int monthOfYear, int dayOfMonth) {
-
-                        expenseDate.setText(String.format(getString(R.string.date_format), dayOfMonth, monthOfYear + 1, year));
-                    }
-                }
-        );
-
-        expenseDate.setText(String.format(getString(R.string.date_format), datePicker.getDayOfMonth(), datePicker.getMonth() + 1, datePicker.getYear()));
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        expenseDate.setText(dateFormat.format(new Date()));
 
         setTitle(getString(R.string.add_expense));
     }
@@ -99,12 +83,6 @@ public class AddExpenseActivity extends AppCompatActivity {
         Expenses expense = new Expenses(expenseSum.getText().toString(), expenseComment.getText().toString(), expenseDate.getText().toString(), category);
         expense.save();
         back();
-    }
-
-    private List<Categories> getDataList() {
-        return new Select()
-                .from(Categories.class)
-                .execute();
     }
 
 }

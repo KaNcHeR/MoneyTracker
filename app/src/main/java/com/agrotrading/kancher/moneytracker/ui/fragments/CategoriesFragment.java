@@ -8,7 +8,6 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.activeandroid.query.Select;
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.adapters.CategoriesAdapter;
 import com.agrotrading.kancher.moneytracker.database.Categories;
@@ -50,7 +49,7 @@ public class CategoriesFragment extends Fragment {
                 final AsyncTaskLoader<List<Categories>> loader = new AsyncTaskLoader<List<Categories>>(getActivity()) {
                     @Override
                     public List<Categories> loadInBackground() {
-                        return getDataList();
+                        return Categories.getAllCategories();
                     }
                 };
                 loader.forceLoad();
@@ -67,12 +66,6 @@ public class CategoriesFragment extends Fragment {
 
             }
         });
-    }
-
-    private List<Categories> getDataList() {
-        return new Select()
-                .from(Categories.class)
-                .execute();
     }
 
 }

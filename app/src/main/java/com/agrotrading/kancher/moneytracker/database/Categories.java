@@ -31,7 +31,7 @@ public class Categories extends Model {
         return name;
     }
 
-    public static List<Categories> getAll() {
+    public static List<Categories> getAllCategories() {
         return new Select()
                 .from(Categories.class)
                 .orderBy("Name ASC")
