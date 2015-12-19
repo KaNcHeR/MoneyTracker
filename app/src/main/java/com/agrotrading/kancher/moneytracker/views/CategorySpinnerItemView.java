@@ -1,7 +1,7 @@
 package com.agrotrading.kancher.moneytracker.views;
 
 import android.content.Context;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.agrotrading.kancher.moneytracker.R;
@@ -10,17 +10,18 @@ import com.agrotrading.kancher.moneytracker.database.Categories;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
-@EViewGroup(R.layout.categories_list_item)
-public class CategoryItemView extends RelativeLayout {
+@EViewGroup(R.layout.spinner_categories)
+public class CategorySpinnerItemView extends LinearLayout {
 
     @ViewById(R.id.name_text)
-    TextView nameText;
+    TextView name;
 
-    public CategoryItemView(Context context) {
+    public CategorySpinnerItemView(Context context) {
         super(context);
     }
 
-    public void bind(Categories categories) {
-        nameText.setText(categories.name);
+    public void bind(Categories category) {
+        name.setText(category.name);
     }
+
 }

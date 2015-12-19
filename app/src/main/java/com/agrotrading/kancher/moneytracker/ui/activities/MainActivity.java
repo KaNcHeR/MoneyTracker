@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.agrotrading.kancher.moneytracker.R;
+import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.ui.fragments.CategoriesFragment_;
 import com.agrotrading.kancher.moneytracker.ui.fragments.ExpensesFragment_;
 import com.agrotrading.kancher.moneytracker.ui.fragments.SettingsFragment_;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     void ready() {
         setupToolbar();
         setupDrawer();
+        createCategories();
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new ExpensesFragment_()).commit();
         }
@@ -91,6 +93,17 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    private void createCategories() {
+        Categories categoryFun = new Categories("Fun");
+        categoryFun.save();
+        Categories categoryElectronics = new Categories("Electronics");
+        categoryElectronics.save();
+        Categories categoryFood = new Categories("Food");
+        categoryFood.save();
+        Categories categoryTelephone = new Categories("Telephone");
+        categoryTelephone.save();
     }
 
     @Override
