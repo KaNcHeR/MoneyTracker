@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.SpinnerAdapter;
 
 import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.views.CategorySpinnerDropDownItemView;
@@ -19,7 +18,7 @@ import org.androidannotations.annotations.RootContext;
 import java.util.List;
 
 @EBean
-public class CategoriesSpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
+public class CategoriesSpinnerAdapter extends BaseAdapter {
 
     List<Categories> categories;
 
