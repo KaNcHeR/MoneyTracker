@@ -33,4 +33,16 @@
 
     <string name="error_required_field">Заполнены не все поля</string>
 
+
+    <string name="user_registration">Регистрация</string>
+    <string name="user_registration_field_login_hint">Логин</string>
+    <string name="user_registration_field_password_hint">Пароль</string>
+    <string name="user_registration_button_registration">Регистрация</string>
+    <string name="user_registration_characters_long">Логин и пароль должны быть не менее 5 символов (и не более 10)</string>
+    <string name="user_registration_login_busy_already">Такой логин уже существует</string>
+    <string name="user_registration_other_error">Ошибка</string>
+
+    <string name="network_not_available">Отсутствует подключение к интернету</string>
+
+
 </resources>

@@ -40,4 +40,17 @@
         <item name="android:gravity">fill</item>
     </style>
 
+    <style name="UserRegistrationButton">
+        <item name="android:minWidth">@dimen/user_registration_button_min_width</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/user_registration_button_height</item>
+        <item name="android:background">@color/button_user_registration</item>
+        <item name="android:layout_margin">@dimen/user_registration_button_margin</item>
+        <item name="android:paddingLeft">@dimen/user_registration_button_padding_left_right</item>
+        <item name="android:paddingRight">@dimen/user_registration_button_padding_left_right</item>
+        <item name="android:textColor">@color/user_registration_button_text_color</item>
+    </style>
+
+
+
 </resources>

@@ -69,7 +69,6 @@ public class ExpensesFragment extends Fragment {
     public void onResume() {
         super.onResume();
         loadData();
-        registerUser();
     }
 
     private void loadData(){
@@ -96,13 +95,6 @@ public class ExpensesFragment extends Fragment {
 
             }
         });
-    }
-
-    @Background
-    public void registerUser() {
-        RestService restService = new RestService();
-        UserRegistrationModel userRegistrationModel = restService.register("kancher", "16111988");
-        Log.d(LOG_TAG, "status: " + userRegistrationModel.getStatus() + ", id: " + userRegistrationModel.getId());
     }
 
 }

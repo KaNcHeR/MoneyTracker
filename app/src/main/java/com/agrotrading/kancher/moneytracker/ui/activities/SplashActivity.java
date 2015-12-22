@@ -18,7 +18,7 @@ public class SplashActivity extends AppCompatActivity {
 
     @Background(delay=3000)
     void doInBackground() {
-        MainActivity_.intent(this).start();
+        UserRegistrationActivity_.intent(this).start();
     }
 
     @Override
