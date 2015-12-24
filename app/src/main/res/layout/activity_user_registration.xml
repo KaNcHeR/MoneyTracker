@@ -38,10 +38,10 @@
         </android.support.design.widget.TextInputLayout>
     
     <Button
-        style="@style/UserRegistrationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/registration_button"
-        android:text="@string/user_registration_button_registration"
-        />
+        android:text="@string/user_registration_button_registration" />
 
     </LinearLayout>
 
