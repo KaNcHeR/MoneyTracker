@@ -2,6 +2,7 @@ package com.agrotrading.kancher.moneytracker.ui.activities;
 
 import android.content.Context;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -29,9 +30,11 @@ public class UserRegistrationActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     @ViewById(R.id.login_field)
+    TextInputLayout tilLogin;
     EditText etLogin;
 
     @ViewById(R.id.password_field)
+    TextInputLayout tilPassword;
     EditText etPassword;
 
     @ViewById(R.id.registration_button)
@@ -40,6 +43,8 @@ public class UserRegistrationActivity extends AppCompatActivity {
     @AfterViews
     void ready() {
         setupToolbar();
+        etLogin = tilLogin.getEditText();
+        etPassword = tilPassword.getEditText();
     }
 
     @Click(R.id.registration_button)
