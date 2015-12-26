@@ -32,8 +32,11 @@
     <dimen name="user_registration_button_padding_left_right">8dp</dimen>
     <dimen name="user_registration_button_text_size">16sp</dimen>
 
-    <dimen name="user_registration_til_margin_top">16dp</dimen>
-    <dimen name="user_registration_til_margin_bottom">8dp</dimen>
+    <dimen name="edit_text_padding_vertical">8dp</dimen>
+    <dimen name="edit_text_padding_horizontal">6dp</dimen>
+    <dimen name="edit_text_margin_vertical">6dp</dimen>
+
+    <dimen name="button_margin_vertical">24dp</dimen>
 
 
 </resources>

@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark">
 
     <include
         android:id="@+id/toolbar"
@@ -10,38 +11,31 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:paddingLeft="@dimen/user_registration_fields_padding"
         android:paddingRight="@dimen/user_registration_fields_padding"
         android:orientation="vertical"
-        android:layout_below="@+id/toolbar">
+        android:layout_centerVertical="true">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/login_field"
-            style="@style/UserRegistrationTil">
 
-            <EditText
-                style="@style/UserRegistrationEt"
-                android:hint="@string/user_registration_field_login_hint"/>
+        <EditText
+            style="@style/UserRegistrationEt"
+            android:id="@+id/et_login"
+            android:hint="@string/user_registration_field_login_hint"/>
 
-        </android.support.design.widget.TextInputLayout>
+        <EditText
+            style="@style/UserRegistrationEt"
+            android:id="@+id/et_password"
+            android:inputType="textPassword"
+            android:hint="@string/user_registration_field_password_hint"/>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/password_field"
-            style="@style/UserRegistrationTil">
-
-            <EditText
-               style="@style/UserRegistrationEt"
-                android:inputType="textPassword"
-                android:hint="@string/user_registration_field_password_hint"/>
-
-        </android.support.design.widget.TextInputLayout>
-    
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/registration_button"
-        android:text="@string/user_registration_button_registration" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:id="@+id/registration_button"
+            android:text="@string/user_registration_button_registration"
+            android:layout_marginTop="@dimen/button_margin_vertical" />
 
     </LinearLayout>
 
