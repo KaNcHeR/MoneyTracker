@@ -44,7 +44,6 @@ public class UserRegistrationActivity extends AppCompatActivity {
 
     @Click(R.id.registration_button)
     void registration(View clickedView) {
-
         View view = this.getCurrentFocus();
 
         if (view != null) {

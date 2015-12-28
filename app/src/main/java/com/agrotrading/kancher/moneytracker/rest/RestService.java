@@ -1,5 +1,8 @@
 package com.agrotrading.kancher.moneytracker.rest;
 
+import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
+import com.agrotrading.kancher.moneytracker.rest.model.CreateCategoryModel;
+import com.agrotrading.kancher.moneytracker.rest.model.UserLoginModel;
 import com.agrotrading.kancher.moneytracker.rest.model.UserRegistrationModel;
 
 public class RestService {
@@ -16,5 +19,12 @@ public class RestService {
         return restClient.getRegisterUserApi().registerUser(login, password, REGISTER_FLAG);
     }
 
+    public UserLoginModel login (String login, String password) {
+        return restClient.getLoginUserApi().loginUser(login, password);
+    }
+
+    public CreateCategoryModel createCategory (String title) {
+        return restClient.getCreateCategoryApi().createCategory(title, MoneyTrackerApplication.getAuthToken());
+    }
     //...logout etc.
 }
