@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -38,6 +38,20 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">fill</item>
+    </style>
+
+    <style name="UserRegistrationEt">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/user_registration_button_text_size</item>
+        <item name="android:maxLength">10</item>
+        <item name="android:background">@color/edit_text_background</item>
+        <item name="android:paddingTop">@dimen/edit_text_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/edit_text_padding_vertical</item>
+        <item name="android:paddingLeft">@dimen/edit_text_padding_horizontal</item>
+        <item name="android:paddingRight">@dimen/edit_text_padding_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/edit_text_margin_vertical</item>
+        <item name="android:layout_marginBottom">@dimen/edit_text_margin_vertical</item>
     </style>
 
 </resources>

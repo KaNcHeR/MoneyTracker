@@ -25,4 +25,18 @@
 
     <dimen name="toolbar_elevation">4dp</dimen>
 
+    <dimen name="user_registration_fields_padding">16dp</dimen>
+    <dimen name="user_registration_button_min_width">64dp</dimen>
+    <dimen name="user_registration_button_height">36dp</dimen>
+    <dimen name="user_registration_button_margin">8dp</dimen>
+    <dimen name="user_registration_button_padding_left_right">8dp</dimen>
+    <dimen name="user_registration_button_text_size">16sp</dimen>
+
+    <dimen name="edit_text_padding_vertical">8dp</dimen>
+    <dimen name="edit_text_padding_horizontal">6dp</dimen>
+    <dimen name="edit_text_margin_vertical">6dp</dimen>
+
+    <dimen name="button_margin_vertical">24dp</dimen>
+
+
 </resources>

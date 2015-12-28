@@ -9,17 +9,21 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.activeandroid.query.Select;
 import com.agrotrading.kancher.moneytracker.database.Expenses;
+import com.agrotrading.kancher.moneytracker.rest.RestService;
+import com.agrotrading.kancher.moneytracker.rest.model.UserRegistrationModel;
 import com.agrotrading.kancher.moneytracker.ui.activities.AddExpenseActivity_;
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.adapters.ExpensesAdapter;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
@@ -29,6 +33,8 @@ import java.util.List;
 
 @EFragment
 public class ExpensesFragment extends Fragment {
+
+    public static final String LOG_TAG = ExpensesFragment.class.getSimpleName();
 
     @ViewById(R.id.context_recyclerview)
     RecyclerView expensesRecyclerView;
