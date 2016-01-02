@@ -28,7 +28,7 @@ public class RestService {
         return restClient.getLoginUserApi().loginUser(login, password);
     }
 
-    public CreateCategoryModel createCategory (String title) {
+    public CreateCategoryModel createCategory (String title) throws UnauthorizedException {
         return restClient.getCreateCategoryApi().createCategory(title, MoneyTrackerApplication.getAuthToken());
     }
 

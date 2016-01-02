@@ -3,7 +3,6 @@ package com.agrotrading.kancher.moneytracker.ui.activities;
 import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -24,8 +23,6 @@ import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_login)
 public class UserLoginActivity extends AppCompatActivity {
-
-    private static final String LOG_TAG = UserLoginActivity.class.getSimpleName();
 
     @ViewById(R.id.et_login)
     EditText etLogin;
@@ -98,11 +95,6 @@ public class UserLoginActivity extends AppCompatActivity {
 
         enabledRegistrationButton();
 
-        Log.d(LOG_TAG, "Status: " + userLoginModel.getStatus() + ", token: " + MoneyTrackerApplication.getAuthToken());
-
-//        CreateCategoryModel createCategory = restService.createCategory("Test1");
-//        Data data = createCategory.getData();
-//        Log.d(LOG_TAG, "Status: " + createCategory.getStatus() + ", title: " + data.getTitle() + ", id: " + data.getId());
     }
 
 
