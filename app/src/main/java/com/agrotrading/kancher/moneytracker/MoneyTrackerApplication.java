@@ -25,6 +25,6 @@ public class MoneyTrackerApplication extends Application {
     }
 
     public static String getAuthToken() {
-        return sharedPreferences.getString(TOKEN_KEY, "");
+        return sharedPreferences.getString(TOKEN_KEY, null);
     }
 }

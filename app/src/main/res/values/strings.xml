@@ -2,6 +2,8 @@
     <string name="app_name">MoneyTracker</string>
     <string name="action_settings">Settings</string>
 
+    <string name="font_family_roboto">roboto medium</string>
+
     <string name="nav_drawer_expenses">Траты</string>
     <string name="nav_drawer_categories">Категории</string>
     <string name="nav_drawer_statistics">Статистика</string>
@@ -42,7 +44,15 @@
     <string name="user_registration_login_busy_already">Такой логин уже существует</string>
     <string name="user_registration_other_error">Ошибка</string>
 
-    <string name="network_not_available">Отсутствует подключение к интернету</string>
+    <string name="network_not_available">Отсутствует подключение к сети :(</string>
+    <string name="wrong_login">Такого логина не существует</string>
+    <string name="wrong_password">Неверный пароль</string>
+    <string name="login_title">Вход</string>
+    <string name="login">Войти</string>
+    <string name="question_registration">Не зарегистрированы? Нажимайте сюда.</string>
+    <string name="question_login">Уже зарегистрированы? Нажимайте сюда.</string>
+    <string name="retry">Повторить</string>
+    <string name="mini_logo">miniLogo</string>
 
 
 </resources>

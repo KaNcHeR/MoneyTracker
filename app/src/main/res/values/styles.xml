@@ -54,4 +54,21 @@
         <item name="android:layout_marginBottom">@dimen/edit_text_margin_vertical</item>
     </style>
 
+    <style name="Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/button</item>
+        <item name="android:textColor">@color/color_text_button</item>
+        <item name="android:fontFamily">@string/font_family_roboto</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
+    </style>
+
+    <style name="TVQuestionLoginRegistration">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_text_button</item>
+        <item name="android:textSize">@dimen/question_text_size</item>
+        <item name="android:layout_marginTop">@dimen/question_login_registration_margin_top</item>
+    </style>
+
 </resources>

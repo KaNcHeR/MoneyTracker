@@ -19,18 +19,31 @@
             android:name="AA_MODELS"
             android:value="com.agrotrading.kancher.moneytracker.database.Expenses, com.agrotrading.kancher.moneytracker.database.Categories" />
 
-        <!--<activity-->
-            <!--android:name=".ui.activities.SplashActivity_"-->
-            <!--android:theme="@style/AppTheme.NoActionBar">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
+        <activity
+            android:name=".ui.activities.SplashActivity_"
+            android:theme="@style/AppTheme.NoActionBar.CustomStatusBar"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.activities.UserLoginActivity_"
+            android:theme="@style/AppTheme.NoActionBar.CustomStatusBar"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.LOGIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
 
         <activity
             android:name=".ui.activities.UserRegistrationActivity_"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar.CustomStatusBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.REGISTRATION" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -46,21 +59,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.activities.AddExpenseActivity_"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity_" />
-        </activity>
-
-        <activity
-            android:name=".ui.activities.LoginActivity_">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
         </activity>
 
     </application>

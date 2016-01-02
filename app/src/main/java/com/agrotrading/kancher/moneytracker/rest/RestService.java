@@ -1,9 +1,14 @@
 package com.agrotrading.kancher.moneytracker.rest;
 
 import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
-import com.agrotrading.kancher.moneytracker.rest.model.CreateCategoryModel;
+import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
+import com.agrotrading.kancher.moneytracker.rest.model.UserBalanceModel;
+import com.agrotrading.kancher.moneytracker.rest.model.WrongTokenModel;
+import com.agrotrading.kancher.moneytracker.rest.model.category.CreateCategoryModel;
 import com.agrotrading.kancher.moneytracker.rest.model.UserLoginModel;
 import com.agrotrading.kancher.moneytracker.rest.model.UserRegistrationModel;
+
+import retrofit.RetrofitError;
 
 public class RestService {
 
@@ -26,5 +31,18 @@ public class RestService {
     public CreateCategoryModel createCategory (String title) {
         return restClient.getCreateCategoryApi().createCategory(title, MoneyTrackerApplication.getAuthToken());
     }
+
+    public WrongTokenModel getWrongToken() {
+        return restClient.getWrongTokenApi().getStatus(MoneyTrackerApplication.getAuthToken());
+    }
+
+    public UserBalanceModel getBalance() throws UnauthorizedException {
+        return restClient.getUserBalanceApi().getBalance(MoneyTrackerApplication.getAuthToken());
+    }
+    
+    public UserBalanceModel setBalance(float balance) throws UnauthorizedException{
+        return restClient.getUserBalanceApi().setBalance(balance, MoneyTrackerApplication.getAuthToken());
+    }
+
     //...logout etc.
 }

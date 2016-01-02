@@ -3,14 +3,11 @@ package com.agrotrading.kancher.moneytracker.rest.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CreateCategoryModel {
+public class WrongTokenModel {
 
     @SerializedName("status")
     @Expose
     private String status;
-    @SerializedName("data")
-    @Expose
-    private Data data;
 
     /**
      *
@@ -30,24 +27,4 @@ public class CreateCategoryModel {
         this.status = status;
     }
 
-    /**
-     *
-     * @return
-     * The data
-     */
-    public Data getData() {
-        return data;
-    }
-
-    /**
-     *
-     * @param data
-     * The data
-     */
-    public void setData(Data data) {
-        this.data = data;
-    }
-
 }
-
-
