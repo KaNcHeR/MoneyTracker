@@ -11,5 +11,6 @@ public class ConstantManager {
     public static final String STATUS_WRONG_LOGIN = "Wrong login";
     public static final String STATUS_WRONG_TOKEN = "Wrong token";
     public static final String STATUS_UNAUTHORIZED = "unauthorized";
+    public static final String REGISTER_FLAG = "1";
 
 }

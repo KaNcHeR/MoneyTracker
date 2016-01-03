@@ -3,7 +3,7 @@ package com.agrotrading.kancher.moneytracker.rest.model.category;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Data {
+public class CategoryData {
 
     @SerializedName("title")
     @Expose

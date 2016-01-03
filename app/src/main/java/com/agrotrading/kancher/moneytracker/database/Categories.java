@@ -8,8 +8,8 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
 import com.agrotrading.kancher.moneytracker.rest.RestService;
-import com.agrotrading.kancher.moneytracker.rest.model.category.CreateCategoryModel;
-import com.agrotrading.kancher.moneytracker.rest.model.category.Data;
+import com.agrotrading.kancher.moneytracker.rest.model.category.UserCategoryModel;
+import com.agrotrading.kancher.moneytracker.rest.model.category.CategoryData;
 
 import java.util.List;
 
@@ -49,8 +49,8 @@ public class Categories extends Model {
     public Long saveAndRest() throws UnauthorizedException {
 
         RestService restService = new RestService();
-        CreateCategoryModel createCategory = restService.createCategory(name);
-        Data data = createCategory.getData();
+        UserCategoryModel createCategory = restService.createCategory(name);
+        CategoryData data = createCategory.getData();
         Log.d(LOG_TAG, "Status: " + createCategory.getStatus() + ", title: " + data.getTitle() + ", id: " + data.getId());
         return save();
 

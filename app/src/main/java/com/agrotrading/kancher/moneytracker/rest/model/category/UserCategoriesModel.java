@@ -1,16 +1,19 @@
 package com.agrotrading.kancher.moneytracker.rest.model.category;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CreateCategoryModel {
+public class UserCategoriesModel {
 
     @SerializedName("status")
     @Expose
     private String status;
     @SerializedName("data")
     @Expose
-    private Data data;
+    private List<CategoryData> data = new ArrayList<CategoryData>();
 
     /**
      *
@@ -35,7 +38,7 @@ public class CreateCategoryModel {
      * @return
      * The data
      */
-    public Data getData() {
+    public List<CategoryData> getData() {
         return data;
     }
 
@@ -44,10 +47,8 @@ public class CreateCategoryModel {
      * @param data
      * The data
      */
-    public void setData(Data data) {
+    public void setData(List<CategoryData> data) {
         this.data = data;
     }
 
 }
-
-

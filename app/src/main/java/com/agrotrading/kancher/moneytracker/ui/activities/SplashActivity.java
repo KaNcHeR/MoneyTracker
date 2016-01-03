@@ -59,6 +59,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 restService.getBalance();
                 MainActivity_.intent(this).start();
+                return;
 
             } catch (UnauthorizedException e) {
                 e.printStackTrace();
@@ -66,6 +67,7 @@ public class SplashActivity extends AppCompatActivity {
 
         }
 
+        UserLoginActivity_.intent(this).start();
     }
 
     @UiThread
