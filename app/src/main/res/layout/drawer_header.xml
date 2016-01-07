@@ -4,16 +4,17 @@
     android:layout_height="@dimen/drawer_header_height"
     android:background="@mipmap/drawer_patt"
     android:orientation="vertical"
-    android:paddingTop="@dimen/drawer_header_padding_top"
+    android:paddingTop="24dp"
     android:paddingRight="@dimen/drawer_header_padding_left_right"
     android:paddingBottom="@dimen/drawer_header_padding_bottom"
     android:paddingLeft="@dimen/drawer_header_padding_left_right"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
+        android:id="@+id/avatar"
         android:layout_width="@dimen/drawer_header_avatar_circle_radius"
         android:layout_height="@dimen/drawer_header_avatar_circle_radius"
-        android:id="@+id/avatar"
+        android:layout_marginTop="@dimen/drawer_header_padding_top"
         android:src="@mipmap/avatar"
         android:contentDescription="@string/content_description_avatar" />
 

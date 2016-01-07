@@ -12,12 +12,14 @@ import android.view.MenuItem;
 
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.database.Categories;
+import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
 import com.agrotrading.kancher.moneytracker.ui.fragments.CategoriesFragment_;
 import com.agrotrading.kancher.moneytracker.ui.fragments.ExpensesFragment_;
 import com.agrotrading.kancher.moneytracker.ui.fragments.SettingsFragment_;
 import com.agrotrading.kancher.moneytracker.ui.fragments.StatisticsFragment_;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OptionsItem;
@@ -95,15 +97,24 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void createCategories() {
+    @Background
+    void createCategories() {
+
         Categories categoryFun = new Categories("Fun");
-        categoryFun.save();
         Categories categoryElectronics = new Categories("Electronics");
-        categoryElectronics.save();
         Categories categoryFood = new Categories("Food");
-        categoryFood.save();
         Categories categoryTelephone = new Categories("Telephone");
-        categoryTelephone.save();
+
+        try {
+            categoryFun.saveAndRest();
+            categoryElectronics.saveAndRest();
+            categoryFood.saveAndRest();
+            categoryTelephone.saveAndRest();
+        } catch (UnauthorizedException e) {
+            UserLoginActivity_.intent(this).start();
+            finish();
+        }
+
     }
 
     @Override

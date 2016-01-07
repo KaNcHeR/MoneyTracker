@@ -8,9 +8,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.rest.RestService;
-import com.agrotrading.kancher.moneytracker.rest.model.UserRegistrationModel;
+import com.agrotrading.kancher.moneytracker.rest.model.UserLoginModel;
 import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
 import com.agrotrading.kancher.moneytracker.utils.NetworkStatusChecker;
 
@@ -20,8 +21,8 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
-@EActivity(R.layout.activity_user_registration)
-public class UserRegistrationActivity extends AppCompatActivity {
+@EActivity(R.layout.activity_login)
+public class UserLoginActivity extends AppCompatActivity {
 
     @ViewById(R.id.et_login)
     EditText etLogin;
@@ -29,17 +30,18 @@ public class UserRegistrationActivity extends AppCompatActivity {
     @ViewById(R.id.et_password)
     EditText etPassword;
 
-    @ViewById(R.id.registration_button)
-    Button bRegistration;
+    @ViewById(R.id.login_button)
+    Button bLogin;
 
-    @Click(R.id.tv_login_button)
+    @Click(R.id.tv_registration_button)
     void registration() {
-        UserLoginActivity_.intent(this).start();
+        UserRegistrationActivity_.intent(this).start();
         finish();
     }
 
-    @Click(R.id.registration_button)
-    void registration(View clickedView) {
+    @Click(R.id.login_button)
+    void login(View clickedView) {
+
         View view = this.getCurrentFocus();
 
         if (view != null) {
@@ -57,24 +59,29 @@ public class UserRegistrationActivity extends AppCompatActivity {
             return;
         }
 
-        bRegistration.setEnabled(false);
+        bLogin.setEnabled(false);
 
-        registerUser(clickedView);
+        loginUser(clickedView);
     }
 
     @Background
-    public void registerUser(View view) {
+    void loginUser(View view) {
 
         String login = etLogin.getText().toString();
         String password = etPassword.getText().toString();
 
         RestService restService = new RestService();
-        UserRegistrationModel userRegistrationModel = restService.register(login, password);
+        UserLoginModel userLoginModel = restService.login(login, password);
+        MoneyTrackerApplication.setAuthToken(userLoginModel.getAuthToken());
 
-        switch (userRegistrationModel.getStatus()) {
+        switch (userLoginModel.getStatus()) {
 
-            case ConstantManager.STATUS_LOGIN_BUSY_ALREADY:
-                Snackbar.make(view, getString(R.string.user_registration_login_busy_already), Snackbar.LENGTH_LONG).show();
+            case ConstantManager.STATUS_WRONG_LOGIN:
+                Snackbar.make(view, getString(R.string.wrong_login), Snackbar.LENGTH_LONG).show();
+                break;
+
+            case ConstantManager.STATUS_WRONG_PASSWORD:
+                Snackbar.make(view, getString(R.string.wrong_password), Snackbar.LENGTH_LONG).show();
                 break;
 
             case ConstantManager.STATUS_SUCCESS:
@@ -89,11 +96,13 @@ public class UserRegistrationActivity extends AppCompatActivity {
         }
 
         enabledRegistrationButton();
+
     }
+
 
     @UiThread
     void enabledRegistrationButton(){
-        bRegistration.setEnabled(true);
+        bLogin.setEnabled(true);
     }
 
 }

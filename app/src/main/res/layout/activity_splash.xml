@@ -1,16 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/splash_bg"
+    android:background="@drawable/drawable_splash"
     android:orientation="vertical"
     android:padding="16dp">
+
+    <TextView
+        android:id="@+id/error_network"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="@string/network_not_available"
+        android:textAlignment="center"
+        android:textColor="@color/color_text_button"
+        android:textSize="@dimen/error_network_text_size"
+        android:visibility="gone" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:src="@mipmap/logo"
+        android:layout_centerInParent="true"
         android:focusable="false"
-        android:layout_centerInParent="true" />
+        android:src="@mipmap/logo" />
+
+    <Button
+        android:id="@+id/retry_button"
+        style="@style/Button"
+        android:layout_alignParentBottom="true"
+        android:text="@string/retry"
+        android:visibility="gone" />
+
 </RelativeLayout>

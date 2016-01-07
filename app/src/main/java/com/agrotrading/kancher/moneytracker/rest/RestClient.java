@@ -1,27 +1,43 @@
 package com.agrotrading.kancher.moneytracker.rest;
 
-import com.agrotrading.kancher.moneytracker.rest.api.RegisterUserApi;
+import com.agrotrading.kancher.moneytracker.handlers.RetrofitErrorHandler;
+import com.agrotrading.kancher.moneytracker.rest.api.UserCategoryApi;
+import com.agrotrading.kancher.moneytracker.rest.api.UserAccountApi;
+import com.agrotrading.kancher.moneytracker.rest.api.UserBalanceApi;
+import com.agrotrading.kancher.moneytracker.rest.api.UserTransactionApi;
+import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
 
 import retrofit.RestAdapter;
 
 public class RestClient {
 
-    private static final String BASE_URL = "http://lmt.loftblog.tmweb.ru/";
-
-    private RegisterUserApi registerUserApi;
-    //...
+    private UserAccountApi userAccountApi;
+    private UserCategoryApi categoryApi;
+    private UserBalanceApi userBalanceApi;
+    private UserTransactionApi userTransactionApi;
 
     public RestClient() {
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(BASE_URL)
+                .setEndpoint(ConstantManager.BASE_URL)
+                .setErrorHandler(new RetrofitErrorHandler())
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
 
-        registerUserApi = restAdapter.create(RegisterUserApi.class);
-        //...
+        userAccountApi = restAdapter.create(UserAccountApi.class);
+        categoryApi = restAdapter.create(UserCategoryApi.class);
+        userBalanceApi = restAdapter.create(UserBalanceApi.class);
+        userTransactionApi = restAdapter.create(UserTransactionApi.class);
+
     }
 
-    public RegisterUserApi getRegisterUserApi() {
-        return registerUserApi;
+    public UserAccountApi getUserAccountApi() { return userAccountApi; }
+
+    public UserCategoryApi getCategoryApi() {
+        return categoryApi;
     }
+
+    public UserBalanceApi getUserBalanceApi() {return userBalanceApi; }
+
+
+    public UserTransactionApi getUserTransactionApi() {return userTransactionApi; }
 }
