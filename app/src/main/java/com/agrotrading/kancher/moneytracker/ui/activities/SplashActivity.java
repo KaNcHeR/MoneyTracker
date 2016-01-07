@@ -29,7 +29,6 @@ public class SplashActivity extends AppCompatActivity {
 
     @AfterViews
     void ready() {
-
         doInBackground();
     }
 
@@ -38,7 +37,6 @@ public class SplashActivity extends AppCompatActivity {
         goneError();
         start();
     }
-
 
     @Background(delay = 2000)
     void doInBackground() {
@@ -59,6 +57,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 restService.getBalance();
                 MainActivity_.intent(this).start();
+                finish();
                 return;
 
             } catch (UnauthorizedException e) {
@@ -68,6 +67,7 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         UserLoginActivity_.intent(this).start();
+        finish();
     }
 
     @UiThread
@@ -82,9 +82,4 @@ public class SplashActivity extends AppCompatActivity {
         retryButton.setVisibility(View.GONE);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        finish();
-    }
 }

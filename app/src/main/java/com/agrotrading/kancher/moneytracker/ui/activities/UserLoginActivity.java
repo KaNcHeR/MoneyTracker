@@ -36,6 +36,7 @@ public class UserLoginActivity extends AppCompatActivity {
     @Click(R.id.tv_registration_button)
     void registration() {
         UserRegistrationActivity_.intent(this).start();
+        finish();
     }
 
     @Click(R.id.login_button)
@@ -85,6 +86,7 @@ public class UserLoginActivity extends AppCompatActivity {
 
             case ConstantManager.STATUS_SUCCESS:
                 MainActivity_.intent(this).start();
+                finish();
                 return;
 
             default:
@@ -103,9 +105,4 @@ public class UserLoginActivity extends AppCompatActivity {
         bLogin.setEnabled(true);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        finish();
-    }
 }

@@ -14,7 +14,6 @@ import com.agrotrading.kancher.moneytracker.rest.model.UserRegistrationModel;
 import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
 import com.agrotrading.kancher.moneytracker.utils.NetworkStatusChecker;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -36,6 +35,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
     @Click(R.id.tv_login_button)
     void registration() {
         UserLoginActivity_.intent(this).start();
+        finish();
     }
 
     @Click(R.id.registration_button)
@@ -79,6 +79,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
 
             case ConstantManager.STATUS_SUCCESS:
                 MainActivity_.intent(this).start();
+                finish();
                 return;
 
             default:
@@ -95,9 +96,4 @@ public class UserRegistrationActivity extends AppCompatActivity {
         bRegistration.setEnabled(true);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        finish();
-    }
 }
