@@ -8,11 +8,15 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
+import com.agrotrading.kancher.moneytracker.rest.RestService;
+import com.agrotrading.kancher.moneytracker.rest.model.category.CategoryData;
+import com.agrotrading.kancher.moneytracker.rest.model.category.UserCategoryModel;
 import com.agrotrading.kancher.moneytracker.ui.fragments.CategoriesFragment_;
 import com.agrotrading.kancher.moneytracker.ui.fragments.ExpensesFragment_;
 import com.agrotrading.kancher.moneytracker.ui.fragments.SettingsFragment_;
@@ -28,6 +32,7 @@ import org.androidannotations.annotations.ViewById;
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity {
 
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private Fragment fragment;
 
     @ViewById
@@ -100,20 +105,25 @@ public class MainActivity extends AppCompatActivity {
     @Background
     void createCategories() {
 
-        Categories categoryFun = new Categories("Fun");
-        Categories categoryElectronics = new Categories("Electronics");
-        Categories categoryFood = new Categories("Food");
-        Categories categoryTelephone = new Categories("Telephone");
-
         try {
-            categoryFun.saveAndRest();
-            categoryElectronics.saveAndRest();
-            categoryFood.saveAndRest();
-            categoryTelephone.saveAndRest();
+            saveAndRest(new Categories("Fun"));
+            saveAndRest(new Categories("Electronics"));
+            saveAndRest(new Categories("Food"));
+            saveAndRest(new Categories("Telephone"));
         } catch (UnauthorizedException e) {
             UserLoginActivity_.intent(this).start();
             finish();
         }
+
+    }
+
+    public void saveAndRest(Categories category) throws UnauthorizedException {
+
+        RestService restService = new RestService();
+        UserCategoryModel createCategory = restService.createCategory(category.name);
+        CategoryData data = createCategory.getData();
+        Log.d(LOG_TAG, "Status: " + createCategory.getStatus() + ", title: " + data.getTitle() + ", id: " + data.getId());
+        category.save();
 
     }
 

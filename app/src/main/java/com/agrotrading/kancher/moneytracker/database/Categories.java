@@ -1,15 +1,9 @@
 package com.agrotrading.kancher.moneytracker.database;
 
-import android.util.Log;
-
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
-import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
-import com.agrotrading.kancher.moneytracker.rest.RestService;
-import com.agrotrading.kancher.moneytracker.rest.model.category.UserCategoryModel;
-import com.agrotrading.kancher.moneytracker.rest.model.category.CategoryData;
 
 import java.util.List;
 
@@ -45,16 +39,5 @@ public class Categories extends Model {
                 .orderBy("Name ASC")
                 .execute();
     }
-
-    public Long saveAndRest() throws UnauthorizedException {
-
-        RestService restService = new RestService();
-        UserCategoryModel createCategory = restService.createCategory(name);
-        CategoryData data = createCategory.getData();
-        Log.d(LOG_TAG, "Status: " + createCategory.getStatus() + ", title: " + data.getTitle() + ", id: " + data.getId());
-        return save();
-
-    }
-
 
 }
