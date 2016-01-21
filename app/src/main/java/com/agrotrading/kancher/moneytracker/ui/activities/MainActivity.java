@@ -17,6 +17,7 @@ import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
 import com.agrotrading.kancher.moneytracker.rest.RestService;
 import com.agrotrading.kancher.moneytracker.rest.model.category.CategoryData;
 import com.agrotrading.kancher.moneytracker.rest.model.category.UserCategoryModel;
+import com.agrotrading.kancher.moneytracker.sync.TrackerSyncAdapter;
 import com.agrotrading.kancher.moneytracker.ui.fragments.CategoriesFragment_;
 import com.agrotrading.kancher.moneytracker.ui.fragments.ExpensesFragment_;
 import com.agrotrading.kancher.moneytracker.ui.fragments.SettingsFragment_;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new ExpensesFragment_()).commit();
         }
+        TrackerSyncAdapter.initializeSyncAdapter(this);
     }
 
     @OptionsItem(android.R.id.home)
