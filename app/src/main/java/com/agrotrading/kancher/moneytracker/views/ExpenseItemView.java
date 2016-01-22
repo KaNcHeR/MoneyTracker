@@ -28,7 +28,7 @@ public class ExpenseItemView extends RelativeLayout {
 
     public void bind(Expenses expenses) {
         nameText.setText(expenses.name);
-        sumText.setText(expenses.price);
+        sumText.setText(String.valueOf(expenses.price));
         dateText.setText(expenses.date);
     }
 }

@@ -13,6 +13,15 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.agrotrading.kancher.moneytracker.R;
+import com.agrotrading.kancher.moneytracker.event.MessageEvent;
+import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
+import com.agrotrading.kancher.moneytracker.rest.RestService;
+import com.agrotrading.kancher.moneytracker.rest.model.category.UserCategoriesModel;
+import com.agrotrading.kancher.moneytracker.rest.model.expense.UserExpensesModel;
+import com.agrotrading.kancher.moneytracker.utils.DbToRestBridge;
+
+import de.greenrobot.event.EventBus;
+
 
 public class TrackerSyncAdapter extends AbstractThreadedSyncAdapter {
 
@@ -24,7 +33,14 @@ public class TrackerSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        Log.e(LOG_TAG, "Syncing done!");
+        Log.e(LOG_TAG, "onPerformSync");
+        try {
+            RestService restService = new RestService();
+            UserCategoriesModel syncCategories = restService.syncCategories(DbToRestBridge.getCategoriesData());
+            UserExpensesModel syncTransactions = restService.syncExpenses(DbToRestBridge.getTransactionsData());
+        } catch (UnauthorizedException e) {
+            EventBus.getDefault().post(new MessageEvent(MessageEvent.MOVE_USER_TO_LOGIN));
+        }
     }
 
     public static void syncImmediately(Context context) {

@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.database.Categories;
+import com.agrotrading.kancher.moneytracker.event.MessageEvent;
 import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
 import com.agrotrading.kancher.moneytracker.rest.RestService;
 import com.agrotrading.kancher.moneytracker.rest.model.category.CategoryData;
@@ -29,6 +30,8 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+
+import de.greenrobot.event.EventBus;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity {
@@ -156,6 +159,32 @@ public class MainActivity extends AppCompatActivity {
             }
 
             navigationView.getMenu().findItem(itemId).setChecked(true);
+        }
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+
+    public void onEventMainThread(MessageEvent event){
+
+        switch (event.code) {
+            case MessageEvent.MOVE_USER_TO_LOGIN:
+                UserLoginActivity_.intent(this).start();
+                finish();
+                break;
+            default:
+                break;
         }
 
     }

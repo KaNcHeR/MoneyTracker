@@ -1,22 +1,22 @@
-package com.agrotrading.kancher.moneytracker.rest.model.transaction;
+package com.agrotrading.kancher.moneytracker.rest.model.expense;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class TransactionData {
+public class ExpenseData {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private Long id;
     @SerializedName("category_id")
     @Expose
-    private Integer categoryId;
+    private Long categoryId;
     @SerializedName("comment")
     @Expose
     private String comment;
     @SerializedName("sum")
     @Expose
-    private Integer sum;
+    private Double sum;
     @SerializedName("tr_date")
     @Expose
     private String trDate;
@@ -26,7 +26,7 @@ public class TransactionData {
      * @return
      * The id
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -35,7 +35,7 @@ public class TransactionData {
      * @param id
      * The id
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -44,7 +44,7 @@ public class TransactionData {
      * @return
      * The categoryId
      */
-    public Integer getCategoryId() {
+    public Long getCategoryId() {
         return categoryId;
     }
 
@@ -53,7 +53,7 @@ public class TransactionData {
      * @param categoryId
      * The category_id
      */
-    public void setCategoryId(Integer categoryId) {
+    public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -80,7 +80,7 @@ public class TransactionData {
      * @return
      * The sum
      */
-    public Integer getSum() {
+    public Double getSum() {
         return sum;
     }
 
@@ -89,7 +89,7 @@ public class TransactionData {
      * @param sum
      * The sum
      */
-    public void setSum(Integer sum) {
+    public void setSum(Double sum) {
         this.sum = sum;
     }
 

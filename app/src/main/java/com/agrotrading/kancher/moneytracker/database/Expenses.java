@@ -11,7 +11,7 @@ import java.util.List;
 public class Expenses extends Model {
 
     @Column(name = "price")
-    public String price;
+    public Double price;
 
     @Column(name = "name")
     public String name;
@@ -26,7 +26,7 @@ public class Expenses extends Model {
         super();
     }
 
-    public Expenses(String price, String name, String date, Categories category) {
+    public Expenses(Double price, String name, String date, Categories category) {
         super();
         this.price = price;
         this.name = name;
@@ -38,5 +38,21 @@ public class Expenses extends Model {
         return new Select()
                 .from(Expenses.class)
                 .execute();
+    }
+
+    public long getCategoryId(){
+        return category.getId();
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Double getPrice() {
+        return price;
     }
 }

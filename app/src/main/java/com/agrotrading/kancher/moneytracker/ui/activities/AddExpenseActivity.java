@@ -80,7 +80,7 @@ public class AddExpenseActivity extends AppCompatActivity {
             return;
         }
         Categories category = (Categories) categorySpinner.getSelectedItem();
-        Expenses expense = new Expenses(expenseSum.getText().toString(), expenseComment.getText().toString(), expenseDate.getText().toString(), category);
+        Expenses expense = new Expenses(Double.parseDouble(expenseSum.getText().toString()), expenseComment.getText().toString(), expenseDate.getText().toString(), category);
         expense.save();
         back();
     }
