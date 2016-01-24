@@ -8,21 +8,18 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.database.Categories;
+import com.agrotrading.kancher.moneytracker.database.Expenses;
 import com.agrotrading.kancher.moneytracker.event.MessageEvent;
-import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
-import com.agrotrading.kancher.moneytracker.rest.RestService;
-import com.agrotrading.kancher.moneytracker.rest.model.category.CategoryData;
-import com.agrotrading.kancher.moneytracker.rest.model.category.UserCategoryModel;
 import com.agrotrading.kancher.moneytracker.sync.TrackerSyncAdapter;
 import com.agrotrading.kancher.moneytracker.ui.fragments.CategoriesFragment_;
 import com.agrotrading.kancher.moneytracker.ui.fragments.ExpensesFragment_;
 import com.agrotrading.kancher.moneytracker.ui.fragments.SettingsFragment_;
 import com.agrotrading.kancher.moneytracker.ui.fragments.StatisticsFragment_;
+import com.agrotrading.kancher.moneytracker.utils.ApplicationPreferences_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -30,6 +27,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import de.greenrobot.event.EventBus;
 
@@ -50,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
     @InstanceState
     Bundle savedInstanceState;
+
+    @Pref
+    static ApplicationPreferences_ prefs;
 
     @AfterViews
     void ready() {
@@ -110,26 +111,24 @@ public class MainActivity extends AppCompatActivity {
     @Background
     void createCategories() {
 
-        try {
-            saveAndRest(new Categories("Fun"));
-            saveAndRest(new Categories("Electronics"));
-            saveAndRest(new Categories("Food"));
-            saveAndRest(new Categories("Telephone"));
-        } catch (UnauthorizedException e) {
-            UserLoginActivity_.intent(this).start();
-            finish();
-        }
-
-    }
-
-    public void saveAndRest(Categories category) throws UnauthorizedException {
-
-        RestService restService = new RestService();
-        UserCategoryModel createCategory = restService.createCategory(category.name);
-        CategoryData data = createCategory.getData();
-        Log.d(LOG_TAG, "Status: " + createCategory.getStatus() + ", title: " + data.getTitle() + ", id: " + data.getId());
+        Categories category = new Categories("Electronics");
         category.save();
+        new Expenses(100.0, "TV", "2016-24-01", category).save();
 
+        category = new Categories("Fun");
+        category.save();
+        new Expenses(100.0, "Rubber duck", "2016-23-01", category).save();
+
+        category = new Categories("Food");
+        category.save();
+        new Expenses(100.0, "Hamburger", "2016-22-01", category).save();
+
+        category = new Categories("Telephone");
+        category.save();
+        new Expenses(100.0, "Samsung Galaxy S6", "2016-21-01", category).save();
+
+        prefs.needSyncCategories().put(true);
+        prefs.needSyncExpenses().put(true);
     }
 
     @Override
@@ -174,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
-
 
     public void onEventMainThread(MessageEvent event){
 

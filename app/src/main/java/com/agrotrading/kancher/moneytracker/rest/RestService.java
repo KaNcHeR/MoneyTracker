@@ -5,10 +5,8 @@ import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
 import com.agrotrading.kancher.moneytracker.rest.model.UserBalanceModel;
 import com.agrotrading.kancher.moneytracker.rest.model.UserLogoutModel;
 import com.agrotrading.kancher.moneytracker.rest.model.category.UserCategoriesModel;
-import com.agrotrading.kancher.moneytracker.rest.model.category.UserCategoryModel;
 import com.agrotrading.kancher.moneytracker.rest.model.UserLoginModel;
 import com.agrotrading.kancher.moneytracker.rest.model.UserRegistrationModel;
-import com.agrotrading.kancher.moneytracker.rest.model.category.CategoryData;
 import com.agrotrading.kancher.moneytracker.rest.model.category.UserCategoryExpenseModel;
 import com.agrotrading.kancher.moneytracker.rest.model.expense.ExpenseData;
 import com.agrotrading.kancher.moneytracker.rest.model.expense.UserExpenseModel;
@@ -37,24 +35,12 @@ public class RestService {
         return restClient.getUserAccountApi().logoutUser();
     }
 
-    public UserCategoryModel createCategory (String title) throws UnauthorizedException {
-        return restClient.getCategoryApi().createCategory(title, MoneyTrackerApplication.getAuthToken());
-    }
-
     public UserCategoriesModel getAllCategories() throws UnauthorizedException {
         return restClient.getCategoryApi().getAllCategories(MoneyTrackerApplication.getAuthToken());
     }
 
-    public UserCategoriesModel syncCategories(ArrayList<CategoryData> data) throws UnauthorizedException {
+    public UserCategoriesModel syncCategories(String data) throws UnauthorizedException {
         return restClient.getCategoryApi().syncCategories(data, MoneyTrackerApplication.getAuthToken());
-    }
-
-    public UserCategoryModel editCategory(String title, Integer id) throws UnauthorizedException {
-        return restClient.getCategoryApi().editCategory(title, id, MoneyTrackerApplication.getAuthToken());
-    }
-
-    public void deleteCategory(Integer id) throws UnauthorizedException {
-        restClient.getCategoryApi().deleteCategory(id, MoneyTrackerApplication.getAuthToken());
     }
 
     public UserCategoryExpenseModel getCategory(Integer id) throws UnauthorizedException {
@@ -77,7 +63,7 @@ public class RestService {
         return restClient.getUserExpenseApi().getAllExpenses(MoneyTrackerApplication.getAuthToken());
     }
 
-    public UserExpensesModel syncExpenses(ArrayList<ExpenseData> data) throws UnauthorizedException{
+    public UserExpensesModel syncExpenses(String data) throws UnauthorizedException{
         return restClient.getUserExpenseApi().syncExpenses(data, MoneyTrackerApplication.getAuthToken());
     }
 

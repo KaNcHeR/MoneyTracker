@@ -10,22 +10,11 @@ import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.agrotrading.kancher.moneytracker.R;
-import com.agrotrading.kancher.moneytracker.event.MessageEvent;
-import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
-import com.agrotrading.kancher.moneytracker.rest.RestService;
-import com.agrotrading.kancher.moneytracker.rest.model.category.UserCategoriesModel;
-import com.agrotrading.kancher.moneytracker.rest.model.expense.UserExpensesModel;
-import com.agrotrading.kancher.moneytracker.utils.DbToRestBridge;
-
-import de.greenrobot.event.EventBus;
-
+import com.agrotrading.kancher.moneytracker.utils.DbToRestBridge_;
 
 public class TrackerSyncAdapter extends AbstractThreadedSyncAdapter {
-
-    private static final String LOG_TAG = TrackerSyncAdapter.class.getSimpleName();
 
     public TrackerSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -33,14 +22,11 @@ public class TrackerSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        Log.e(LOG_TAG, "onPerformSync");
-        try {
-            RestService restService = new RestService();
-            UserCategoriesModel syncCategories = restService.syncCategories(DbToRestBridge.getCategoriesData());
-            UserExpensesModel syncTransactions = restService.syncExpenses(DbToRestBridge.getTransactionsData());
-        } catch (UnauthorizedException e) {
-            EventBus.getDefault().post(new MessageEvent(MessageEvent.MOVE_USER_TO_LOGIN));
-        }
+
+        DbToRestBridge_ dbToRestBridge = DbToRestBridge_.getInstance_(getContext());
+        dbToRestBridge.startSyncCategories();
+        dbToRestBridge.startSyncExpenses();
+
     }
 
     public static void syncImmediately(Context context) {
@@ -69,12 +55,16 @@ public class TrackerSyncAdapter extends AbstractThreadedSyncAdapter {
     private static void onAccountCreated(Account newAccount, Context context) {
         final int SYNC_INTERVAL = 60 * 60 * 24;
         final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
-        TrackerSyncAdapter.configurePeriodicSync(context, SYNC_INTERVAL, SYNC_FLEXTIME);
+
         ContentResolver.setSyncAutomatically(newAccount,
                 context.getString(R.string.content_authority), true);
+
         ContentResolver.addPeriodicSync(newAccount, context.getString(R.string.content_authority),
                 Bundle.EMPTY,
                 SYNC_INTERVAL);
+
+        TrackerSyncAdapter.configurePeriodicSync(context, SYNC_INTERVAL, SYNC_FLEXTIME);
+
         syncImmediately(context);
     }
 

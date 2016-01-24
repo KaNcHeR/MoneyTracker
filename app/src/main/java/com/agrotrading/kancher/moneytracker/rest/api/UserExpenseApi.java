@@ -16,7 +16,7 @@ public interface UserExpenseApi {
     UserExpensesModel getAllExpenses(@Query("auth_token") String token);
 
     @POST("/transactions/synch")
-    UserExpensesModel syncExpenses(@Query("data") ArrayList<ExpenseData> data, @Query("auth_token") String token);
+    UserExpensesModel syncExpenses(@Query("data") String data, @Query("auth_token") String token);
 
     @POST("/transactions/add")
     UserExpenseModel addExpense(@Query("sum") Integer sum, @Query("comment") String comment,

@@ -10,10 +10,14 @@ import java.util.List;
 @Table(name = "Categories")
 public class Categories extends Model {
 
-    private static final String LOG_TAG = Categories.class.getSimpleName();
+    @Column(name = "_id")
+    private long sId = 0;
 
     @Column(name = "name")
-    public String name;
+    private String name;
+
+    @Column(name = "sync")
+    public boolean sync = false;
 
     public Categories() {
         super();
@@ -40,4 +44,18 @@ public class Categories extends Model {
                 .execute();
     }
 
+    public static List<Categories> getAllCategoriesOrderById() {
+        return new Select()
+                .from(Categories.class)
+                .orderBy("id ASC")
+                .execute();
+    }
+
+    public long getsId() {
+        return sId;
+    }
+
+    public void setsId(long sId) {
+        this.sId = sId;
+    }
 }

@@ -10,6 +10,9 @@ import java.util.List;
 @Table(name = "Expenses")
 public class Expenses extends Model {
 
+    @Column(name = "_id")
+    private long sId = 0;
+
     @Column(name = "price")
     public Double price;
 
@@ -40,8 +43,15 @@ public class Expenses extends Model {
                 .execute();
     }
 
+    public static List<Expenses> getAllExpensesOrderById() {
+        return new Select()
+                .from(Expenses.class)
+                .orderBy("id ASC")
+                .execute();
+    }
+
     public long getCategoryId(){
-        return category.getId();
+        return category.getsId();
     }
 
     public String getDate() {
@@ -54,5 +64,13 @@ public class Expenses extends Model {
 
     public Double getPrice() {
         return price;
+    }
+
+    public long getsId() {
+        return sId;
+    }
+
+    public void setsId(long sId) {
+        this.sId = sId;
     }
 }
