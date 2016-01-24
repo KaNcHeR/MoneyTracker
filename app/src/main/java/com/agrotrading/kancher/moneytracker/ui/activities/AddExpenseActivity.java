@@ -12,6 +12,7 @@ import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.adapters.CategoriesSpinnerAdapter;
 import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.database.Expenses;
+import com.agrotrading.kancher.moneytracker.utils.ApplicationPreferences_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -19,12 +20,16 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @EActivity(R.layout.activity_add_expense)
 public class AddExpenseActivity extends AppCompatActivity {
+
+    @Pref
+    static ApplicationPreferences_ prefs;
 
     @ViewById
     Toolbar toolbar;
@@ -82,6 +87,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         Categories category = (Categories) categorySpinner.getSelectedItem();
         Expenses expense = new Expenses(Double.parseDouble(expenseSum.getText().toString()), expenseComment.getText().toString(), expenseDate.getText().toString(), category);
         expense.save();
+        prefs.needSyncExpenses().put(true);
         back();
     }
 

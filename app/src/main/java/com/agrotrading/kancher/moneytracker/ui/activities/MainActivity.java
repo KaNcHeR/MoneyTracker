@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     void ready() {
         setupToolbar();
         setupDrawer();
-        createCategories();
+        //createCategories();
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new ExpensesFragment_()).commit();
         }
@@ -113,19 +113,19 @@ public class MainActivity extends AppCompatActivity {
 
         Categories category = new Categories("Electronics");
         category.save();
-        new Expenses(100.0, "TV", "2016-24-01", category).save();
+        new Expenses(100.0, "TV", "24/01/2016", category).save();
 
         category = new Categories("Fun");
         category.save();
-        new Expenses(100.0, "Rubber duck", "2016-23-01", category).save();
+        new Expenses(100.0, "Rubber duck", "24/01/2016", category).save();
 
         category = new Categories("Food");
         category.save();
-        new Expenses(100.0, "Hamburger", "2016-22-01", category).save();
+        new Expenses(100.0, "Hamburger", "24/01/2016", category).save();
 
         category = new Categories("Telephone");
         category.save();
-        new Expenses(100.0, "Samsung Galaxy S6", "2016-21-01", category).save();
+        new Expenses(100.0, "Samsung Galaxy S6", "24/01/2016", category).save();
 
         prefs.needSyncCategories().put(true);
         prefs.needSyncExpenses().put(true);

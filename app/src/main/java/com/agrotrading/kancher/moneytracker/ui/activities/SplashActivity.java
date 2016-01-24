@@ -58,15 +58,16 @@ public class SplashActivity extends AppCompatActivity {
                 RestService restService = new RestService();
                 restService.getBalance();
                 MainActivity_.intent(this).start();
+                finish();
+                return;
 
             } catch (UnauthorizedException e) {
                 e.printStackTrace();
             }
 
-        } else {
-            UserLoginActivity_.intent(this).start();
         }
 
+        UserLoginActivity_.intent(this).start();
         finish();
 
     }
