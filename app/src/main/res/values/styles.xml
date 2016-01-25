@@ -38,6 +38,7 @@
     <style name="Container.Formatted">
         <item name="android:background">@color/white</item>
         <item name="android:padding">@dimen/list_item_card_view_child_relative_layout_padding</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="AddExpenseTextViewAndEditText">
