@@ -1,6 +1,7 @@
 package com.agrotrading.kancher.moneytracker.rest.api;
 
 import com.agrotrading.kancher.moneytracker.rest.model.GoogleTokenStatusModel;
+import com.agrotrading.kancher.moneytracker.rest.model.GoogleTokenUserDataModel;
 
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -12,5 +13,5 @@ public interface CheckGoogleTokenApi {
     void tokenStatus(@Query("google_token") String gToken, Callback<GoogleTokenStatusModel> modelCallback);
 
     @GET("/gjson")
-    GoogleTokenStatusModel googleJson(@Query("google_token") String gToken);
+    GoogleTokenUserDataModel googleJson(@Query("google_token") String gToken);
 }

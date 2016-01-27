@@ -1,12 +1,9 @@
 package com.agrotrading.kancher.moneytracker.ui.activities;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -17,24 +14,22 @@ import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.rest.RestService;
 import com.agrotrading.kancher.moneytracker.rest.model.UserLoginModel;
 import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
+import com.agrotrading.kancher.moneytracker.utils.GoogleAuthHelper;
 import com.agrotrading.kancher.moneytracker.utils.NetworkStatusChecker;
-import com.google.android.gms.auth.GoogleAuthException;
-import com.google.android.gms.auth.GoogleAuthUtil;
-import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.AccountPicker;
 
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
-import java.io.IOException;
-
 @EActivity(R.layout.activity_login)
 public class UserLoginActivity extends AppCompatActivity {
 
-    private static final String LOG_TAG = UserLoginActivity.class.getSimpleName();
+    @Bean
+    GoogleAuthHelper googleAuthHelper;
 
     @ViewById(R.id.et_login)
     EditText etLogin;
@@ -85,33 +80,11 @@ public class UserLoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == ConstantManager.GET_GOOGLE_TOKEN_REQUEST_CODE && resultCode == RESULT_OK) {
-            getToken(data);
+            googleAuthHelper.getToken(data);
         }
     }
 
-    @Background
-    void getToken(Intent data) {
 
-        final String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-        final String accountType = data.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE);
-        Account account = new Account(accountName, accountType);
-
-        try {
-            String token = GoogleAuthUtil.getToken(UserLoginActivity.this, account, ConstantManager.SCOPES);
-            MoneyTrackerApplication.setGoogleToken(this, token);
-            Log.e(LOG_TAG, "GOOGLE_TOKEN " + MoneyTrackerApplication.getGoogleToken(this));
-            MainActivity_.intent(this).start();
-            finish();
-        } catch (UserRecoverableAuthException userAuthEx) {
-            startActivityForResult(userAuthEx.getIntent(), ConstantManager.GET_GOOGLE_TOKEN_REQUEST_CODE);
-        } catch (IOException ioEx) {
-            ioEx.printStackTrace();
-        } catch (GoogleAuthException fatalAuthEx) {
-            fatalAuthEx.printStackTrace();
-            Log.e(LOG_TAG, "Fatal Exception: " + fatalAuthEx.getLocalizedMessage());
-        }
-
-    }
 
     @Background
     void loginUser(View view) {

@@ -3,6 +3,7 @@ package com.agrotrading.kancher.moneytracker.rest.model;
 import com.google.gson.annotations.Expose;
 
 public class GoogleTokenStatusModel {
+
     @Expose
     private String status;
 

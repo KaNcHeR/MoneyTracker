@@ -17,7 +17,10 @@ public class ConstantManager {
     private final static String USER_INFO_SCOPE = "https://www.googleapis.com/auth/userinfo.profile";
     private final static String EMAIL_SCOPE = "https://www.googleapis.com/auth/userinfo.email";
     public final static String SCOPES = G_PLUS_SCOPE + " " + USER_INFO_SCOPE + " " + EMAIL_SCOPE;
+    
     public final static String DEFAULT_GOOGLE_TOKEN = "2";
     public final static int GET_GOOGLE_TOKEN_REQUEST_CODE = 10;
+
+    public final static int INDEX_DRAWER_HEADER_ACCOUNT_DATA = 0;
 
 }

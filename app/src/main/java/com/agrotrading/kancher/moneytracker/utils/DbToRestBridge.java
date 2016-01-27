@@ -2,6 +2,7 @@ package com.agrotrading.kancher.moneytracker.utils;
 
 import android.content.Context;
 
+import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
 import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.database.Expenses;
 import com.agrotrading.kancher.moneytracker.event.MessageEvent;
@@ -29,10 +30,13 @@ public class DbToRestBridge {
 
     Context context;
 
+    private String gToken;
+
     private Gson gson = new Gson();
 
     public DbToRestBridge(Context context) {
         this.context = context;
+        gToken = MoneyTrackerApplication.getGoogleToken(context);
     }
 
     private String getCategoriesDataJson(List<Categories> categories) {
@@ -79,7 +83,7 @@ public class DbToRestBridge {
         try {
 
             RestService restService = new RestService();
-            UserCategoriesModel syncCategories = restService.syncCategories(jsonRequest);
+            UserCategoriesModel syncCategories = restService.syncCategories(jsonRequest, gToken);
             List<CategoryData> syncCategoriesData;
 
             if(!syncCategories.getStatus().equals(ConstantManager.STATUS_SUCCESS)) return;
@@ -111,7 +115,7 @@ public class DbToRestBridge {
         try {
 
             RestService restService = new RestService();
-            UserExpensesModel syncExpenses = restService.syncExpenses(jsonRequest);
+            UserExpensesModel syncExpenses = restService.syncExpenses(jsonRequest, gToken);
             List<ExpenseData> syncExpensesData;
 
             if(!syncExpenses.getStatus().equals(ConstantManager.STATUS_SUCCESS)) return;
