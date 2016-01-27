@@ -52,11 +52,13 @@ public class MainActivity extends AppCompatActivity {
     @Pref
     static ApplicationPreferences_ prefs;
 
+
+
     @AfterViews
     void ready() {
         setupToolbar();
         setupDrawer();
-        createCategories();
+        //createCategories();
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new ExpensesFragment_()).commit();
         }

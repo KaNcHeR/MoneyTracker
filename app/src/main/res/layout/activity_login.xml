@@ -48,6 +48,12 @@
             android:layout_marginTop="@dimen/button_margin_vertical"
             android:layout_centerInParent="true"/>
 
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/login_button" />
+
         <TextView
             style="@style/TVQuestionLoginRegistration"
             android:id="@+id/tv_registration_button"

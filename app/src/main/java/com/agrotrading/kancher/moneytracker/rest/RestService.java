@@ -51,8 +51,8 @@ public class RestService {
         return restClient.getCategoryApi().getTransCat(MoneyTrackerApplication.getAuthToken());
     }
 
-    public UserBalanceModel getBalance() throws UnauthorizedException {
-        return restClient.getUserBalanceApi().getBalance(MoneyTrackerApplication.getAuthToken());
+    public UserBalanceModel getBalance(String gToken) throws UnauthorizedException {
+        return restClient.getUserBalanceApi().getBalance(gToken, MoneyTrackerApplication.getAuthToken());
     }
     
     public UserBalanceModel setBalance(float balance) throws UnauthorizedException{
