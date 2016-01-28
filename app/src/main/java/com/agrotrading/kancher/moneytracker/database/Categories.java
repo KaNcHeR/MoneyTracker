@@ -1,25 +1,23 @@
 package com.agrotrading.kancher.moneytracker.database;
 
-import android.util.Log;
-
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
-import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
-import com.agrotrading.kancher.moneytracker.rest.RestService;
-import com.agrotrading.kancher.moneytracker.rest.model.category.UserCategoryModel;
-import com.agrotrading.kancher.moneytracker.rest.model.category.CategoryData;
 
 import java.util.List;
 
 @Table(name = "Categories")
 public class Categories extends Model {
 
-    private static final String LOG_TAG = Categories.class.getSimpleName();
+    @Column(name = "_id")
+    private long sId = 0;
 
     @Column(name = "name")
-    public String name;
+    private String name;
+
+    @Column(name = "sync")
+    public boolean sync = false;
 
     public Categories() {
         super();
@@ -46,15 +44,18 @@ public class Categories extends Model {
                 .execute();
     }
 
-    public Long saveAndRest() throws UnauthorizedException {
-
-        RestService restService = new RestService();
-        UserCategoryModel createCategory = restService.createCategory(name);
-        CategoryData data = createCategory.getData();
-        Log.d(LOG_TAG, "Status: " + createCategory.getStatus() + ", title: " + data.getTitle() + ", id: " + data.getId());
-        return save();
-
+    public static List<Categories> getAllCategoriesOrderById() {
+        return new Select()
+                .from(Categories.class)
+                .orderBy("id ASC")
+                .execute();
     }
 
+    public long getsId() {
+        return sId;
+    }
 
+    public void setsId(long sId) {
+        this.sId = sId;
+    }
 }

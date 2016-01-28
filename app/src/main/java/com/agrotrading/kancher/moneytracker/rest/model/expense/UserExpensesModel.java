@@ -1,16 +1,18 @@
-package com.agrotrading.kancher.moneytracker.rest.model.transaction;
+package com.agrotrading.kancher.moneytracker.rest.model.expense;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserTransactionModel {
+public class UserExpensesModel {
 
     @SerializedName("status")
     @Expose
     private String status;
-    @SerializedName("id")
+    @SerializedName("data")
     @Expose
-    private Integer id;
+    private List<ExpenseData> data = new ArrayList<>();
 
     /**
      *
@@ -33,19 +35,19 @@ public class UserTransactionModel {
     /**
      *
      * @return
-     * The id
+     * The data
      */
-    public Integer getId() {
-        return id;
+    public List<ExpenseData> getData() {
+        return data;
     }
 
     /**
      *
-     * @param id
-     * The id
+     * @param data
+     * The data
      */
-    public void setId(Integer id) {
-        this.id = id;
+    public void setData(List<ExpenseData> data) {
+        this.data = data;
     }
 
 }

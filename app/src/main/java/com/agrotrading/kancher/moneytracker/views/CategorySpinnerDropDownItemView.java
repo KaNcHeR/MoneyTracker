@@ -21,7 +21,7 @@ public class CategorySpinnerDropDownItemView extends LinearLayout {
     }
 
     public void bind(Categories category) {
-        name.setText(category.name);
+        name.setText(category.toString());
     }
 
 }

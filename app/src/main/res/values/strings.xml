@@ -4,6 +4,9 @@
 
     <string name="font_family_roboto">roboto medium</string>
 
+    <string name="content_authority">com.agrotrading.kancher.moneytracker</string>
+    <string name="sync_account_type">moneytracker.kancher.agrotrading.com</string>
+
     <string name="nav_drawer_expenses">Траты</string>
     <string name="nav_drawer_categories">Категории</string>
     <string name="nav_drawer_statistics">Статистика</string>

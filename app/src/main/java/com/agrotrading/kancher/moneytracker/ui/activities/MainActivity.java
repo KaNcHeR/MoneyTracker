@@ -12,11 +12,14 @@ import android.view.MenuItem;
 
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.database.Categories;
-import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
+import com.agrotrading.kancher.moneytracker.database.Expenses;
+import com.agrotrading.kancher.moneytracker.event.MessageEvent;
+import com.agrotrading.kancher.moneytracker.sync.TrackerSyncAdapter;
 import com.agrotrading.kancher.moneytracker.ui.fragments.CategoriesFragment_;
 import com.agrotrading.kancher.moneytracker.ui.fragments.ExpensesFragment_;
 import com.agrotrading.kancher.moneytracker.ui.fragments.SettingsFragment_;
 import com.agrotrading.kancher.moneytracker.ui.fragments.StatisticsFragment_;
+import com.agrotrading.kancher.moneytracker.utils.ApplicationPreferences_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -24,10 +27,14 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.sharedpreferences.Pref;
+
+import de.greenrobot.event.EventBus;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity {
 
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private Fragment fragment;
 
     @ViewById
@@ -42,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
     @InstanceState
     Bundle savedInstanceState;
 
+    @Pref
+    static ApplicationPreferences_ prefs;
+
     @AfterViews
     void ready() {
         setupToolbar();
@@ -50,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new ExpensesFragment_()).commit();
         }
+        TrackerSyncAdapter.initializeSyncAdapter(this);
     }
 
     @OptionsItem(android.R.id.home)
@@ -100,21 +111,24 @@ public class MainActivity extends AppCompatActivity {
     @Background
     void createCategories() {
 
-        Categories categoryFun = new Categories("Fun");
-        Categories categoryElectronics = new Categories("Electronics");
-        Categories categoryFood = new Categories("Food");
-        Categories categoryTelephone = new Categories("Telephone");
+        Categories category = new Categories("Electronics");
+        category.save();
+        new Expenses(100.0, "TV", "24/01/2016", category).save();
 
-        try {
-            categoryFun.saveAndRest();
-            categoryElectronics.saveAndRest();
-            categoryFood.saveAndRest();
-            categoryTelephone.saveAndRest();
-        } catch (UnauthorizedException e) {
-            UserLoginActivity_.intent(this).start();
-            finish();
-        }
+        category = new Categories("Fun");
+        category.save();
+        new Expenses(100.0, "Rubber duck", "24/01/2016", category).save();
 
+        category = new Categories("Food");
+        category.save();
+        new Expenses(100.0, "Hamburger", "24/01/2016", category).save();
+
+        category = new Categories("Telephone");
+        category.save();
+        new Expenses(100.0, "Samsung Galaxy S6", "24/01/2016", category).save();
+
+        prefs.needSyncCategories().put(true);
+        prefs.needSyncExpenses().put(true);
     }
 
     @Override
@@ -144,6 +158,31 @@ public class MainActivity extends AppCompatActivity {
             }
 
             navigationView.getMenu().findItem(itemId).setChecked(true);
+        }
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    public void onEventMainThread(MessageEvent event){
+
+        switch (event.code) {
+            case MessageEvent.MOVE_USER_TO_LOGIN:
+                UserLoginActivity_.intent(this).start();
+                finish();
+                break;
+            default:
+                break;
         }
 
     }

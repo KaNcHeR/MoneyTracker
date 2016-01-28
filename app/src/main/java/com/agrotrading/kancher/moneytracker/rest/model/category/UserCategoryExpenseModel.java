@@ -3,11 +3,11 @@ package com.agrotrading.kancher.moneytracker.rest.model.category;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.agrotrading.kancher.moneytracker.rest.model.transaction.TransactionData;
+import com.agrotrading.kancher.moneytracker.rest.model.expense.ExpenseData;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserCategoryTransactionModel {
+public class UserCategoryExpenseModel {
 
     @SerializedName("id")
     @Expose
@@ -17,7 +17,7 @@ public class UserCategoryTransactionModel {
     private String title;
     @SerializedName("transactions")
     @Expose
-    private List<TransactionData> transactions = new ArrayList<TransactionData>();
+    private List<ExpenseData> transactions = new ArrayList<>();
 
     /**
      *
@@ -60,7 +60,7 @@ public class UserCategoryTransactionModel {
      * @return
      * The transactions
      */
-    public List<TransactionData> getTransactions() {
+    public List<ExpenseData> getTransactions() {
         return transactions;
     }
 
@@ -69,7 +69,7 @@ public class UserCategoryTransactionModel {
      * @param transactions
      * The transactions
      */
-    public void setTransactions(List<TransactionData> transactions) {
+    public void setTransactions(List<ExpenseData> transactions) {
         this.transactions = transactions;
     }
 

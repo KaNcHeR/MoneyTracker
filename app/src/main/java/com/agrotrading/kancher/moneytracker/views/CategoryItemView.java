@@ -21,6 +21,6 @@ public class CategoryItemView extends RelativeLayout {
     }
 
     public void bind(Categories categories) {
-        nameText.setText(categories.name);
+        nameText.setText(categories.toString());
     }
 }
