@@ -7,7 +7,7 @@ import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Query;
 
-public interface CheckGoogleTokenApi {
+public interface UserGoogleAccountApi {
 
     @GET("/gcheck")
     void tokenStatus(@Query("google_token") String gToken, Callback<GoogleTokenStatusModel> modelCallback);

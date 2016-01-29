@@ -13,6 +13,9 @@ public class ConstantManager {
     public static final String STATUS_UNAUTHORIZED = "unauthorized";
     public static final String REGISTER_FLAG = "1";
 
+    public static final String TOKEN_KEY = "token_key";
+    public static final String GOOGLE_TOKEN_KEY = "google_token_key";
+
     private final static String G_PLUS_SCOPE = "oauth2:https://www.googleapis.com/auth/plus.me";
     private final static String USER_INFO_SCOPE = "https://www.googleapis.com/auth/userinfo.profile";
     private final static String EMAIL_SCOPE = "https://www.googleapis.com/auth/userinfo.email";

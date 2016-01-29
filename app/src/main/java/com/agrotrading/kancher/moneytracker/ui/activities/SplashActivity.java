@@ -71,28 +71,25 @@ public class SplashActivity extends AppCompatActivity {
     void start() {
 
         if(!googleAuthHelper.getGToken().equalsIgnoreCase(ConstantManager.DEFAULT_GOOGLE_TOKEN)) {
-            googleAuthHelper.checkTokenValid();
+            googleAuthHelper.checkTokenValid(true);
             return;
         }
 
-        if(MoneyTrackerApplication.getAuthToken() != null || MoneyTrackerApplication.getGoogleToken(this) != null) {
-
-            try {
-                RestService restService = new RestService();
-                String gToken = MoneyTrackerApplication.getGoogleToken(this);
-                restService.getBalance(gToken);
-                MainActivity_.intent(this).start();
-                finish();
-                return;
-
-            } catch (UnauthorizedException | GoogleAuthException e) {
-                e.printStackTrace();
-            }
-
+        if(MoneyTrackerApplication.getAuthToken() == null &&
+                MoneyTrackerApplication.getGoogleToken(this).equalsIgnoreCase(ConstantManager.DEFAULT_GOOGLE_TOKEN)) {
+            UserLoginActivity_.intent(this).start();
+            finish();
         }
 
-        UserLoginActivity_.intent(this).start();
-        finish();
+        try {
+            RestService restService = new RestService();
+            String gToken = MoneyTrackerApplication.getGoogleToken(this);
+            restService.getBalance(gToken);
+            MainActivity_.intent(this).start();
+            finish();
+        } catch (UnauthorizedException e) {
+            e.printStackTrace();
+        }
 
     }
 

@@ -1,7 +1,7 @@
 package com.agrotrading.kancher.moneytracker.rest;
 
 import com.agrotrading.kancher.moneytracker.handlers.RetrofitErrorHandler;
-import com.agrotrading.kancher.moneytracker.rest.api.CheckGoogleTokenApi;
+import com.agrotrading.kancher.moneytracker.rest.api.UserGoogleAccountApi;
 import com.agrotrading.kancher.moneytracker.rest.api.UserCategoryApi;
 import com.agrotrading.kancher.moneytracker.rest.api.UserAccountApi;
 import com.agrotrading.kancher.moneytracker.rest.api.UserBalanceApi;
@@ -16,7 +16,7 @@ public class RestClient {
     private UserCategoryApi categoryApi;
     private UserBalanceApi userBalanceApi;
     private UserExpenseApi userExpenseApi;
-    private CheckGoogleTokenApi checkGoogleTokenApi;
+    private UserGoogleAccountApi checkGoogleTokenApi;
 
     public RestClient() {
         RestAdapter restAdapter = new RestAdapter.Builder()
@@ -29,7 +29,7 @@ public class RestClient {
         categoryApi = restAdapter.create(UserCategoryApi.class);
         userBalanceApi = restAdapter.create(UserBalanceApi.class);
         userExpenseApi = restAdapter.create(UserExpenseApi.class);
-        checkGoogleTokenApi = restAdapter.create(CheckGoogleTokenApi.class);
+        checkGoogleTokenApi = restAdapter.create(UserGoogleAccountApi.class);
 
     }
 
@@ -41,5 +41,5 @@ public class RestClient {
 
     public UserExpenseApi getUserExpenseApi() { return userExpenseApi; }
 
-    public CheckGoogleTokenApi getCheckGoogleTokenApi() {return checkGoogleTokenApi; }
+    public UserGoogleAccountApi getCheckGoogleTokenApi() {return checkGoogleTokenApi; }
 }

@@ -14,7 +14,6 @@ public interface UserCategoryApi {
     UserCategoriesModel getAllCategories(@Query("google_token") String gToken, @Query("auth_token") String token);
 
     @POST("/categories/synch")
-
     UserCategoriesModel syncCategories(@Query("data") String data, @Query("google_token") String gToken, @Query("auth_token") String token);
 
     @GET("/categories/{id}")

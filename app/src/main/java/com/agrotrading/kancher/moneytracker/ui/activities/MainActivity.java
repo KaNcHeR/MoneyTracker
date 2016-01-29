@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.database.Expenses;
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         drawerHelper.fillDrawerHeader();
 
         TrackerSyncAdapter.initializeSyncAdapter(this);
+        MoneyTrackerApplication.setGoogleToken(this, "dg34tergdfg");
     }
 
     @OptionsItem(android.R.id.home)

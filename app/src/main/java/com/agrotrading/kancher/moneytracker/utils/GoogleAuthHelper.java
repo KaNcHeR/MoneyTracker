@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
-import com.agrotrading.kancher.moneytracker.rest.RestClient;
 import com.agrotrading.kancher.moneytracker.rest.RestService;
 import com.agrotrading.kancher.moneytracker.rest.model.GoogleTokenStatusModel;
 import com.agrotrading.kancher.moneytracker.rest.model.GoogleTokenUserDataModel;
@@ -35,7 +34,6 @@ public class GoogleAuthHelper {
 
     Context context;
     Activity activity;
-    private RestClient restClient;
     RestService restService;
     private String gToken;
 
@@ -46,20 +44,22 @@ public class GoogleAuthHelper {
         this.context = context;
         activity = (Activity) context;
         gToken = MoneyTrackerApplication.getGoogleToken(context);
-        restClient = new RestClient();
         restService = new RestService();
     }
 
     @Background
-    public void checkTokenValid() {
-        restClient.getCheckGoogleTokenApi().tokenStatus(gToken, new Callback<GoogleTokenStatusModel>() {
+    public void checkTokenValid(final boolean saveAccountData) {
+
+        restService.getGoogleTokenStatus(gToken, new Callback<GoogleTokenStatusModel>() {
             @Override
             public void success(GoogleTokenStatusModel googleTokenStatusModel, Response response) {
 
                 if (googleTokenStatusModel.getStatus().equalsIgnoreCase(ConstantManager.STATUS_ERROR)) {
                     doubleTokenEcx();
                 } else {
-                    saveAccountData();
+                    editPrefs();
+                    MainActivity_.intent(context).start();
+                    activity.finish();
                 }
             }
 
@@ -71,12 +71,6 @@ public class GoogleAuthHelper {
     }
 
     @Background
-    void saveAccountData() {
-        editPrefs();
-        MainActivity_.intent(context).start();
-        activity.finish();
-    }
-
     void editPrefs() {
         GoogleTokenUserDataModel accountData = restService.getGoogleUserData(gToken);
         prefs.edit()
@@ -97,14 +91,16 @@ public class GoogleAuthHelper {
         final String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
         final String accountType = data.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE);
         Account account = new Account(accountName, accountType);
-
+        Log.e("getGToken", "Account " + account);
         try {
             gToken = GoogleAuthUtil.getToken(context, account, ConstantManager.SCOPES);
             MoneyTrackerApplication.setGoogleToken(context, gToken);
             Log.e(LOG_TAG, "GOOGLE_TOKEN " + MoneyTrackerApplication.getGoogleToken(context));
+
             editPrefs();
             MainActivity_.intent(context).start();
             activity.finish();
+
         } catch (UserRecoverableAuthException userAuthEx) {
             activity.startActivityForResult(userAuthEx.getIntent(), ConstantManager.GET_GOOGLE_TOKEN_REQUEST_CODE);
         } catch (IOException ioEx) {

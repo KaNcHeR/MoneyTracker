@@ -17,8 +17,6 @@ public class RetrofitErrorHandler implements ErrorHandler{
             switch (r.getStatus()) {
                 case 401:
                     return new UnauthorizedException(cause);
-                case 500:
-                    return new GoogleAuthException(cause);
             }
         }
         return cause;
