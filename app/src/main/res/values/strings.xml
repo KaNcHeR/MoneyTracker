@@ -20,6 +20,8 @@
     <string name="statistics_fragment_description">Здесь будет статистика</string>
     <string name="settings_fragment_description">Здесь будут настройки</string>
 
+    <string name="search_title">Search</string>
+
     <string name="add_expense">Добавить трату</string>
     <string name="add_expense_sum">Сумма</string>
     <string name="add_expense_sum_hint">1000</string>

@@ -37,9 +37,10 @@ public class Expenses extends Model {
         this.category = category;
     }
 
-    public static List<Expenses> getAllExpenses() {
+    public static List<Expenses> getAllExpenses(String filter) {
         return new Select()
                 .from(Expenses.class)
+                .where("Name LIKE ?", new String[] {'%' + filter + '%'})
                 .execute();
     }
 

@@ -26,4 +26,7 @@ public class ConstantManager {
 
     public final static int INDEX_DRAWER_HEADER_ACCOUNT_DATA = 0;
 
+    public static final String FILTER_ID = "filter_id";
+    public static final int FILTER_DELAY = 700;
+
 }
