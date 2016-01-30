@@ -27,7 +27,7 @@ public class CategoriesSpinnerAdapter extends BaseAdapter {
 
     @AfterInject
     void initAdapter() {
-        categories = Categories.getAllCategories();
+        categories = Categories.getAllCategories("");
     }
 
     @Override
