@@ -10,13 +10,12 @@
     android:paddingLeft="@dimen/drawer_header_padding_left_right"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar"
         android:layout_width="@dimen/drawer_header_avatar_circle_radius"
         android:layout_height="@dimen/drawer_header_avatar_circle_radius"
         android:layout_marginTop="@dimen/drawer_header_padding_top"
-        android:src="@mipmap/avatar"
-        android:contentDescription="@string/content_description_avatar" />
+        android:src="@mipmap/avatar" />
 
     <LinearLayout
         android:layout_width="match_parent"

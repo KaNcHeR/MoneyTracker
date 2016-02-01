@@ -12,4 +12,10 @@ public interface ApplicationPreferences {
     @DefaultBoolean(false)
     boolean needSyncExpenses();
 
+    String googleAccountName();
+
+    String googleAccountEmail();
+
+    String googleAccountPictureSrc();
+
 }

@@ -9,20 +9,25 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
+import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.database.Expenses;
 import com.agrotrading.kancher.moneytracker.event.MessageEvent;
+import com.agrotrading.kancher.moneytracker.rest.model.GoogleTokenUserDataModel;
 import com.agrotrading.kancher.moneytracker.sync.TrackerSyncAdapter;
 import com.agrotrading.kancher.moneytracker.ui.fragments.CategoriesFragment_;
 import com.agrotrading.kancher.moneytracker.ui.fragments.ExpensesFragment_;
 import com.agrotrading.kancher.moneytracker.ui.fragments.SettingsFragment_;
 import com.agrotrading.kancher.moneytracker.ui.fragments.StatisticsFragment_;
 import com.agrotrading.kancher.moneytracker.utils.ApplicationPreferences_;
+import com.agrotrading.kancher.moneytracker.utils.DrawerHelper;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OptionsItem;
@@ -34,8 +39,10 @@ import de.greenrobot.event.EventBus;
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity {
 
-    private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private Fragment fragment;
+
+    @Bean
+    DrawerHelper drawerHelper;
 
     @ViewById
     Toolbar toolbar;
@@ -52,15 +59,23 @@ public class MainActivity extends AppCompatActivity {
     @Pref
     static ApplicationPreferences_ prefs;
 
+    ImageView pictureImageView;
+
     @AfterViews
     void ready() {
+        GoogleTokenUserDataModel accountData;
         setupToolbar();
         setupDrawer();
         createCategories();
+
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new ExpensesFragment_()).commit();
         }
+
+        drawerHelper.fillDrawerHeader();
+
         TrackerSyncAdapter.initializeSyncAdapter(this);
+        MoneyTrackerApplication.setGoogleToken(this, "dg34tergdfg");
     }
 
     @OptionsItem(android.R.id.home)
@@ -187,4 +202,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public NavigationView getNavigationView() {
+        return navigationView;
+    }
 }

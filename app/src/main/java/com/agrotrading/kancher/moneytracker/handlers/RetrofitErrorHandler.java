@@ -1,6 +1,7 @@
 package com.agrotrading.kancher.moneytracker.handlers;
 
 import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
+import com.google.android.gms.auth.GoogleAuthException;
 
 import retrofit.ErrorHandler;
 import retrofit.RetrofitError;
@@ -12,8 +13,11 @@ public class RetrofitErrorHandler implements ErrorHandler{
     public Throwable handleError(RetrofitError cause) {
 
         Response r = cause.getResponse();
-        if (r != null && r.getStatus() == 401) {
-            return new UnauthorizedException(cause);
+        if (r != null) {
+            switch (r.getStatus()) {
+                case 401:
+                    return new UnauthorizedException(cause);
+            }
         }
         return cause;
     }

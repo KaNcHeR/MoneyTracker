@@ -1,6 +1,7 @@
 package com.agrotrading.kancher.moneytracker.ui.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,9 +14,12 @@ import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.rest.RestService;
 import com.agrotrading.kancher.moneytracker.rest.model.UserLoginModel;
 import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
+import com.agrotrading.kancher.moneytracker.utils.GoogleAuthHelper;
 import com.agrotrading.kancher.moneytracker.utils.NetworkStatusChecker;
+import com.google.android.gms.common.AccountPicker;
 
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
@@ -23,6 +27,9 @@ import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_login)
 public class UserLoginActivity extends AppCompatActivity {
+
+    @Bean
+    GoogleAuthHelper googleAuthHelper;
 
     @ViewById(R.id.et_login)
     EditText etLogin;
@@ -63,6 +70,21 @@ public class UserLoginActivity extends AppCompatActivity {
 
         loginUser(clickedView);
     }
+
+    @Click(R.id.sign_in_button)
+    void btnGPlusLogin() {
+        Intent intent = AccountPicker.newChooseAccountIntent(null, null, new String[]{"com.google"}, false, null, null, null, null);
+        startActivityForResult(intent, ConstantManager.GET_GOOGLE_TOKEN_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == ConstantManager.GET_GOOGLE_TOKEN_REQUEST_CODE && resultCode == RESULT_OK) {
+            googleAuthHelper.getToken(data);
+        }
+    }
+
+
 
     @Background
     void loginUser(View view) {

@@ -34,6 +34,8 @@ dependencies {
     compile "com.squareup.okhttp:okhttp:2.2.0"
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.google.code.gson:gson:2.5'
+    compile 'com.google.android.gms:play-services:7.5.0'
+    compile 'de.hdodenhof:circleimageview:2.0.0'
 }
 
 apt {

@@ -11,15 +11,14 @@ import retrofit.http.Query;
 public interface UserCategoryApi {
 
     @GET("/categories")
-    UserCategoriesModel getAllCategories(@Query("auth_token") String token);
+    UserCategoriesModel getAllCategories(@Query("google_token") String gToken, @Query("auth_token") String token);
 
     @POST("/categories/synch")
-
-    UserCategoriesModel syncCategories(@Query("data") String data, @Query("auth_token") String token);
+    UserCategoriesModel syncCategories(@Query("data") String data, @Query("google_token") String gToken, @Query("auth_token") String token);
 
     @GET("/categories/{id}")
-    UserCategoryExpenseModel getCategory(@Path("id") Integer id, @Query("auth_token") String token);
+    UserCategoryExpenseModel getCategory(@Path("id") Integer id, @Query("google_token") String gToken, @Query("auth_token") String token);
 
     @GET("/transcat")
-    UserCategoryExpenseModel getTransCat(@Query("auth_token") String token);
+    UserCategoryExpenseModel getTransCat(@Query("google_token") String gToken, @Query("auth_token") String token);
 }

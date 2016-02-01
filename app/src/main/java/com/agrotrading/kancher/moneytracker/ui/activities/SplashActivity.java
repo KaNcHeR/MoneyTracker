@@ -1,5 +1,6 @@
 package com.agrotrading.kancher.moneytracker.ui.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -8,19 +9,25 @@ import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
 import com.agrotrading.kancher.moneytracker.rest.RestService;
+import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
+import com.agrotrading.kancher.moneytracker.utils.GoogleAuthHelper;
 import com.agrotrading.kancher.moneytracker.utils.NetworkStatusChecker;
+import com.google.android.gms.auth.GoogleAuthException;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.api.BackgroundExecutor;
 
-
 @EActivity(R.layout.activity_splash)
 public class SplashActivity extends AppCompatActivity {
+
+    @Bean
+    GoogleAuthHelper googleAuthHelper;
 
     @ViewById(R.id.error_network)
     TextView errorNetwork;
@@ -33,42 +40,56 @@ public class SplashActivity extends AppCompatActivity {
         doInBackground();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == ConstantManager.GET_GOOGLE_TOKEN_REQUEST_CODE && resultCode == RESULT_OK) {
+            googleAuthHelper.getToken(data);
+        }
+    }
+
     @Click(R.id.retry_button)
     void retryStart() {
+        if(!NetworkStatusChecker.isNetworkAvailable(this)) {
+            return;
+        }
+
         goneError();
         start();
     }
 
-    @Background(delay = 2000)
+    @Background(delay = 3000)
     void doInBackground() {
-        start();
-    }
-
-    @Background(id="start",delay = 1000)
-    void start() {
-
-        if(!NetworkStatusChecker.isNetworkAvailable(getApplicationContext())) {
+        if(!NetworkStatusChecker.isNetworkAvailable(this)) {
             visibleError();
             return;
         }
 
-        if(MoneyTrackerApplication.getAuthToken() != null) {
+        start();
+    }
 
-            try {
-                RestService restService = new RestService();
-                restService.getBalance();
-                MainActivity_.intent(this).start();
-                finish();
-                return;
+    @Background(id="start")
+    void start() {
 
-            } catch (UnauthorizedException e) {
-                e.printStackTrace();
-            }
-
+        if(!googleAuthHelper.getGToken().equalsIgnoreCase(ConstantManager.DEFAULT_GOOGLE_TOKEN)) {
+            googleAuthHelper.checkTokenValid(true);
+            return;
         }
 
-        UserLoginActivity_.intent(this).start();
-        finish();
+        if(MoneyTrackerApplication.getAuthToken() == null &&
+                MoneyTrackerApplication.getGoogleToken(this).equalsIgnoreCase(ConstantManager.DEFAULT_GOOGLE_TOKEN)) {
+            UserLoginActivity_.intent(this).start();
+            finish();
+        }
+
+        try {
+            RestService restService = new RestService();
+            String gToken = MoneyTrackerApplication.getGoogleToken(this);
+            restService.getBalance(gToken);
+            MainActivity_.intent(this).start();
+            finish();
+        } catch (UnauthorizedException e) {
+            e.printStackTrace();
+        }
 
     }
 

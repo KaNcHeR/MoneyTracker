@@ -9,8 +9,8 @@ import retrofit.http.Query;
 public interface UserBalanceApi {
 
     @GET("/balance")
-    UserBalanceModel getBalance(@Query("auth_token") String token) throws UnauthorizedException;
+    UserBalanceModel getBalance(@Query("google_token") String gToken, @Query("auth_token") String token) throws UnauthorizedException;
 
     @GET("/balance")
-    UserBalanceModel setBalance(@Query("set") float balance, @Query("auth_token") String token) throws UnauthorizedException;
+    UserBalanceModel setBalance(@Query("set") float balance, @Query("google_token") String gToken, @Query("auth_token") String token) throws UnauthorizedException;
 }
