@@ -11,6 +11,7 @@ import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
 import com.agrotrading.kancher.moneytracker.rest.RestService;
 import com.agrotrading.kancher.moneytracker.rest.model.GoogleTokenStatusModel;
 import com.agrotrading.kancher.moneytracker.rest.model.GoogleTokenUserDataModel;
+import com.agrotrading.kancher.moneytracker.sync.TrackerSyncServices;
 import com.agrotrading.kancher.moneytracker.ui.activities.MainActivity_;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
@@ -81,7 +82,8 @@ public class GoogleAuthHelper {
     }
 
     private void doubleTokenEcx() {
-        Intent intent = AccountPicker.newChooseAccountIntent(null, null, new String[]{"com.google"}, false, null, null, null, null);
+        Intent intent = AccountPicker.newChooseAccountIntent(null, null,
+                new String[]{ConstantManager.GOOGLE_ACCOUNT_TYPE}, false, null, null, null, null);
         activity.startActivityForResult(intent, ConstantManager.GET_GOOGLE_TOKEN_REQUEST_CODE);
     }
 
@@ -91,7 +93,7 @@ public class GoogleAuthHelper {
         final String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
         final String accountType = data.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE);
         Account account = new Account(accountName, accountType);
-        Log.e("getGToken", "Account " + account);
+
         try {
             gToken = GoogleAuthUtil.getToken(context, account, ConstantManager.SCOPES);
             MoneyTrackerApplication.setGoogleToken(context, gToken);

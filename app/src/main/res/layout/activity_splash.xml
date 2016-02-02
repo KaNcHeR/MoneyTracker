@@ -27,7 +27,7 @@
 
     <Button
         android:id="@+id/retry_button"
-        style="@style/Button"
+        style="@style/UserRegistrationButton"
         android:layout_alignParentBottom="true"
         android:text="@string/retry"
         android:visibility="gone" />

@@ -2,8 +2,6 @@
     <string name="app_name">MoneyTracker</string>
     <string name="action_settings">Settings</string>
 
-    <string name="font_family_roboto">roboto medium</string>
-
     <string name="content_authority">com.agrotrading.kancher.moneytracker</string>
     <string name="sync_account_type">moneytracker.kancher.agrotrading.com</string>
 
@@ -24,21 +22,18 @@
 
     <string name="add_expense">Добавить трату</string>
     <string name="add_expense_sum">Сумма</string>
-    <string name="add_expense_sum_hint">1000</string>
     <string name="add_expense_comment">Примечание</string>
-    <string name="add_expense_comment_hint">Небольшой коментарий</string>
     <string name="add_expense_category">Категория</string>
-    <string name="add_expense_category_hint">напр. Электроника</string>
     <string name="add_expense_date">Дата</string>
-    <string name="add_expense_date_hint">напр. 21/03/15</string>
+    <string name="expense_date_format" translatable="false">%d.%s.%s</string>
 
     <string name="add_expense_grid_layout_column_count">2</string>
 
-    <string name="date_format" translatable="false">%d/%d/%d</string>
+    <string name="date_format">yyyy.MM.dd</string>
     <string name="add_button">Добавить</string>
     <string name="cancel_button">Отмена</string>
 
-    <string name="error_required_field">Заполнены не все поля</string>
+    <string name="error_required_field">Заполните поле</string>
 
 
     <string name="user_registration">Регистрация</string>

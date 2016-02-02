@@ -29,20 +29,20 @@
         android:layout_below="@+id/logo_layout">
 
         <EditText
-            style="@style/UserRegistrationEt"
+            style="@style/UserRegistrationEditText"
             android:id="@+id/et_login"
             android:hint="@string/user_registration_field_login_hint"
             android:layout_above="@+id/et_password" />
 
         <EditText
-            style="@style/UserRegistrationEt"
+            style="@style/UserRegistrationEditText"
             android:id="@+id/et_password"
             android:inputType="textPassword"
             android:hint="@string/user_registration_field_password_hint"
             android:layout_above="@+id/login_button" />
 
         <Button
-            style="@style/Button"
+            style="@style/UserRegistrationButton"
             android:id="@+id/login_button"
             android:text="@string/login"
             android:layout_marginTop="@dimen/button_margin_vertical"
@@ -55,7 +55,7 @@
             android:layout_below="@+id/login_button" />
 
         <TextView
-            style="@style/TVQuestionLoginRegistration"
+            style="@style/QuestionRegistrationTextView"
             android:id="@+id/tv_registration_button"
             android:text="@string/question_registration"
             android:layout_below="@+id/login_button" />

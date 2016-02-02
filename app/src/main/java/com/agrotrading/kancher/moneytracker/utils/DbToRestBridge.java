@@ -3,6 +3,7 @@ package com.agrotrading.kancher.moneytracker.utils;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
+import android.content.Intent;
 
 import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
 import com.agrotrading.kancher.moneytracker.database.Categories;
@@ -17,10 +18,12 @@ import com.agrotrading.kancher.moneytracker.rest.model.expense.ExpenseData;
 import com.agrotrading.kancher.moneytracker.rest.model.expense.UserExpensesModel;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.common.AccountPicker;
 import com.google.gson.Gson;
 
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.SupposeBackground;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.io.IOException;
@@ -52,6 +55,7 @@ public class DbToRestBridge {
         gToken = MoneyTrackerApplication.getGoogleToken(context);
     }
 
+    @Background
     public void initSync() {
 
         if (!gToken.equalsIgnoreCase(ConstantManager.DEFAULT_GOOGLE_TOKEN)) {
@@ -79,19 +83,23 @@ public class DbToRestBridge {
         startSync();
     }
 
-    private void startSync() {
+    @Background
+    void startSync() {
         startSyncCategories();
         startSyncExpenses();
     }
 
     @Background
     void getGToken() {
-
-        AccountManager accountManager = AccountManager.get(context);
+        Intent intent = AccountPicker.newChooseAccountIntent(null, null, new String[]{ConstantManager.GOOGLE_ACCOUNT_TYPE}, false, null, null, null, null);
+        String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+        String accountType = intent.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE);
+        Account account = new Account(accountName, accountType);
+        
+       /* AccountManager accountManager = AccountManager.get(context);
         Account[] accounts = accountManager.getAccountsByType("com.google");
         Account account = accounts[0];
-
-        if(account == null) return;
+        if(account == null) return;*/
 
         try {
             gToken = GoogleAuthUtil.getToken(context, account, ConstantManager.SCOPES);
@@ -138,7 +146,8 @@ public class DbToRestBridge {
         return data.toString();
     }
 
-    private void startSyncCategories() {
+    @SupposeBackground
+    void startSyncCategories() {
 
         List<Categories> categories = Categories.getAllCategoriesOrderById();
         String jsonRequest = getCategoriesDataJson(categories);
@@ -168,7 +177,8 @@ public class DbToRestBridge {
         }
     }
 
-    private void startSyncExpenses(){
+    @SupposeBackground
+    void startSyncExpenses(){
 
         List<Expenses> expenses = Expenses.getAllExpensesOrderById();
         String jsonRequest = getExpensesDataJson(expenses);
@@ -195,8 +205,6 @@ public class DbToRestBridge {
 
         } catch (UnauthorizedException e) {
             EventBus.getDefault().post(new MessageEvent(MessageEvent.MOVE_USER_TO_LOGIN));
-        } catch (GoogleAuthException e) {
-            e.printStackTrace();
         }
     }
 

@@ -65,7 +65,7 @@ public class RestService {
         return restClient.getUserExpenseApi().getAllExpenses(gToken, MoneyTrackerApplication.getAuthToken());
     }
 
-    public UserExpensesModel syncExpenses(String data, String gToken) throws UnauthorizedException, GoogleAuthException {
+    public UserExpensesModel syncExpenses(String data, String gToken) throws UnauthorizedException {
         return restClient.getUserExpenseApi().syncExpenses(data, gToken, MoneyTrackerApplication.getAuthToken());
     }
 

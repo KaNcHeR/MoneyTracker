@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.database.Expenses;
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         GoogleTokenUserDataModel accountData;
         setupToolbar();
         setupDrawer();
-        createCategories();
+        //createCategories();
 
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new ExpensesFragment_()).commit();
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         drawerHelper.fillDrawerHeader();
 
         TrackerSyncAdapter.initializeSyncAdapter(this);
+        MoneyTrackerApplication.setGoogleToken(this, "234234");
     }
 
     @OptionsItem(android.R.id.home)
