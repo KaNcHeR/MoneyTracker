@@ -19,7 +19,6 @@ import com.google.android.gms.common.AccountPicker;
 
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EBean;
-import org.androidannotations.annotations.SupposeBackground;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.io.IOException;
@@ -59,8 +58,6 @@ public class GoogleAuthHelper {
                     doubleTokenEcx();
                 } else {
                     editPrefs();
-                    MainActivity_.intent(context).start();
-                    activity.finish();
                 }
             }
 
@@ -71,7 +68,7 @@ public class GoogleAuthHelper {
         });
     }
 
-    @SupposeBackground
+    @Background
     void editPrefs() {
         GoogleTokenUserDataModel accountData = restService.getGoogleUserData(gToken);
         prefs.edit()
@@ -79,6 +76,8 @@ public class GoogleAuthHelper {
                 .googleAccountEmail().put(accountData.getEmail())
                 .googleAccountPictureSrc().put(accountData.getPicture())
                 .apply();
+        MainActivity_.intent(context).start();
+        activity.finish();
     }
 
     private void doubleTokenEcx() {
@@ -98,10 +97,7 @@ public class GoogleAuthHelper {
             gToken = GoogleAuthUtil.getToken(context, account, ConstantManager.SCOPES);
             MoneyTrackerApplication.setGoogleToken(context, gToken);
             Log.e(LOG_TAG, "GOOGLE_TOKEN " + MoneyTrackerApplication.getGoogleToken(context));
-
             editPrefs();
-            MainActivity_.intent(context).start();
-            activity.finish();
 
         } catch (UserRecoverableAuthException userAuthEx) {
             activity.startActivityForResult(userAuthEx.getIntent(), ConstantManager.GET_GOOGLE_TOKEN_REQUEST_CODE);

@@ -88,6 +88,7 @@ public class DbToRestBridge {
 
     @Background
     void getGToken() {
+
         Account account = new Account(prefs.googleAccountEmail().get(), ConstantManager.GOOGLE_ACCOUNT_TYPE);
 
         try {

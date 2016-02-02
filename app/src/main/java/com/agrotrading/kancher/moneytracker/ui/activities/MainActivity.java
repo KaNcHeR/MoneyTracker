@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         drawerHelper.fillDrawerHeader();
 
         TrackerSyncAdapter.initializeSyncAdapter(this);
-        MoneyTrackerApplication.setGoogleToken(this, "234234");
+        //MoneyTrackerApplication.setGoogleToken(this, "234234"); //имитация устаревания токена
     }
 
     @OptionsItem(android.R.id.home)

@@ -22,7 +22,6 @@ public class CategoriesAdapter extends RecyclerViewAdapterBase<Categories, Categ
         CategoryItemView view = holder.getView();
         Categories categories = items.get(position);
         view.bind(categories);
-        notifyDataSetChanged();
     }
 
     @Override
