@@ -11,7 +11,6 @@ import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
 import com.agrotrading.kancher.moneytracker.rest.RestService;
 import com.agrotrading.kancher.moneytracker.rest.model.GoogleTokenStatusModel;
 import com.agrotrading.kancher.moneytracker.rest.model.GoogleTokenUserDataModel;
-import com.agrotrading.kancher.moneytracker.sync.TrackerSyncServices;
 import com.agrotrading.kancher.moneytracker.ui.activities.MainActivity_;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
@@ -20,6 +19,7 @@ import com.google.android.gms.common.AccountPicker;
 
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.SupposeBackground;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.io.IOException;
@@ -71,7 +71,7 @@ public class GoogleAuthHelper {
         });
     }
 
-    @Background
+    @SupposeBackground
     void editPrefs() {
         GoogleTokenUserDataModel accountData = restService.getGoogleUserData(gToken);
         prefs.edit()

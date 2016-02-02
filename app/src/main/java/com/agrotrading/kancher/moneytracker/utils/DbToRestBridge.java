@@ -1,9 +1,7 @@
 package com.agrotrading.kancher.moneytracker.utils;
 
 import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Context;
-import android.content.Intent;
 
 import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
 import com.agrotrading.kancher.moneytracker.database.Categories;
@@ -18,7 +16,6 @@ import com.agrotrading.kancher.moneytracker.rest.model.expense.ExpenseData;
 import com.agrotrading.kancher.moneytracker.rest.model.expense.UserExpensesModel;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
-import com.google.android.gms.common.AccountPicker;
 import com.google.gson.Gson;
 
 import org.androidannotations.annotations.Background;
@@ -91,15 +88,7 @@ public class DbToRestBridge {
 
     @Background
     void getGToken() {
-        Intent intent = AccountPicker.newChooseAccountIntent(null, null, new String[]{ConstantManager.GOOGLE_ACCOUNT_TYPE}, false, null, null, null, null);
-        String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-        String accountType = intent.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE);
-        Account account = new Account(accountName, accountType);
-        
-       /* AccountManager accountManager = AccountManager.get(context);
-        Account[] accounts = accountManager.getAccountsByType("com.google");
-        Account account = accounts[0];
-        if(account == null) return;*/
+        Account account = new Account(prefs.googleAccountEmail().get(), ConstantManager.GOOGLE_ACCOUNT_TYPE);
 
         try {
             gToken = GoogleAuthUtil.getToken(context, account, ConstantManager.SCOPES);
