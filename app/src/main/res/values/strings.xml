@@ -55,6 +55,7 @@
     <string name="question_login">Уже зарегистрированы? Нажимайте сюда.</string>
     <string name="retry">Повторить</string>
     <string name="mini_logo">miniLogo</string>
+    <string name="contextual_action_bar_title">Delete</string>
 
 
 </resources>

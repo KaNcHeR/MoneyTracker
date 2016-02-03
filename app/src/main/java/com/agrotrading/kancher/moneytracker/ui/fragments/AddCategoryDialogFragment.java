@@ -18,6 +18,12 @@ import org.androidannotations.annotations.ViewById;
 @EFragment(R.layout.dialog_window)
 public class AddCategoryDialogFragment extends DialogFragment {
 
+    AddingCategoryListener addingCategoryListener;
+
+    public void initListener(AddingCategoryListener addingCategoryListener) {
+        this.addingCategoryListener = addingCategoryListener;
+    }
+
     @ViewById(R.id.til_category)
     TextInputLayout categoryFiledLayout;
 
@@ -45,6 +51,11 @@ public class AddCategoryDialogFragment extends DialogFragment {
 
         Categories category = new Categories(categoryField.getText().toString());
         category.save();
+
+        if(addingCategoryListener != null) {
+            addingCategoryListener.onCategoryAdded(category);
+        }
+
         dismiss();
 
     }
@@ -52,5 +63,9 @@ public class AddCategoryDialogFragment extends DialogFragment {
     @Click(R.id.cancel_button)
     void closeDialog() {
         dismiss();
+    }
+
+    public interface AddingCategoryListener {
+        void onCategoryAdded(Categories category);
     }
 }

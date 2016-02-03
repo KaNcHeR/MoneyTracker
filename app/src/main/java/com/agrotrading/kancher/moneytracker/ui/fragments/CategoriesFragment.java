@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -31,7 +33,7 @@ import java.util.List;
 
 @EFragment(R.layout.categories_fragment)
 @OptionsMenu(R.menu.search_menu)
-public class CategoriesFragment extends Fragment {
+public class CategoriesFragment extends Fragment{
 
     @ViewById(R.id.context_recyclerview)
     RecyclerView categoriesRecyclerView;
@@ -41,6 +43,9 @@ public class CategoriesFragment extends Fragment {
 
     @Bean
     CategoriesAdapter categoriesAdapter;
+
+    private ActionModeCallback actionModeCallback = new ActionModeCallback();
+    private ActionMode actionMode;
 
     @AfterViews
     void ready() {
@@ -53,6 +58,12 @@ public class CategoriesFragment extends Fragment {
     @Click(R.id.fab)
     void startAddExpenseActivity(){
         AddCategoryDialogFragment_ addCategoryDialogFragment = new AddCategoryDialogFragment_();
+        addCategoryDialogFragment.initListener(new AddCategoryDialogFragment.AddingCategoryListener() {
+            @Override
+            public void onCategoryAdded(Categories category) {
+                categoriesAdapter.insertItemNameAsc(category);
+            }
+        });
         addCategoryDialogFragment.show(getFragmentManager(), "addCategoryDialogFragment");
     }
 
@@ -106,12 +117,19 @@ public class CategoriesFragment extends Fragment {
                 categoriesAdapter.init(data, new ViewWrapper.ClickListener() {
                     @Override
                     public void onItemClicked(int position) {
-
+                        if (actionMode != null) {
+                            toggleSelection(position);
+                        }
                     }
 
                     @Override
                     public boolean onItemLongClicked(int position) {
-                        return false;
+                        if (actionMode == null) {
+                            AppCompatActivity activity = (AppCompatActivity) getActivity();
+                            actionMode = activity.startSupportActionMode(actionModeCallback);
+                        }
+                        toggleSelection(position);
+                        return true;
                     }
                 });
                 categoriesRecyclerView.setAdapter(categoriesAdapter);
@@ -122,6 +140,49 @@ public class CategoriesFragment extends Fragment {
 
             }
         });
+    }
+
+    private void toggleSelection(int position) {
+        categoriesAdapter.toggleSelection(position);
+        int count = categoriesAdapter.getSelectedItemCount();
+        if(count == 0) {
+            actionMode.finish();
+        } else {
+            actionMode.setTitle(String.valueOf(count));
+            actionMode.invalidate();
+        }
+    }
+
+    private class ActionModeCallback implements ActionMode.Callback {
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.contextual_action_bar, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.menu_remove:
+                    categoriesAdapter.removeItems(categoriesAdapter.getSelectedItems());
+                    mode.finish();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            categoriesAdapter.clearSelection();
+            actionMode = null;
+        }
     }
 
 }

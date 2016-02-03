@@ -1,6 +1,7 @@
 package com.agrotrading.kancher.moneytracker.views;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,11 +17,15 @@ public class CategoryItemView extends RelativeLayout {
     @ViewById(R.id.name_text)
     TextView nameText;
 
+    @ViewById(R.id.selected_overlay)
+    View selectedOverlay;
+
     public CategoryItemView(Context context) {
         super(context);
     }
 
-    public void bind(Categories categories) {
+    public void bind(Categories categories, boolean selected) {
         nameText.setText(categories.toString());
+        selectedOverlay.setVisibility(selected ? VISIBLE : INVISIBLE);
     }
 }

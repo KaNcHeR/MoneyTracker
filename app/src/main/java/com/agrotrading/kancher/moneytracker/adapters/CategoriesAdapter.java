@@ -11,6 +11,9 @@ import com.agrotrading.kancher.moneytracker.ViewWrapper;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 @EBean
 public class CategoriesAdapter extends RecyclerViewAdapterBase<Categories, CategoryItemView> {
 
@@ -21,7 +24,7 @@ public class CategoriesAdapter extends RecyclerViewAdapterBase<Categories, Categ
     public void onBindViewHolder(ViewWrapper<CategoryItemView> holder, int position) {
         CategoryItemView view = holder.getView();
         Categories categories = items.get(position);
-        view.bind(categories);
+        view.bind(categories, isSelected(position));
     }
 
     @Override
@@ -29,4 +32,17 @@ public class CategoriesAdapter extends RecyclerViewAdapterBase<Categories, Categ
         return CategoryItemView_.build(parent.getContext());
     }
 
+    public void insertItemNameAsc(Categories category) {
+
+        items.add(0, category);
+
+        Collections.sort(items, new Comparator<Categories>() {
+            @Override
+            public int compare(Categories lhs, Categories rhs) {
+                return lhs.toString().compareTo(rhs.toString());
+            }
+        });
+
+        notifyItemInserted(items.indexOf(category));
+    }
 }

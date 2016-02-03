@@ -53,11 +53,11 @@ public abstract class RecyclerViewAdapterBase<T extends Model, V extends View> e
             }
         });
 
-        for (int i = 0; i < positions.size(); i++) {
-            removeItemWithNotify(positions.get(i));
+        while (!positions.isEmpty()) {
+            removeItemWithNotify(positions.get(0));
+            positions.remove(0);
         }
 
-        positions.clear();
     }
 
 }
