@@ -20,13 +20,12 @@ public class ExpensesAdapter extends RecyclerViewAdapterBase<Expenses, ExpenseIt
     @Override
     public void onBindViewHolder(ViewWrapper<ExpenseItemView> holder, int position) {
         ExpenseItemView view = holder.getView();
-        Expenses expenses = items.get(position);
-        view.bind(expenses);
+        Expenses expense = items.get(position);
+        view.bind(expense, isSelected(position));
     }
 
     @Override
     protected ExpenseItemView onCreateItemView(ViewGroup parent, int viewType) {
         return ExpenseItemView_.build(parent.getContext());
     }
-
 }

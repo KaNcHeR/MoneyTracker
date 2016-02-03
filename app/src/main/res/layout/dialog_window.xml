@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="@dimen/activity_vertical_margin">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/til_category"
+        style="@style/AddExpenseTextInputLayout"
+        android:hint="@string/add_category_field_title">
+
+        <EditText
+            android:id="@+id/category_field"
+            style="@style/AddExpenseEditText" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/cancel_button"
+        style="@style/AddExpenseButtons"
+        android:layout_below="@+id/til_category"
+        android:layout_toLeftOf="@+id/add_button"
+        android:layout_toStartOf="@+id/add_button"
+        android:text="@string/cancel_button" />
+
+    <Button
+        android:id="@+id/add_button"
+        style="@style/AddExpenseButtons"
+        android:layout_below="@+id/til_category"
+        android:layout_alignEnd="@+id/til_category"
+        android:layout_alignRight="@+id/til_category"
+        android:text="@string/add_button" />
+</RelativeLayout>

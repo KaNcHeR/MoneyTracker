@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.SearchView;
 
 import com.agrotrading.kancher.moneytracker.R;
+import com.agrotrading.kancher.moneytracker.ViewWrapper;
 import com.agrotrading.kancher.moneytracker.adapters.CategoriesAdapter;
 import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
@@ -19,6 +20,7 @@ import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.OptionsMenuItem;
@@ -46,6 +48,12 @@ public class CategoriesFragment extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         categoriesRecyclerView.setLayoutManager(linearLayoutManager);
         getActivity().setTitle(getString(R.string.nav_drawer_categories));
+    }
+
+    @Click(R.id.fab)
+    void startAddExpenseActivity(){
+        AddCategoryDialogFragment_ addCategoryDialogFragment = new AddCategoryDialogFragment_();
+        addCategoryDialogFragment.show(getFragmentManager(), "addCategoryDialogFragment");
     }
 
     @Override
@@ -95,7 +103,18 @@ public class CategoriesFragment extends Fragment {
 
             @Override
             public void onLoadFinished(Loader<List<Categories>> loader, List<Categories> data) {
-                categoriesRecyclerView.setAdapter(new CategoriesAdapter().setItems(data));
+                categoriesAdapter.init(data, new ViewWrapper.ClickListener() {
+                    @Override
+                    public void onItemClicked(int position) {
+
+                    }
+
+                    @Override
+                    public boolean onItemLongClicked(int position) {
+                        return false;
+                    }
+                });
+                categoriesRecyclerView.setAdapter(categoriesAdapter);
             }
 
             @Override
