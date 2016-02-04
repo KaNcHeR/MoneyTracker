@@ -12,7 +12,6 @@ import com.agrotrading.kancher.moneytracker.rest.RestService;
 import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
 import com.agrotrading.kancher.moneytracker.utils.GoogleAuthHelper;
 import com.agrotrading.kancher.moneytracker.utils.NetworkStatusChecker;
-import com.google.android.gms.auth.GoogleAuthException;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;

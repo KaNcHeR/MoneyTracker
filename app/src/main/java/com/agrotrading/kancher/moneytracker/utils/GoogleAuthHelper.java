@@ -58,8 +58,6 @@ public class GoogleAuthHelper {
                     doubleTokenEcx();
                 } else {
                     editPrefs();
-                    MainActivity_.intent(context).start();
-                    activity.finish();
                 }
             }
 
@@ -78,10 +76,13 @@ public class GoogleAuthHelper {
                 .googleAccountEmail().put(accountData.getEmail())
                 .googleAccountPictureSrc().put(accountData.getPicture())
                 .apply();
+        MainActivity_.intent(context).start();
+        activity.finish();
     }
 
     private void doubleTokenEcx() {
-        Intent intent = AccountPicker.newChooseAccountIntent(null, null, new String[]{"com.google"}, false, null, null, null, null);
+        Intent intent = AccountPicker.newChooseAccountIntent(null, null,
+                new String[]{ConstantManager.GOOGLE_ACCOUNT_TYPE}, false, null, null, null, null);
         activity.startActivityForResult(intent, ConstantManager.GET_GOOGLE_TOKEN_REQUEST_CODE);
     }
 
@@ -91,15 +92,12 @@ public class GoogleAuthHelper {
         final String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
         final String accountType = data.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE);
         Account account = new Account(accountName, accountType);
-        Log.e("getGToken", "Account " + account);
+
         try {
             gToken = GoogleAuthUtil.getToken(context, account, ConstantManager.SCOPES);
             MoneyTrackerApplication.setGoogleToken(context, gToken);
             Log.e(LOG_TAG, "GOOGLE_TOKEN " + MoneyTrackerApplication.getGoogleToken(context));
-
             editPrefs();
-            MainActivity_.intent(context).start();
-            activity.finish();
 
         } catch (UserRecoverableAuthException userAuthEx) {
             activity.startActivityForResult(userAuthEx.getIntent(), ConstantManager.GET_GOOGLE_TOKEN_REQUEST_CODE);

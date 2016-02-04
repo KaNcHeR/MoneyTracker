@@ -11,28 +11,32 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
-import com.activeandroid.query.Select;
 import com.agrotrading.kancher.moneytracker.database.Expenses;
-import com.agrotrading.kancher.moneytracker.rest.RestService;
-import com.agrotrading.kancher.moneytracker.rest.model.UserRegistrationModel;
 import com.agrotrading.kancher.moneytracker.ui.activities.AddExpenseActivity_;
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.adapters.ExpensesAdapter;
+import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.OptionsMenu;
+import org.androidannotations.annotations.OptionsMenuItem;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.api.BackgroundExecutor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @EFragment
+@OptionsMenu(R.menu.search_menu)
 public class ExpensesFragment extends Fragment {
 
     public static final String LOG_TAG = ExpensesFragment.class.getSimpleName();
@@ -42,6 +46,9 @@ public class ExpensesFragment extends Fragment {
 
     @ViewById(R.id.fab)
     FloatingActionButton floatingActionButton;
+
+    @OptionsMenuItem(R.id.search_action)
+    MenuItem menuItem;
 
     @Click(R.id.fab)
     void startAddExpenseActivity(){
@@ -69,17 +76,44 @@ public class ExpensesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        loadData();
+        loadData("");
     }
 
-    private void loadData(){
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setQueryHint(getString(R.string.search_title));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.d(LOG_TAG, "Full query: " + query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d(LOG_TAG, "Current text: " + newText);
+                BackgroundExecutor.cancelAll(ConstantManager.FILTER_ID, true);
+                delayedQuery(newText);
+                return false;
+            }
+        });
+    }
+
+    @Background(delay = ConstantManager.FILTER_DELAY, id = ConstantManager.FILTER_ID)
+    public void delayedQuery(String filter) {
+        loadData(filter);
+    }
+
+    private void loadData(final String filter){
         getLoaderManager().restartLoader(0, null, new LoaderManager.LoaderCallbacks<List<Expenses>>() {
             @Override
             public Loader<List<Expenses>> onCreateLoader(int id, Bundle args) {
                 final AsyncTaskLoader<List<Expenses>> loader = new AsyncTaskLoader<List<Expenses>>(getActivity()) {
                     @Override
                     public List<Expenses> loadInBackground() {
-                        return Expenses.getAllExpenses();
+                        return Expenses.getAllExpenses(filter);
                     }
                 };
                 loader.forceLoad();

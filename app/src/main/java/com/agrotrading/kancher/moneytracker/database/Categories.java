@@ -37,9 +37,10 @@ public class Categories extends Model {
         return name;
     }
 
-    public static List<Categories> getAllCategories() {
+    public static List<Categories> getAllCategories(String filter) {
         return new Select()
                 .from(Categories.class)
+                .where("Name LIKE ?", new String[]{'%' + filter + '%'})
                 .orderBy("Name ASC")
                 .execute();
     }

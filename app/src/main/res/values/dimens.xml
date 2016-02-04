@@ -1,5 +1,5 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
+
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
@@ -36,16 +36,30 @@
     <dimen name="edit_text_padding_horizontal">6dp</dimen>
     <dimen name="edit_text_margin_vertical">6dp</dimen>
 
+    <dimen name="button_text_size">16sp</dimen>
     <dimen name="button_margin_vertical">24dp</dimen>
+    <dimen name="buttons_min_width">64dp</dimen>
+    <dimen name="buttons_layout_height">36dp</dimen>
+    <dimen name="buttons_padding">8dp</dimen>
 
     <dimen name="mini_logo_width">170dp</dimen>
-
-    <dimen name="button_text_size">16sp</dimen>
 
     <dimen name="question_login_registration_margin_top">48dp</dimen>
     <dimen name="question_text_size">14sp</dimen>
 
     <dimen name="error_network_text_size">18sp</dimen>
+
+    <dimen name="edit_text_size">16sp</dimen>
+
+    <dimen name="spinner_inside_padding_horizontal">24dp</dimen>
+    <dimen name="spinner_inside_padding_vertical">16dp</dimen>
+
+    <dimen name="text_input_layout_margin_bottom">8dp</dimen>
+    <dimen name="text_input_layout_margin_top">16dp</dimen>
+    <dimen name="text_input_layout_layout_height_width_error">76dp</dimen>
+
+    <dimen name="spinner_layout_margin_bottom">8dp</dimen>
+    <dimen name="spinner_layout_margin_top">24dp</dimen>
 
 
 </resources>
