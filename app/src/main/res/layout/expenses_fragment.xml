@@ -4,10 +4,17 @@
     android:id="@+id/main_content"
     style="@style/Container.MainBackground">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/context_recyclerview"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/context_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -15,8 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_layout_margin"
         android:src="@mipmap/ic_add_white_24dp"
-        app:layout_anchor="@+id/context_recyclerview"
+        app:layout_anchor="@+id/swipe_refresh"
         app:layout_anchorGravity="bottom|right|end"
-        app:layout_behavior=".utils.ScrollFABBehavior"/>
+        app:layout_behavior=".utils.ScrollFABBehavior" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -1,7 +1,7 @@
 package com.agrotrading.kancher.moneytracker.views;
 
 import android.content.Context;
-import android.util.Log;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -14,6 +14,9 @@ import org.androidannotations.annotations.ViewById;
 
 @EViewGroup(R.layout.list_item)
 public class ExpenseItemView extends RelativeLayout {
+
+    @ViewById(R.id.card_view)
+    CardView cardView;
 
     @ViewById(R.id.name_text)
     TextView nameText;
@@ -36,5 +39,9 @@ public class ExpenseItemView extends RelativeLayout {
         sumText.setText(String.valueOf(expense.getPrice()));
         dateText.setText(expense.getDate());
         selectedOverlay.setVisibility(selected ? VISIBLE : INVISIBLE);
+    }
+
+    public CardView getCardView() {
+        return cardView;
     }
 }

@@ -6,13 +6,14 @@ import android.view.ViewGroup;
 import com.activeandroid.Model;
 import com.agrotrading.kancher.moneytracker.ViewWrapper;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 public abstract class RecyclerViewAdapterBase<T extends Model, V extends View> extends SelectableAdapter<ViewWrapper<V>> {
 
-    protected List<T> items;
+    protected List<T> items = new ArrayList<>();
     protected ViewWrapper.ClickListener clickListener;
 
     @Override
