@@ -4,11 +4,9 @@ android:orientation="vertical"
 android:layout_width="match_parent"
 android:layout_height="match_parent">
 
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_vertical|center_horizontal"
-    android:textSize="@dimen/list_item_text_size"
-    android:text="@string/statistics_fragment_description"/>
+<com.agrotrading.kancher.moneytracker.ui.PieChartView
+    android:id="@+id/pie_chart"
+    android:layout_width="300dp"
+    android:layout_height="300dp" />
 
 </LinearLayout>
