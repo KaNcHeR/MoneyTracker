@@ -85,8 +85,13 @@ public class ExpensesFragment extends Fragment {
 
         Snackbar.make(coordinatorLayout, getString(R.string.nav_drawer_expenses), Snackbar.LENGTH_SHORT).show();
 
-        expensesRecyclerView.setAdapter(expensesAdapter);
+        loadData("");
 
+        initSwipeToRefresh();
+        initTouchHelper();
+    }
+
+    private void initSwipeToRefresh() {
         swipeRefreshLayout.setColorSchemeColors(R.color.swipe_refresh_layout_scheme_color_1,
                 R.color.swipe_refresh_layout_scheme_color_2,
                 R.color.swipe_refresh_layout_scheme_color_3);
@@ -97,7 +102,9 @@ public class ExpensesFragment extends Fragment {
                 loadData("");
             }
         });
+    }
 
+    private void initTouchHelper() {
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -112,7 +119,6 @@ public class ExpensesFragment extends Fragment {
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(expensesRecyclerView);
-
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,6 +35,9 @@ import java.util.List;
 @EFragment(R.layout.categories_fragment)
 @OptionsMenu(R.menu.search_menu)
 public class CategoriesFragment extends Fragment{
+
+    @ViewById(R.id.swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @ViewById(R.id.context_recyclerview)
     RecyclerView categoriesRecyclerView;
@@ -71,6 +75,20 @@ public class CategoriesFragment extends Fragment{
     public void onResume() {
         super.onResume();
         loadData("");
+        initSwipeToRefresh();
+    }
+
+    private void initSwipeToRefresh() {
+        swipeRefreshLayout.setColorSchemeColors(R.color.swipe_refresh_layout_scheme_color_1,
+                R.color.swipe_refresh_layout_scheme_color_2,
+                R.color.swipe_refresh_layout_scheme_color_3);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData("");
+            }
+        });
     }
 
     @Override
@@ -114,6 +132,7 @@ public class CategoriesFragment extends Fragment{
 
             @Override
             public void onLoadFinished(Loader<List<Categories>> loader, List<Categories> data) {
+                swipeRefreshLayout.setRefreshing(false);
                 categoriesAdapter.init(data, new ViewWrapper.ClickListener() {
                     @Override
                     public void onItemClicked(int position) {
