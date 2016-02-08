@@ -131,29 +131,29 @@ public class MainActivity extends AppCompatActivity {
         Categories category = new Categories("Electronics");
         category.save();
         new Expenses(100.0, "TV1", "24/01/2016", category).save();
-        new Expenses(100.0, "TV2", "24/01/2016", category).save();
-        new Expenses(100.0, "TV3", "24/01/2016", category).save();
-        new Expenses(100.0, "TV4", "24/01/2016", category).save();
+        new Expenses(200.0, "TV2", "24/01/2016", category).save();
+        new Expenses(300.0, "TV3", "24/01/2016", category).save();
+        new Expenses(400.0, "TV4", "24/01/2016", category).save();
 
         category = new Categories("Fun");
         category.save();
         new Expenses(100.0, "Rubber duck1", "24/01/2016", category).save();
         new Expenses(100.0, "Rubber duck2", "24/01/2016", category).save();
-        new Expenses(100.0, "Rubber duck3", "24/01/2016", category).save();
+        new Expenses(200.0, "Rubber duck3", "24/01/2016", category).save();
         new Expenses(100.0, "Rubber duck4", "24/01/2016", category).save();
 
         category = new Categories("Food");
         category.save();
         new Expenses(100.0, "Hamburger1", "24/01/2016", category).save();
         new Expenses(100.0, "Hamburger2", "24/01/2016", category).save();
-        new Expenses(100.0, "Hamburger3", "24/01/2016", category).save();
+        new Expenses(300.0, "Hamburger3", "24/01/2016", category).save();
         new Expenses(100.0, "Hamburger4", "24/01/2016", category).save();
 
         category = new Categories("Telephone");
         category.save();
         new Expenses(100.0, "Samsung Galaxy S61", "24/01/2016", category).save();
         new Expenses(100.0, "Samsung Galaxy S62", "24/01/2016", category).save();
-        new Expenses(100.0, "Samsung Galaxy S63", "24/01/2016", category).save();
+        new Expenses(1000.0, "Samsung Galaxy S63", "24/01/2016", category).save();
         new Expenses(100.0, "Samsung Galaxy S64", "24/01/2016", category).save();
 
         prefs.needSyncCategories().put(true);

@@ -1,22 +1,16 @@
 package com.agrotrading.kancher.moneytracker.utils;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.ui.activities.MainActivity;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
-import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EBean;
-import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.sharedpreferences.Pref;
-
-import java.io.IOException;
-import java.net.URL;
 
 @EBean
 public class DrawerHelper {
@@ -47,26 +41,10 @@ public class DrawerHelper {
             TextView emailTextView = (TextView) headerView.findViewById(R.id.email);
             nameTextView.setText(prefs.googleAccountName().get());
             emailTextView.setText(prefs.googleAccountEmail().get());
-            pictureImageView = (ImageView) headerView.findViewById(R.id.avatar);
 
-            getGooglePlusAccountPicture();
+            ImageView pictureImageView = (ImageView) headerView.findViewById(R.id.avatar);
+            ImageLoader.getInstance().displayImage(prefs.googleAccountPictureSrc().get(), pictureImageView);
         }
     }
 
-    @Background
-    void getGooglePlusAccountPicture() {
-
-        try {
-            URL pictureURL = new URL(prefs.googleAccountPictureSrc().get());
-            Bitmap bitmap = BitmapFactory.decodeStream(pictureURL.openConnection().getInputStream());
-            setGooglePlusAccountPicture(bitmap);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @UiThread
-    void setGooglePlusAccountPicture(Bitmap bitmap) {
-        pictureImageView.setImageBitmap(bitmap);
-    }
 }

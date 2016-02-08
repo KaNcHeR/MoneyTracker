@@ -32,6 +32,8 @@
     <string name="add_expense_grid_layout_column_count">2</string>
 
     <string name="date_format">yyyy.MM.dd</string>
+    <string name="date_format_string" translatable="false">%s.%s.%s</string>
+
     <string name="add_button">Добавить</string>
     <string name="cancel_button">Отмена</string>
 
@@ -56,6 +58,9 @@
     <string name="retry">Повторить</string>
     <string name="mini_logo">miniLogo</string>
     <string name="contextual_action_bar_title">Delete</string>
+
+    <string name="default_text_hole">Общие затраты:\n</string>
+    <string name="help_text_statistics">Для доп. информации нажмите на секцию</string>
 
 
 </resources>

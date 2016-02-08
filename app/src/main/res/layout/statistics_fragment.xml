@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:orientation="vertical"
 android:layout_width="match_parent"
 android:layout_height="match_parent">
 
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_vertical|center_horizontal"
-    android:textSize="@dimen/list_item_text_size"
-    android:text="@string/statistics_fragment_description"/>
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/help_text"/>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/help_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/help_text_statistics"
+        android:textColor="@color/default_hint_color"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:paddingTop="@dimen/help_text_statistics_fragment_padding_vertical"
+        android:paddingBottom="@dimen/help_text_statistics_fragment_padding_vertical"
+        android:paddingLeft="@dimen/help_text_statistics_fragment_padding_horizontal"
+        android:paddingRight="@dimen/help_text_statistics_fragment_padding_horizontal"
+ />
+
+</RelativeLayout>

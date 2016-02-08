@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:paddingLeft="@dimen/user_registration_fields_padding"
+    android:paddingRight="@dimen/user_registration_fields_padding"
+    android:gravity="center_vertical">
+
+    <EditText
+        android:id="@+id/et_login"
+        style="@style/UserRegistrationEditText"
+        android:layout_above="@+id/et_password"
+        android:hint="@string/user_registration_field_login_hint" />
+
+    <EditText
+        android:id="@+id/et_password"
+        style="@style/UserRegistrationEditText"
+        android:layout_above="@+id/registration_button"
+        android:hint="@string/user_registration_field_password_hint"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/registration_button"
+        style="@style/UserRegistrationButton"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/button_margin_vertical"
+        android:text="@string/user_registration_button_registration" />
+
+    <TextView
+        android:id="@+id/tv_login_button"
+        style="@style/QuestionRegistrationTextView"
+        android:layout_below="@+id/registration_button"
+        android:text="@string/question_login" />
+
+
+</RelativeLayout>
