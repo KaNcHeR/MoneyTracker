@@ -92,7 +92,7 @@ public class AddExpenseActivity extends AppCompatActivity {
                 monthOfYear++;
                 String month = (monthOfYear < 10 ? "0" : "") + monthOfYear;
                 String day = (dayOfMonth < 10 ? "0" : "") + dayOfMonth;
-                String dateWithFormat = getString(R.string.date_format, year, month, day);
+                String dateWithFormat = getString(R.string.date_format_string, year, month, day);
                 expenseDate.setText(dateWithFormat);
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
