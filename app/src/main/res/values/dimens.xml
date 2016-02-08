@@ -44,7 +44,7 @@
 
     <dimen name="mini_logo_width">170dp</dimen>
 
-    <dimen name="question_login_registration_margin_top">48dp</dimen>
+    <dimen name="question_login_registration_margin_top">24dp</dimen>
     <dimen name="question_text_size">14sp</dimen>
 
     <dimen name="error_network_text_size">18sp</dimen>

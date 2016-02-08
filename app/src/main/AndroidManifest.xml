@@ -33,8 +33,7 @@
         </activity>
 
         <activity
-            android:name=".ui.activities.UserLoginActivity_"
-            android:screenOrientation="portrait">
+            android:name=".ui.activities.UserLoginActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.LOGIN" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -43,8 +42,7 @@
         </activity>
 
         <activity
-            android:name=".ui.activities.UserRegistrationActivity_"
-            android:screenOrientation="portrait">
+            android:name=".ui.activities.UserRegistrationActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.REGISTRATION" />
                 <category android:name="android.intent.category.DEFAULT" />

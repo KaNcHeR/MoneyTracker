@@ -2,31 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/user_registration_fields_padding"
-        android:paddingRight="@dimen/user_registration_fields_padding"
-        android:id="@+id/logo_layout">
-
-        <ImageView
-            android:layout_width="@dimen/mini_logo_width"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:focusable="false"
-            android:src="@mipmap/logo"
-            android:contentDescription="@string/mini_logo" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="@dimen/user_registration_fields_padding"
-        android:paddingRight="@dimen/user_registration_fields_padding"
-        android:layout_below="@+id/logo_layout">
+    android:background="@color/colorPrimary"
+    android:paddingLeft="@dimen/user_registration_fields_padding"
+    android:paddingRight="@dimen/user_registration_fields_padding"
+    android:gravity="center_vertical">
 
         <EditText
             style="@style/UserRegistrationEditText"
@@ -59,7 +38,5 @@
             android:id="@+id/tv_registration_button"
             android:text="@string/question_registration"
             android:layout_below="@+id/sign_in_button" />
-
-    </RelativeLayout>
 
 </RelativeLayout>
