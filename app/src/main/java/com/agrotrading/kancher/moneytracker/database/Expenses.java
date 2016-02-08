@@ -1,5 +1,7 @@
 package com.agrotrading.kancher.moneytracker.database;
 
+import android.database.Cursor;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;

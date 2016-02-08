@@ -31,5 +31,7 @@
     <color name="swipe_refresh_layout_scheme_color_2">#226640</color>
     <color name="swipe_refresh_layout_scheme_color_3">#8F6330</color>
 
+    <color name="bg_pie_hole">#DFE5E8</color>
+
 
 </resources>

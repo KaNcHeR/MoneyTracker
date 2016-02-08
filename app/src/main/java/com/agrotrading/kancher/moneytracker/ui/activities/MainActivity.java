@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         GoogleTokenUserDataModel accountData;
         setupToolbar();
         setupDrawer();
-        createCategories();
+        //createCategories();
 
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new ExpensesFragment_()).commit();

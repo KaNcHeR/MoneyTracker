@@ -57,5 +57,8 @@
     <string name="mini_logo">miniLogo</string>
     <string name="contextual_action_bar_title">Delete</string>
 
+    <string name="default_text_hole">Общие затраты:\n</string>
+    <string name="help_text_statistics">Для доп. информации нажмите на секцию</string>
+
 
 </resources>

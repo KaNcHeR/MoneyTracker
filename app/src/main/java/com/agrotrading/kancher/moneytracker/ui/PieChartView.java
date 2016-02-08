@@ -8,6 +8,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
+
 import java.util.Random;
 
 public class PieChartView extends View {
@@ -21,6 +22,7 @@ public class PieChartView extends View {
         slicePaint.setAntiAlias(true);
         slicePaint.setDither(true);
         slicePaint.setStyle(Paint.Style.FILL);
+        //pieChart = new PieChart()
     }
 
     @Override
