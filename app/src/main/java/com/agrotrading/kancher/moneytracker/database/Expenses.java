@@ -14,15 +14,15 @@ public class Expenses extends Model {
     private long sId = 0;
 
     @Column(name = "price")
-    public Double price;
+    private Double price;
 
     @Column(name = "name")
-    public String name;
+    private String name;
 
     @Column(name = "date")
-    public String date;
+    private String date;
 
-    @Column(name = "category")
+    @Column(name = "category", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
     public Categories category;
 
     public Expenses() {

@@ -24,6 +24,8 @@
     <string name="add_expense_sum">Сумма</string>
     <string name="add_expense_comment">Примечание</string>
     <string name="add_expense_category">Категория</string>
+    <string name="add_category_field_title">Название категории</string>
+    <string name="add_category_title">Добавить категорию</string>
     <string name="add_expense_date">Дата</string>
     <string name="expense_date_format" translatable="false">%d.%s.%s</string>
 
@@ -53,6 +55,7 @@
     <string name="question_login">Уже зарегистрированы? Нажимайте сюда.</string>
     <string name="retry">Повторить</string>
     <string name="mini_logo">miniLogo</string>
+    <string name="contextual_action_bar_title">Delete</string>
 
 
 </resources>

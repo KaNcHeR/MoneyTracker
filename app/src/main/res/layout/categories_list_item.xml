@@ -2,14 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/field_item"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/activity_vertical_margin">
+    android:layout_height="48dp">
 
     <TextView
         android:id="@+id/name_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/list_item_name"
-        android:textSize="@dimen/list_item_text_size"/>
+        android:textSize="@dimen/edit_text_size"
+        android:paddingLeft="@dimen/list_padding_left_right"
+        android:paddingRight="@dimen/list_padding_left_right"
+        android:layout_centerVertical="true" />
+
+    <View
+        android:id="@+id/selected_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/selected_item_color"
+        android:visibility="visible" />
 
 </RelativeLayout>

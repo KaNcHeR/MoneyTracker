@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.database.Expenses;
@@ -26,7 +25,6 @@ import com.agrotrading.kancher.moneytracker.utils.ApplicationPreferences_;
 import com.agrotrading.kancher.moneytracker.utils.DrawerHelper;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.InstanceState;
@@ -123,24 +121,35 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Background
     void createCategories() {
 
         Categories category = new Categories("Electronics");
         category.save();
-        new Expenses(100.0, "TV", "24/01/2016", category).save();
+        new Expenses(100.0, "TV1", "24/01/2016", category).save();
+        new Expenses(100.0, "TV2", "24/01/2016", category).save();
+        new Expenses(100.0, "TV3", "24/01/2016", category).save();
+        new Expenses(100.0, "TV4", "24/01/2016", category).save();
 
         category = new Categories("Fun");
         category.save();
-        new Expenses(100.0, "Rubber duck", "24/01/2016", category).save();
+        new Expenses(100.0, "Rubber duck1", "24/01/2016", category).save();
+        new Expenses(100.0, "Rubber duck2", "24/01/2016", category).save();
+        new Expenses(100.0, "Rubber duck3", "24/01/2016", category).save();
+        new Expenses(100.0, "Rubber duck4", "24/01/2016", category).save();
 
         category = new Categories("Food");
         category.save();
-        new Expenses(100.0, "Hamburger", "24/01/2016", category).save();
+        new Expenses(100.0, "Hamburger1", "24/01/2016", category).save();
+        new Expenses(100.0, "Hamburger2", "24/01/2016", category).save();
+        new Expenses(100.0, "Hamburger3", "24/01/2016", category).save();
+        new Expenses(100.0, "Hamburger4", "24/01/2016", category).save();
 
         category = new Categories("Telephone");
         category.save();
-        new Expenses(100.0, "Samsung Galaxy S6", "24/01/2016", category).save();
+        new Expenses(100.0, "Samsung Galaxy S61", "24/01/2016", category).save();
+        new Expenses(100.0, "Samsung Galaxy S62", "24/01/2016", category).save();
+        new Expenses(100.0, "Samsung Galaxy S63", "24/01/2016", category).save();
+        new Expenses(100.0, "Samsung Galaxy S64", "24/01/2016", category).save();
 
         prefs.needSyncCategories().put(true);
         prefs.needSyncExpenses().put(true);
