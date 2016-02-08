@@ -8,6 +8,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     @AfterViews
     void ready() {
+
         GoogleTokenUserDataModel accountData;
         setupToolbar();
         setupDrawer();
@@ -104,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.drawer_categories:
                         fragment = new CategoriesFragment_();
+                        fragment.setEnterTransition(animationShowCategories());
                         break;
                     case R.id.drawer_statistics:
                         fragment = new StatisticsFragment_();
@@ -112,7 +116,8 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new SettingsFragment_();
                         break;
                 }
-
+                fragment.setEnterTransition(animationShowCategories());
+                fragment.setExitTransition(animationShowCategories());
                 getSupportFragmentManager().beginTransaction().replace(R.id.main_container, fragment).addToBackStack(null).commit();
                 menuItem.setChecked(true);
                 drawerLayout.closeDrawers();
@@ -213,5 +218,15 @@ public class MainActivity extends AppCompatActivity {
 
     public NavigationView getNavigationView() {
         return navigationView;
+    }
+
+    private Slide animationShowCategories() {
+
+        Slide slide = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            slide = new Slide(Gravity.TOP);
+            slide.setDuration(600);
+        }
+        return slide;
     }
 }

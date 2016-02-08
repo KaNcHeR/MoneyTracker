@@ -27,5 +27,9 @@
     <color name="button_add_focused_background">#ECECEC</color>
     <color name="button_add_disabled_text">#DFDFDF</color>
 
+    <color name="swipe_refresh_layout_scheme_color_1">#232B62</color>
+    <color name="swipe_refresh_layout_scheme_color_2">#226640</color>
+    <color name="swipe_refresh_layout_scheme_color_3">#8F6330</color>
+
 
 </resources>

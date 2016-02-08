@@ -33,6 +33,7 @@ public class AddCategoryDialogFragment extends DialogFragment {
     @AfterViews
     void init() {
         getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
     }
 
     @NonNull

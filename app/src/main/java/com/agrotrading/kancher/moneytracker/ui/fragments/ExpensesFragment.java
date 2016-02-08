@@ -1,22 +1,22 @@
 package com.agrotrading.kancher.moneytracker.ui.fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import com.agrotrading.kancher.moneytracker.ViewWrapper;
@@ -38,11 +38,17 @@ import org.androidannotations.api.BackgroundExecutor;
 
 import java.util.List;
 
-@EFragment
+@EFragment(R.layout.expenses_fragment)
 @OptionsMenu(R.menu.search_menu)
 public class ExpensesFragment extends Fragment {
 
     public static final String LOG_TAG = ExpensesFragment.class.getSimpleName();
+
+    @ViewById(R.id.main_content)
+    CoordinatorLayout coordinatorLayout;
+
+    @ViewById(R.id.swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @ViewById(R.id.context_recyclerview)
     RecyclerView expensesRecyclerView;
@@ -56,6 +62,7 @@ public class ExpensesFragment extends Fragment {
     @Click(R.id.fab)
     void startAddExpenseActivity(){
         AddExpenseActivity_.intent(this).start();
+        getActivity().overridePendingTransition(R.anim.from_middle, R.anim.to_middle);
     }
 
     @Bean
@@ -73,16 +80,45 @@ public class ExpensesFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View mainView = inflater.inflate(R.layout.expenses_fragment, container, false);
-        Snackbar.make(mainView, getString(R.string.nav_drawer_expenses), Snackbar.LENGTH_SHORT).show();
-        return mainView;
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
+
+        Snackbar.make(coordinatorLayout, getString(R.string.nav_drawer_expenses), Snackbar.LENGTH_SHORT).show();
+
         loadData("");
+
+        initSwipeToRefresh();
+        initTouchHelper();
+    }
+
+    private void initSwipeToRefresh() {
+        swipeRefreshLayout.setColorSchemeColors(R.color.swipe_refresh_layout_scheme_color_1,
+                R.color.swipe_refresh_layout_scheme_color_2,
+                R.color.swipe_refresh_layout_scheme_color_3);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData("");
+            }
+        });
+    }
+
+    private void initTouchHelper() {
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                expensesAdapter.removeItemWithNotify(viewHolder.getAdapterPosition());
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(expensesRecyclerView);
     }
 
     @Override
@@ -128,6 +164,7 @@ public class ExpensesFragment extends Fragment {
 
             @Override
             public void onLoadFinished(Loader<List<Expenses>> loader, List<Expenses> data) {
+                swipeRefreshLayout.setRefreshing(false);
                 expensesAdapter.init(data, new ViewWrapper.ClickListener() {
                     @Override
                     public void onItemClicked(int position) {
