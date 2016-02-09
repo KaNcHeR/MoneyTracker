@@ -119,10 +119,10 @@ public class StatisticsFragment extends Fragment implements SeekBar.OnSeekBarCha
         return TextUtils.concat(title,inTotal);
     }
 
-    private CharSequence generateInfoCategoryText(String category, Double sum) {
+    private CharSequence generateInfoCategoryText(String category, double sum) {
 
         SpannableString categorySpan = new SpannableString(category);
-        SpannableString sumSpan = new SpannableString(String.valueOf(sum));
+        SpannableString sumSpan = new SpannableString(String.valueOf((float) sum));
 
         categorySpan.setSpan(new RelativeSizeSpan(1.3f), 0, categorySpan.length(), 0);
         categorySpan.setSpan(new StyleSpan(Typeface.NORMAL), 0, categorySpan.length(), 0);

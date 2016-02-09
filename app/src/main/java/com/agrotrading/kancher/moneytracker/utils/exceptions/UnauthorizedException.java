@@ -1,4 +1,4 @@
-package com.agrotrading.kancher.moneytracker.exceptions;
+package com.agrotrading.kancher.moneytracker.utils.exceptions;
 
 public class UnauthorizedException extends Exception {
 

@@ -16,12 +16,12 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle(getString(R.string.nav_drawer_settings));
         addPreferencesFromResource(R.xml.pref_general);
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-
         String stringValue = newValue.toString();
 
         if (preference instanceof ListPreference) {

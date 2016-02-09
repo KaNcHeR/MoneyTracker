@@ -25,7 +25,6 @@ import com.agrotrading.kancher.moneytracker.adapters.ExpensesAdapter;
 import com.agrotrading.kancher.moneytracker.database.Expenses;
 import com.agrotrading.kancher.moneytracker.ui.activities.AddExpenseActivity_;
 import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
-import com.agrotrading.kancher.moneytracker.utils.NotificationUtil;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -62,7 +61,6 @@ public class ExpensesFragment extends Fragment {
 
     @Click(R.id.fab)
     void startAddExpenseActivity(){
-        NotificationUtil.updateNotifications(getActivity());
         AddExpenseActivity_.intent(this).start();
         getActivity().overridePendingTransition(R.anim.from_middle, R.anim.to_middle);
     }

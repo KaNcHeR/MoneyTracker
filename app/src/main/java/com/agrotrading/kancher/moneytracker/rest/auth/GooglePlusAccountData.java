@@ -1,4 +1,4 @@
-package com.agrotrading.kancher.moneytracker.auth;
+package com.agrotrading.kancher.moneytracker.rest.auth;
 
 import com.agrotrading.kancher.moneytracker.rest.model.GoogleTokenUserDataModel;
 

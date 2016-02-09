@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
 import com.agrotrading.kancher.moneytracker.R;
-import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
+import com.agrotrading.kancher.moneytracker.utils.exceptions.UnauthorizedException;
 import com.agrotrading.kancher.moneytracker.rest.RestService;
 import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
 import com.agrotrading.kancher.moneytracker.utils.GoogleAuthHelper;

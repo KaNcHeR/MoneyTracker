@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.database.Expenses;
-import com.agrotrading.kancher.moneytracker.event.MessageEvent;
+import com.agrotrading.kancher.moneytracker.utils.event.MessageEvent;
 import com.agrotrading.kancher.moneytracker.rest.model.GoogleTokenUserDataModel;
 import com.agrotrading.kancher.moneytracker.sync.TrackerSyncAdapter;
 import com.agrotrading.kancher.moneytracker.ui.fragments.CategoriesFragment_;
@@ -68,16 +68,14 @@ public class MainActivity extends AppCompatActivity {
         GoogleTokenUserDataModel accountData;
         setupToolbar();
         setupDrawer();
-        createCategories();
+        //createCategories();
 
         if(savedInstanceState == null) {
             getFragmentManager().beginTransaction().replace(R.id.main_container, new ExpensesFragment_()).commit();
         }
 
         drawerHelper.fillDrawerHeader();
-
         TrackerSyncAdapter.initializeSyncAdapter(this);
-        //MoneyTrackerApplication.setGoogleToken(this, "234234"); //имитация устаревания токена
     }
 
     @OptionsItem(android.R.id.home)
@@ -139,24 +137,24 @@ public class MainActivity extends AppCompatActivity {
 
         category = new Categories("Fun");
         category.save();
-        new Expenses(100.0, "Rubber duck1", "24/01/2016", category).save();
-        new Expenses(100.0, "Rubber duck2", "24/01/2016", category).save();
-        new Expenses(200.0, "Rubber duck3", "24/01/2016", category).save();
-        new Expenses(100.0, "Rubber duck4", "24/01/2016", category).save();
+        new Expenses(100.0, "Rubber duck1", "2016.01.24", category).save();
+        new Expenses(100.0, "Rubber duck2", "2016.01.24", category).save();
+        new Expenses(200.0, "Rubber duck3", "2016.01.24", category).save();
+        new Expenses(100.0, "Rubber duck4", "2016.01.24", category).save();
 
         category = new Categories("Food");
         category.save();
-        new Expenses(100.0, "Hamburger1", "24/01/2016", category).save();
-        new Expenses(100.0, "Hamburger2", "24/01/2016", category).save();
-        new Expenses(300.0, "Hamburger3", "24/01/2016", category).save();
-        new Expenses(100.0, "Hamburger4", "24/01/2016", category).save();
+        new Expenses(100.0, "Hamburger1", "2016.01.24", category).save();
+        new Expenses(100.0, "Hamburger2", "2016.01.24", category).save();
+        new Expenses(300.0, "Hamburger3", "2016.01.24", category).save();
+        new Expenses(100.0, "Hamburger4", "2016.01.24", category).save();
 
         category = new Categories("Telephone");
         category.save();
-        new Expenses(100.0, "Samsung Galaxy S61", "24/01/2016", category).save();
-        new Expenses(100.0, "Samsung Galaxy S62", "24/01/2016", category).save();
-        new Expenses(1000.0, "Samsung Galaxy S63", "24/01/2016", category).save();
-        new Expenses(100.0, "Samsung Galaxy S64", "24/01/2016", category).save();
+        new Expenses(100.0, "Samsung Galaxy S61", "2016.01.24", category).save();
+        new Expenses(100.0, "Samsung Galaxy S62", "2016.01.24", category).save();
+        new Expenses(1000.0, "Samsung Galaxy S63", "2016.01.24", category).save();
+        new Expenses(100.0, "Samsung Galaxy S64", "2016.01.24", category).save();
 
         prefs.needSyncCategories().put(true);
         prefs.needSyncExpenses().put(true);
