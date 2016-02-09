@@ -1,9 +1,10 @@
 package com.agrotrading.kancher.moneytracker.ui.activities;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +22,7 @@ import com.agrotrading.kancher.moneytracker.rest.model.GoogleTokenUserDataModel;
 import com.agrotrading.kancher.moneytracker.sync.TrackerSyncAdapter;
 import com.agrotrading.kancher.moneytracker.ui.fragments.CategoriesFragment_;
 import com.agrotrading.kancher.moneytracker.ui.fragments.ExpensesFragment_;
-import com.agrotrading.kancher.moneytracker.ui.fragments.SettingsFragment_;
+import com.agrotrading.kancher.moneytracker.ui.fragments.SettingsFragment;
 import com.agrotrading.kancher.moneytracker.ui.fragments.StatisticsFragment_;
 import com.agrotrading.kancher.moneytracker.utils.ApplicationPreferences_;
 import com.agrotrading.kancher.moneytracker.utils.DrawerHelper;
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         createCategories();
 
         if(savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new ExpensesFragment_()).commit();
+            getFragmentManager().beginTransaction().replace(R.id.main_container, new ExpensesFragment_()).commit();
         }
 
         drawerHelper.fillDrawerHeader();
@@ -107,18 +108,19 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.drawer_categories:
                         fragment = new CategoriesFragment_();
-                        fragment.setEnterTransition(animationShowCategories());
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            fragment.setEnterTransition(animationShowCategories());
+                        }
                         break;
                     case R.id.drawer_statistics:
                         fragment = new StatisticsFragment_();
                         break;
                     case R.id.drawer_settings:
-                        fragment = new SettingsFragment_();
+                        fragment = new SettingsFragment();
                         break;
                 }
-                fragment.setEnterTransition(animationShowCategories());
-                fragment.setExitTransition(animationShowCategories());
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_container, fragment).addToBackStack(null).commit();
+
+                getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).addToBackStack(null).commit();
                 menuItem.setChecked(true);
                 drawerLayout.closeDrawers();
                 return false;
@@ -170,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onBackPressed();
 
-        Fragment findingFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
+        Fragment findingFragment = getFragmentManager().findFragmentById(R.id.main_container);
 
         if(findingFragment != null) {
             int itemId = R.id.drawer_expenses;
@@ -182,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                 itemId = R.id.drawer_categories;
             } else if(findingFragment instanceof StatisticsFragment_) {
                 itemId = R.id.drawer_statistics;
-            } else if(findingFragment instanceof SettingsFragment_) {
+            } else if(findingFragment instanceof SettingsFragment) {
                 itemId = R.id.drawer_settings;
             }
 

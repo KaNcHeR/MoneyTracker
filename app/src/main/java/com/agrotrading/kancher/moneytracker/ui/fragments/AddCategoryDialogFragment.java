@@ -1,10 +1,10 @@
 package com.agrotrading.kancher.moneytracker.ui.fragments;
 
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.DialogFragment;
 import android.widget.EditText;
 
 import com.agrotrading.kancher.moneytracker.R;

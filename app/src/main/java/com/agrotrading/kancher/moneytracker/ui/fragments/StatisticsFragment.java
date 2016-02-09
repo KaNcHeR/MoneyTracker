@@ -2,7 +2,7 @@ package com.agrotrading.kancher.moneytracker.ui.fragments;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -48,7 +48,7 @@ public class StatisticsFragment extends Fragment implements SeekBar.OnSeekBarCha
     }
 
     private void initPieChart() {
-        defaultHoleColor = ContextCompat.getColor(getContext(), R.color.bg_pie_hole);
+        defaultHoleColor = ContextCompat.getColor(getActivity(), R.color.bg_pie_hole);
         inTotal = (float) Categories.inTotal();
         categoriesSum = Categories.getCategoryWithSum();
 
