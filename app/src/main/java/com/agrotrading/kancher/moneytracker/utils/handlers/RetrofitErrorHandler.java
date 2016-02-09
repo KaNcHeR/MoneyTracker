@@ -1,7 +1,6 @@
-package com.agrotrading.kancher.moneytracker.handlers;
+package com.agrotrading.kancher.moneytracker.utils.handlers;
 
-import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
-import com.google.android.gms.auth.GoogleAuthException;
+import com.agrotrading.kancher.moneytracker.utils.exceptions.UnauthorizedException;
 
 import retrofit.ErrorHandler;
 import retrofit.RetrofitError;

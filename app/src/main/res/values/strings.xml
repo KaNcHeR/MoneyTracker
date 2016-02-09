@@ -62,5 +62,23 @@
     <string name="default_text_hole">Общие затраты:\n</string>
     <string name="help_text_statistics">Для доп. информации нажмите на секцию</string>
 
+    <!-- Strings related to Notification Enabled preference -->
+    <string name="pref_enable_notifications_key" translatable="false">enable_notifications</string>
+    <string name="pref_enable_notifications_label">Нотификация синхронизации</string>
+    <string name="pref_enable_notifications_true">Включено</string>
+    <string name="pref_enable_notifications_false">Выключено</string>
+    <string name="pref_enable_notifications_default" translatable="false">true</string>
+    <!-- String for notification bar-->
+    <string name="notification_message">Данные успешно синхронизированы!</string>
+    <string name="pref_notification_section">Нотификации</string>
+
+    <string name="pref_enable_sound_key" translatable="false">enable_notifications_sound</string>
+    <string name="pref_enable_sound_label">Звук</string>
+
+    <string name="pref_enable_vibrate_key" translatable="false">enable_notifications_vibrate</string>
+    <string name="pref_enable_vibration_label">Вибрация</string>
+
+    <string name="pref_enable_indicator_key" translatable="false">enable_notifications_indicator</string>
+    <string name="pref_enable_indicator_label">Индикатор</string>
 
 </resources>

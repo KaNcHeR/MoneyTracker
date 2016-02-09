@@ -1,4 +1,4 @@
-package com.agrotrading.kancher.moneytracker.event;
+package com.agrotrading.kancher.moneytracker.utils.event;
 
 public class MessageEvent {
 

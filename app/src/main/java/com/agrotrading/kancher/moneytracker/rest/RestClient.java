@@ -1,6 +1,6 @@
 package com.agrotrading.kancher.moneytracker.rest;
 
-import com.agrotrading.kancher.moneytracker.handlers.RetrofitErrorHandler;
+import com.agrotrading.kancher.moneytracker.utils.handlers.RetrofitErrorHandler;
 import com.agrotrading.kancher.moneytracker.rest.api.UserGoogleAccountApi;
 import com.agrotrading.kancher.moneytracker.rest.api.UserCategoryApi;
 import com.agrotrading.kancher.moneytracker.rest.api.UserAccountApi;

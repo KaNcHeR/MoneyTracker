@@ -94,7 +94,7 @@ public class Categories extends Model {
                 CategoriesSumModel categorySum;
 
                 String name = cursor.getString(cursor.getColumnIndex("name"));
-                double sum = cursor.getLong(cursor.getColumnIndex("sum"));
+                double sum = cursor.getDouble(cursor.getColumnIndex("sum"));
                 int color = cursor.getInt(cursor.getColumnIndex("color"));
 
                 categorySum = new CategoriesSumModel(name, sum, color);

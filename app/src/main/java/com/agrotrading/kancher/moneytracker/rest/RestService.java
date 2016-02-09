@@ -1,7 +1,7 @@
 package com.agrotrading.kancher.moneytracker.rest;
 
 import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
-import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
+import com.agrotrading.kancher.moneytracker.utils.exceptions.UnauthorizedException;
 import com.agrotrading.kancher.moneytracker.rest.model.GoogleTokenStatusModel;
 import com.agrotrading.kancher.moneytracker.rest.model.GoogleTokenUserDataModel;
 import com.agrotrading.kancher.moneytracker.rest.model.UserBalanceModel;
@@ -13,7 +13,6 @@ import com.agrotrading.kancher.moneytracker.rest.model.category.UserCategoryExpe
 import com.agrotrading.kancher.moneytracker.rest.model.expense.UserExpenseModel;
 import com.agrotrading.kancher.moneytracker.rest.model.expense.UserExpensesModel;
 import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
-import com.google.android.gms.auth.GoogleAuthException;
 
 import retrofit.Callback;
 

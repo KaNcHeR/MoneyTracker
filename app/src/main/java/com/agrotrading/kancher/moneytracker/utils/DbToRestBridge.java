@@ -6,8 +6,8 @@ import android.content.Context;
 import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
 import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.database.Expenses;
-import com.agrotrading.kancher.moneytracker.event.MessageEvent;
-import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
+import com.agrotrading.kancher.moneytracker.utils.event.MessageEvent;
+import com.agrotrading.kancher.moneytracker.utils.exceptions.UnauthorizedException;
 import com.agrotrading.kancher.moneytracker.rest.RestService;
 import com.agrotrading.kancher.moneytracker.rest.model.GoogleTokenStatusModel;
 import com.agrotrading.kancher.moneytracker.rest.model.category.CategoryData;
@@ -19,6 +19,7 @@ import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.gson.Gson;
 
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.SupposeBackground;
 import org.androidannotations.annotations.sharedpreferences.Pref;
@@ -37,6 +38,9 @@ public class DbToRestBridge {
 
     @Pref
     ApplicationPreferences_ prefs;
+
+    @Bean
+    NotificationUtil notificationUtil;
 
     private Context context;
 
@@ -82,8 +86,12 @@ public class DbToRestBridge {
 
     @Background
     void startSync() {
-        startSyncCategories();
-        startSyncExpenses();
+        boolean syncCategories = startSyncCategories();
+        boolean syncExpenses = startSyncExpenses();
+
+        if(syncCategories || syncExpenses) {
+            notificationUtil.updateNotifications();
+        }
     }
 
     @Background
@@ -137,18 +145,18 @@ public class DbToRestBridge {
     }
 
     @SupposeBackground
-    void startSyncCategories() {
+    boolean startSyncCategories() {
 
         List<Categories> categories = Categories.getAllCategoriesOrderById();
         String jsonRequest = getCategoriesDataJson(categories);
 
-        if (jsonRequest == null || !prefs.needSyncCategories().get()) return;
+        if (jsonRequest == null || !prefs.needSyncCategories().get()) return false;
 
         try {
             UserCategoriesModel syncCategories = restService.syncCategories(jsonRequest, gToken);
             List<CategoryData> syncCategoriesData;
 
-            if (!syncCategories.getStatus().equals(ConstantManager.STATUS_SUCCESS)) return;
+            if (!syncCategories.getStatus().equals(ConstantManager.STATUS_SUCCESS)) return false;
 
             syncCategoriesData = syncCategories.getData();
             for (int i = 0; i < categories.size(); i++) {
@@ -165,21 +173,23 @@ public class DbToRestBridge {
         } catch (UnauthorizedException e) {
             EventBus.getDefault().post(new MessageEvent(MessageEvent.MOVE_USER_TO_LOGIN));
         }
+
+        return true;
     }
 
     @SupposeBackground
-    void startSyncExpenses(){
+    boolean startSyncExpenses(){
 
         List<Expenses> expenses = Expenses.getAllExpensesOrderById();
         String jsonRequest = getExpensesDataJson(expenses);
 
-        if(jsonRequest == null || prefs.needSyncCategories().get() || !prefs.needSyncExpenses().get()) return;
+        if(jsonRequest == null || prefs.needSyncCategories().get() || !prefs.needSyncExpenses().get()) return false;
 
         try {
             UserExpensesModel syncExpenses = restService.syncExpenses(jsonRequest, gToken);
             List<ExpenseData> syncExpensesData;
 
-            if(!syncExpenses.getStatus().equals(ConstantManager.STATUS_SUCCESS)) return;
+            if(!syncExpenses.getStatus().equals(ConstantManager.STATUS_SUCCESS)) return false;
 
             syncExpensesData = syncExpenses.getData();
             for (int i = 0; i < expenses.size(); i++) {
@@ -196,6 +206,8 @@ public class DbToRestBridge {
         } catch (UnauthorizedException e) {
             EventBus.getDefault().post(new MessageEvent(MessageEvent.MOVE_USER_TO_LOGIN));
         }
+
+        return true;
     }
 
 }

@@ -1,6 +1,6 @@
 package com.agrotrading.kancher.moneytracker.rest.api;
 
-import com.agrotrading.kancher.moneytracker.exceptions.UnauthorizedException;
+import com.agrotrading.kancher.moneytracker.utils.exceptions.UnauthorizedException;
 import com.agrotrading.kancher.moneytracker.rest.model.UserBalanceModel;
 
 import retrofit.http.GET;
