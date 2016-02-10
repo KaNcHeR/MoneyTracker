@@ -14,9 +14,11 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.database.Expenses;
+import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
 import com.agrotrading.kancher.moneytracker.utils.event.MessageEvent;
 import com.agrotrading.kancher.moneytracker.rest.model.GoogleTokenUserDataModel;
 import com.agrotrading.kancher.moneytracker.sync.TrackerSyncAdapter;
@@ -116,6 +118,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.drawer_settings:
                         fragment = new SettingsFragment();
                         break;
+                    case R.id.drawer_logout:
+                        logout();
+                        finish();
+                        break;
                 }
 
                 getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).addToBackStack(null).commit();
@@ -124,6 +130,12 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    private void logout() {
+        MoneyTrackerApplication.setGoogleToken(this, ConstantManager.DEFAULT_GOOGLE_TOKEN);
+        MoneyTrackerApplication.setAuthToken(null);
+        UserLoginActivity_.intent(this).start();
     }
 
     void createCategories() {
