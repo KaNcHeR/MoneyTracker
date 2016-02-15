@@ -1,6 +1,5 @@
 package com.agrotrading.kancher.moneytracker.rest.api;
 
-import com.agrotrading.kancher.moneytracker.rest.model.expense.UserExpenseModel;
 import com.agrotrading.kancher.moneytracker.rest.model.expense.UserExpensesModel;
 
 import retrofit.http.GET;
@@ -15,8 +14,4 @@ public interface UserExpenseApi {
     @POST("/transactions/synch")
     UserExpensesModel syncExpenses(@Query("data") String data, @Query("google_token") String gToken, @Query("auth_token") String token);
 
-    @POST("/transactions/add")
-    UserExpenseModel addExpense(@Query("sum") Integer sum, @Query("comment") String comment,
-                                @Query("category_id") Integer categoryId, @Query("tr_date") String trDate,
-                                @Query("google_token") String gToken, @Query("auth_token") String token);
 }

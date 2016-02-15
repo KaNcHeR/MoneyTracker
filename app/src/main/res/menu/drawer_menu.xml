@@ -8,7 +8,8 @@
             android:id="@+id/drawer_expenses"
             android:checked="true"
             android:icon="@mipmap/ic_account_balance_wallet_black_18dp"
-            android:title="@string/nav_drawer_expenses" />
+            android:title="@string/nav_drawer_expenses"
+            />
         <item
             android:id="@+id/drawer_categories"
             android:icon="@mipmap/ic_style_black_18dp"

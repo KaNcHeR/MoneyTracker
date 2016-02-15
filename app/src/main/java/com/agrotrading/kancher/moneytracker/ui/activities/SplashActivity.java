@@ -18,6 +18,7 @@ import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.api.BackgroundExecutor;
@@ -39,38 +40,35 @@ public class SplashActivity extends AppCompatActivity {
         doInBackground();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == ConstantManager.GET_GOOGLE_TOKEN_REQUEST_CODE && resultCode == RESULT_OK) {
+    @OnActivityResult(ConstantManager.GET_GOOGLE_TOKEN_REQUEST_CODE)
+    void onResult(int resultCode, Intent data) {
+        if(resultCode == RESULT_OK) {
             googleAuthHelper.getToken(data);
         }
     }
 
     @Click(R.id.retry_button)
     void retryStart() {
-        if(!NetworkStatusChecker.isNetworkAvailable(this)) {
-            return;
+        if(NetworkStatusChecker.isNetworkAvailable(this)) {
+            goneError();
+            start();
         }
-
-        goneError();
-        start();
     }
 
     @Background(delay = 3000)
     void doInBackground() {
-        if(!NetworkStatusChecker.isNetworkAvailable(this)) {
-            visibleError();
+        if(NetworkStatusChecker.isNetworkAvailable(this)) {
+            start();
             return;
         }
 
-        start();
+        visibleError();
     }
 
-    @Background(id="start")
+    @Background(id = "start")
     void start() {
-
-        if(!googleAuthHelper.getGToken().equalsIgnoreCase(ConstantManager.DEFAULT_GOOGLE_TOKEN)) {
-            googleAuthHelper.checkTokenValid(true);
+        if(!MoneyTrackerApplication.getGoogleToken(this).equalsIgnoreCase(ConstantManager.DEFAULT_GOOGLE_TOKEN)) {
+            googleAuthHelper.checkTokenValid();
             return;
         }
 
@@ -78,6 +76,7 @@ public class SplashActivity extends AppCompatActivity {
                 MoneyTrackerApplication.getGoogleToken(this).equalsIgnoreCase(ConstantManager.DEFAULT_GOOGLE_TOKEN)) {
             UserLoginActivity_.intent(this).start();
             finish();
+            return;
         }
 
         try {
@@ -85,9 +84,10 @@ public class SplashActivity extends AppCompatActivity {
             String gToken = MoneyTrackerApplication.getGoogleToken(this);
             restService.getBalance(gToken);
             MainActivity_.intent(this).start();
-            finish();
         } catch (UnauthorizedException e) {
-            e.printStackTrace();
+            UserLoginActivity_.intent(this).start();
+        } finally {
+            finish();
         }
 
     }
@@ -109,5 +109,4 @@ public class SplashActivity extends AppCompatActivity {
         super.onBackPressed();
         BackgroundExecutor.cancelAll("start", true);
     }
-
 }

@@ -12,7 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.agrotrading.kancher.moneytracker.R;
-import com.agrotrading.kancher.moneytracker.utils.DbToRestBridge_;
+import com.agrotrading.kancher.moneytracker.utils.DBRestBridge_;
 
 public class TrackerSyncAdapter extends AbstractThreadedSyncAdapter {
 
@@ -22,19 +22,8 @@ public class TrackerSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-
-        DbToRestBridge_ dbToRestBridge = DbToRestBridge_.getInstance_(getContext());
+        DBRestBridge_ dbToRestBridge = DBRestBridge_.getInstance_(getContext());
         dbToRestBridge.initSync();
-
-    }
-
-    public static void syncImmediately(Context context) {
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        ContentResolver.requestSync(getSyncAccount(context),
-                context.getString(R.string.content_authority), bundle);
-
     }
 
     public static Account getSyncAccount(Context context) {
@@ -63,8 +52,24 @@ public class TrackerSyncAdapter extends AbstractThreadedSyncAdapter {
                 SYNC_INTERVAL);
 
         TrackerSyncAdapter.configurePeriodicSync(context, SYNC_INTERVAL, SYNC_FLEXTIME);
+    }
 
-        syncImmediately(context);
+    public static void onRemoveSync(Context context) {
+        AccountManager accountManager =
+                (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
+
+        Account account = new Account(context.getString(R.string.app_name),
+                context.getString(R.string.sync_account_type));
+
+        if ( null != accountManager.getPassword(account) ) {
+
+            ContentResolver.setSyncAutomatically(account,
+                    context.getString(R.string.content_authority), false);
+
+            ContentResolver.removePeriodicSync(account,
+                    context.getString(R.string.content_authority), Bundle.EMPTY);
+
+        }
     }
 
     public static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {

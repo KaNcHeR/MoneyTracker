@@ -1,19 +1,18 @@
 package com.agrotrading.kancher.moneytracker.database;
 
-import android.database.Cursor;
-import android.graphics.Color;
-
+import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Cache;
 import com.activeandroid.Model;
+import com.activeandroid.TableInfo;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.agrotrading.kancher.moneytracker.database.notable.CategoriesSumModel;
+import com.agrotrading.kancher.moneytracker.utils.ColorHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Table(name = "Categories")
 public class Categories extends Model {
@@ -25,15 +24,19 @@ public class Categories extends Model {
     private String name;
 
     @Column(name = "color")
-    private int color = getRandomColor();
+    private int color = ColorHelper.getRandomColor();
 
     public Categories() {
         super();
     }
 
     public Categories(String name) {
-        super();
         this.name = name;
+    }
+
+    public Categories(String name, long sId) {
+        this.name = name;
+        this.sId = sId;
     }
 
     public List<Expenses> expenses() {
@@ -48,7 +51,7 @@ public class Categories extends Model {
     public static List<Categories> getAllCategories(String filter) {
         return new Select()
                 .from(Categories.class)
-                .where("Name LIKE ?", new String[]{'%' + filter + '%'})
+                .where("Name LIKE ?", "%" + filter + "%")
                 .orderBy("Name ASC")
                 .execute();
     }
@@ -58,23 +61,6 @@ public class Categories extends Model {
                 .from(Categories.class)
                 .orderBy("id ASC")
                 .execute();
-    }
-
-    public static double inTotal() {
-
-        double inTotal = 0;
-
-        From query =  new Select(new String[]{"SUM(Price) AS inTotal"})
-                .from(Expenses.class);
-
-        Cursor cursor = Cache.openDatabase().rawQuery(query.toSql(), query.getArguments());
-
-        if(cursor.moveToFirst()) {
-            inTotal = cursor.getDouble(cursor.getColumnIndex("inTotal"));
-        }
-        cursor.close();
-
-        return inTotal;
     }
 
     public static List<CategoriesSumModel> getCategoryWithSum() {
@@ -87,32 +73,17 @@ public class Categories extends Model {
                 .leftJoin(Categories.class)
                 .on("Categories.Id = Expenses.Category");
 
-        Cursor cursor = Cache.openDatabase().rawQuery(query.toSql(), query.getArguments());
-
-        if(cursor.moveToFirst()) {
-            do {
-                CategoriesSumModel categorySum;
-
-                String name = cursor.getString(cursor.getColumnIndex("name"));
-                double sum = cursor.getDouble(cursor.getColumnIndex("sum"));
-                int color = cursor.getInt(cursor.getColumnIndex("color"));
-
-                categorySum = new CategoriesSumModel(name, sum, color);
-                categoriesSum.add(categorySum);
-
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-
-        return categoriesSum;
-
+        return CategoriesSumModel.formModelList(query);
     }
 
-    private int getRandomColor() {
-
-        Random random = new Random();
-        return Color.argb(128, random.nextInt(256), random.nextInt(256), random.nextInt(256));
+    public static void truncate(){
+        TableInfo tableInfo = Cache.getTableInfo(Categories.class);
+        ActiveAndroid.execSQL(
+                String.format("DELETE FROM %s;",
+                        tableInfo.getTableName()));
+        ActiveAndroid.execSQL(
+                String.format("DELETE FROM sqlite_sequence WHERE name='%s';",
+                        tableInfo.getTableName()));
     }
 
     public long getsId() {

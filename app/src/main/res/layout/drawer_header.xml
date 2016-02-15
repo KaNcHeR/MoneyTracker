@@ -4,10 +4,10 @@
     android:layout_height="@dimen/drawer_header_height"
     android:background="@mipmap/drawer_patt"
     android:orientation="vertical"
-    android:paddingTop="24dp"
-    android:paddingRight="@dimen/drawer_header_padding_left_right"
     android:paddingBottom="@dimen/drawer_header_padding_bottom"
     android:paddingLeft="@dimen/drawer_header_padding_left_right"
+    android:paddingRight="@dimen/drawer_header_padding_left_right"
+    android:paddingTop="24dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -15,34 +15,36 @@
         android:layout_width="@dimen/drawer_header_avatar_circle_radius"
         android:layout_height="@dimen/drawer_header_avatar_circle_radius"
         android:layout_marginTop="@dimen/drawer_header_padding_top"
-        android:src="@mipmap/avatar" />
+        android:src="@mipmap/avatar"
+        android:visibility="invisible" />
 
     <LinearLayout
+        android:id="@+id/subtitle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/drawer_header_subtitle_height"
-        android:id="@+id/subtitle"
-        android:orientation="vertical"
         android:layout_alignParentBottom="true"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/drawer_header_name_email"
-            android:text="@string/my_name"
-            android:textSize="@dimen/drawer_header_name_email_text"
             android:fontFamily="sans-serif-medium"
+            android:text="@string/my_name"
+            android:textColor="@color/drawer_header_name_email"
+            android:textSize="@dimen/drawer_header_name_email_text"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/drawer_header_name_email"
+            android:fontFamily="sans-serif"
             android:text="@string/my_email"
-            android:textSize="@dimen/drawer_header_name_email_text"
-            android:fontFamily="sans-serif"/>
+            android:textColor="@color/drawer_header_name_email"
+            android:textSize="@dimen/drawer_header_name_email_text" />
 
     </LinearLayout>
 

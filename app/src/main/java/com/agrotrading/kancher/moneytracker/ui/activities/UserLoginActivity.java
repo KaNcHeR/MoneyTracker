@@ -14,6 +14,7 @@ import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.rest.RestService;
 import com.agrotrading.kancher.moneytracker.rest.model.UserLoginModel;
 import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
+import com.agrotrading.kancher.moneytracker.utils.DialogHelper;
 import com.agrotrading.kancher.moneytracker.utils.GoogleAuthHelper;
 import com.agrotrading.kancher.moneytracker.utils.NetworkStatusChecker;
 import com.google.android.gms.common.AccountPicker;
@@ -22,6 +23,7 @@ import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
@@ -30,6 +32,12 @@ public class UserLoginActivity extends AppCompatActivity {
 
     @Bean
     GoogleAuthHelper googleAuthHelper;
+
+    @Bean
+    DialogHelper dialogHelper;
+
+    @ViewById(R.id.root_view)
+    View rootView;
 
     @ViewById(R.id.et_login)
     EditText etLogin;
@@ -40,6 +48,14 @@ public class UserLoginActivity extends AppCompatActivity {
     @ViewById(R.id.login_button)
     Button bLogin;
 
+    @OnActivityResult(ConstantManager.GET_GOOGLE_TOKEN_REQUEST_CODE)
+    void onResult(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            dialogHelper.showProgressDialog(getString(R.string.progress_dialog_sync));
+            googleAuthHelper.getToken(data);
+        }
+    }
+
     @Click(R.id.tv_registration_button)
     void registration() {
         UserRegistrationActivity_.intent(this).start();
@@ -47,84 +63,71 @@ public class UserLoginActivity extends AppCompatActivity {
     }
 
     @Click(R.id.login_button)
-    void login(View clickedView) {
-
+    void login() {
         View view = this.getCurrentFocus();
-
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
 
-        if(!NetworkStatusChecker.isNetworkAvailable(getApplicationContext())) {
-            Snackbar.make(clickedView, getString(R.string.network_not_available), Snackbar.LENGTH_SHORT).show();
-            return;
+        if (!networkStatus()) return;
+
+        if (etLogin.length() < 5 || etPassword.length() < 5) {
+            Snackbar.make(rootView, getString(R.string.user_registration_characters_long), Snackbar.LENGTH_LONG).show();
+        } else {
+            bLogin.setEnabled(false);
+            loginUser();
         }
-
-        if(etLogin.length() < 5 || etPassword.length() < 5) {
-            Snackbar.make(clickedView, getString(R.string.user_registration_characters_long), Snackbar.LENGTH_LONG).show();
-            return;
-        }
-
-        bLogin.setEnabled(false);
-
-        loginUser(clickedView);
     }
 
     @Click(R.id.sign_in_button)
     void btnGPlusLogin() {
-        Intent intent = AccountPicker.newChooseAccountIntent(null, null, new String[]{"com.google"}, false, null, null, null, null);
+        if (!networkStatus()) return;
+        Intent intent = AccountPicker.newChooseAccountIntent(null, null, new String[]{ConstantManager.GOOGLE_ACCOUNT_TYPE}, false, null, null, null, null);
         startActivityForResult(intent, ConstantManager.GET_GOOGLE_TOKEN_REQUEST_CODE);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == ConstantManager.GET_GOOGLE_TOKEN_REQUEST_CODE && resultCode == RESULT_OK) {
-            googleAuthHelper.getToken(data);
-        }
-    }
-
-
-
     @Background
-    void loginUser(View view) {
-
+    void loginUser() {
         String login = etLogin.getText().toString();
         String password = etPassword.getText().toString();
-
         RestService restService = new RestService();
         UserLoginModel userLoginModel = restService.login(login, password);
+
         MoneyTrackerApplication.setAuthToken(userLoginModel.getAuthToken());
 
         switch (userLoginModel.getStatus()) {
 
             case ConstantManager.STATUS_WRONG_LOGIN:
-                Snackbar.make(view, getString(R.string.wrong_login), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(rootView, getString(R.string.wrong_login), Snackbar.LENGTH_LONG).show();
                 break;
 
             case ConstantManager.STATUS_WRONG_PASSWORD:
-                Snackbar.make(view, getString(R.string.wrong_password), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(rootView, getString(R.string.wrong_password), Snackbar.LENGTH_LONG).show();
                 break;
 
             case ConstantManager.STATUS_SUCCESS:
-                MainActivity_.intent(this).start();
-                finish();
+                dialogHelper.showProgressDialog(getString(R.string.progress_dialog_sync));
+                googleAuthHelper.startMainActivityWithoutGToken();
                 return;
 
             default:
-                Snackbar.make(view, getString(R.string.user_registration_other_error), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(rootView, getString(R.string.user_registration_other_error), Snackbar.LENGTH_LONG).show();
                 break;
-
         }
-
         enabledRegistrationButton();
-
     }
 
-
     @UiThread
-    void enabledRegistrationButton(){
+    void enabledRegistrationButton() {
         bLogin.setEnabled(true);
     }
 
+    private boolean networkStatus() {
+        if (!NetworkStatusChecker.isNetworkAvailable(getApplicationContext())) {
+            Snackbar.make(rootView, getString(R.string.network_not_available), Snackbar.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
 }

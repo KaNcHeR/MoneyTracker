@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#406571</color>
     <color name="colorAccent">#FF5151</color>
 
+    <color name="contextual_action_bar_bg">#394E55</color>
+
     <color name="color_button">#FF7044</color>
     <color name="color_button_pressed">#E64A19</color>
     <color name="color_button_focused">#E04C1E</color>

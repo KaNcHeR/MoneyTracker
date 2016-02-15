@@ -1,18 +1,19 @@
 package com.agrotrading.kancher.moneytracker.ui.fragments;
 
+import android.app.Fragment;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
-import android.widget.SeekBar;
 
 import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.database.Categories;
+import com.agrotrading.kancher.moneytracker.database.Expenses;
 import com.agrotrading.kancher.moneytracker.database.notable.CategoriesSumModel;
+import com.agrotrading.kancher.moneytracker.utils.ColorHelper;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -30,8 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EFragment(R.layout.statistics_fragment)
-public class StatisticsFragment extends Fragment implements SeekBar.OnSeekBarChangeListener,
-        OnChartValueSelectedListener {
+public class StatisticsFragment extends Fragment implements OnChartValueSelectedListener {
 
     private List<CategoriesSumModel> categoriesSum;
     private ArrayList<Integer> colors = new ArrayList<>();
@@ -49,7 +49,7 @@ public class StatisticsFragment extends Fragment implements SeekBar.OnSeekBarCha
 
     private void initPieChart() {
         defaultHoleColor = ContextCompat.getColor(getActivity(), R.color.bg_pie_hole);
-        inTotal = (float) Categories.inTotal();
+        inTotal = (float) Expenses.inTotal();
         categoriesSum = Categories.getCategoryWithSum();
 
         mChart.setUsePercentValues(true);
@@ -86,7 +86,7 @@ public class StatisticsFragment extends Fragment implements SeekBar.OnSeekBarCha
         for (CategoriesSumModel categorySum : categoriesSum) {
             xVals.add(categorySum.getName());
             yVals.add(new Entry((float)categorySum.getSum(), xVals.size() - 1));
-            colors.add(RemoveAlpha(categorySum.getColor(), Color.WHITE ));
+            colors.add(ColorHelper.RemoveAlpha(categorySum.getColor(), Color.WHITE));
         }
 
         PieDataSet dataSet = new PieDataSet(yVals, "");
@@ -133,23 +133,6 @@ public class StatisticsFragment extends Fragment implements SeekBar.OnSeekBarCha
         return TextUtils.concat(categorySpan,"\n",sumSpan);
     }
 
-    public static int RemoveAlpha(int foreground, int background)
-    {
-        float alpha;
-        float diff;
-
-        if (Color.alpha(foreground) == 255) return foreground;
-
-        alpha = (float) (Color.alpha(foreground) / 255.0);
-        diff = (float) (1.0 - alpha);
-
-        return Color.rgb(
-                Math.round((float) Color.red(foreground) * alpha + Color.red(background) * diff),
-                Math.round((float) Color.green(foreground) * alpha + Color.green(background) * diff),
-                Math.round((float) Color.blue(foreground) * alpha + Color.blue(background) * diff)
-        );
-    }
-
     @Override
     public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
         if (e == null) return;
@@ -162,13 +145,4 @@ public class StatisticsFragment extends Fragment implements SeekBar.OnSeekBarCha
         mChart.setCenterText(generateCenterSpannableDefaultText());
         mChart.setHoleColor(defaultHoleColor);
     }
-
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {}
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {}
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {}
 }

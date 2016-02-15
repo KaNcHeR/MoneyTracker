@@ -23,6 +23,9 @@ import org.androidannotations.annotations.ViewById;
 @EActivity(R.layout.activity_user_registration)
 public class UserRegistrationActivity extends AppCompatActivity {
 
+    @ViewById(R.id.root_view)
+    View rootView;
+
     @ViewById(R.id.et_login)
     EditText etLogin;
 
@@ -40,8 +43,8 @@ public class UserRegistrationActivity extends AppCompatActivity {
 
     @Click(R.id.registration_button)
     void registration(View clickedView) {
-        View view = this.getCurrentFocus();
 
+        View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -54,16 +57,14 @@ public class UserRegistrationActivity extends AppCompatActivity {
 
         if(etLogin.length() < 5 || etPassword.length() < 5) {
             Snackbar.make(clickedView, getString(R.string.user_registration_characters_long), Snackbar.LENGTH_LONG).show();
-            return;
+        } else {
+            bRegistration.setEnabled(false);
+            registerUser();
         }
-
-        bRegistration.setEnabled(false);
-
-        registerUser(clickedView);
     }
 
     @Background
-    public void registerUser(View view) {
+    public void registerUser() {
 
         String login = etLogin.getText().toString();
         String password = etPassword.getText().toString();
@@ -72,22 +73,17 @@ public class UserRegistrationActivity extends AppCompatActivity {
         UserRegistrationModel userRegistrationModel = restService.register(login, password);
 
         switch (userRegistrationModel.getStatus()) {
-
             case ConstantManager.STATUS_LOGIN_BUSY_ALREADY:
-                Snackbar.make(view, getString(R.string.user_registration_login_busy_already), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(rootView, getString(R.string.user_registration_login_busy_already), Snackbar.LENGTH_LONG).show();
                 break;
-
             case ConstantManager.STATUS_SUCCESS:
                 MainActivity_.intent(this).start();
                 finish();
                 return;
-
             default:
-                Snackbar.make(view, getString(R.string.user_registration_other_error), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(rootView, getString(R.string.user_registration_other_error), Snackbar.LENGTH_LONG).show();
                 break;
-
         }
-
         enabledRegistrationButton();
     }
 
@@ -95,5 +91,4 @@ public class UserRegistrationActivity extends AppCompatActivity {
     void enabledRegistrationButton(){
         bRegistration.setEnabled(true);
     }
-
 }

@@ -6,14 +6,14 @@ import android.content.Context;
 import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
 import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.database.Expenses;
-import com.agrotrading.kancher.moneytracker.utils.event.MessageEvent;
-import com.agrotrading.kancher.moneytracker.utils.exceptions.UnauthorizedException;
 import com.agrotrading.kancher.moneytracker.rest.RestService;
 import com.agrotrading.kancher.moneytracker.rest.model.GoogleTokenStatusModel;
 import com.agrotrading.kancher.moneytracker.rest.model.category.CategoryData;
 import com.agrotrading.kancher.moneytracker.rest.model.category.UserCategoriesModel;
 import com.agrotrading.kancher.moneytracker.rest.model.expense.ExpenseData;
 import com.agrotrading.kancher.moneytracker.rest.model.expense.UserExpensesModel;
+import com.agrotrading.kancher.moneytracker.utils.event.MessageEvent;
+import com.agrotrading.kancher.moneytracker.utils.exceptions.UnauthorizedException;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.gson.Gson;
@@ -21,20 +21,24 @@ import com.google.gson.Gson;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.SupposeBackground;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
-import retrofit.Callback;
 import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 @EBean
-public class DbToRestBridge {
+public class DBRestBridge {
+
+    private RestService restService = new RestService();
+    private String gToken;
+    private Gson gson = new Gson();
 
     @Pref
     ApplicationPreferences_ prefs;
@@ -42,49 +46,61 @@ public class DbToRestBridge {
     @Bean
     NotificationUtil notificationUtil;
 
-    private Context context;
+    @RootContext
+    Context context;
 
-    private RestService restService;
+    public void firstSync() {
+        List<CategoryData> categories;
+        List<ExpenseData> expenses;
 
-    private String gToken;
-
-    private Gson gson = new Gson();
-
-    public DbToRestBridge(Context context) {
-        this.context = context;
-        restService = new RestService();
         gToken = MoneyTrackerApplication.getGoogleToken(context);
+        categories = restService.getAllCategories(gToken).getData();
+        expenses = restService.getAllExpenses(gToken).getData();
+
+        for(CategoryData category : categories) {
+            Categories newCategory = new Categories(category.getTitle(), category.getId());
+            newCategory.save();
+
+            Iterator<ExpenseData> iterator = expenses.iterator();
+
+            while (iterator.hasNext()) {
+                ExpenseData expense = iterator.next();
+                if(expense.getCategoryId() == category.getId()) {
+                    new Expenses(
+                            expense.getId(),
+                            expense.getComment(),
+                            expense.getSum(),
+                            expense.getTrDate(),
+                            newCategory).save();
+                    iterator.remove();
+                }
+            }
+        }
     }
 
-    @Background
+    @Background(serial = "sync")
     public void initSync() {
 
+        gToken = MoneyTrackerApplication.getGoogleToken(context);
+
         if (!gToken.equalsIgnoreCase(ConstantManager.DEFAULT_GOOGLE_TOKEN)) {
-            restService.getGoogleTokenStatus(gToken, new Callback<GoogleTokenStatusModel>() {
-                @Override
-                public void success(GoogleTokenStatusModel googleTokenStatusModel, Response response) {
 
-                    if (googleTokenStatusModel.getStatus().equalsIgnoreCase(ConstantManager.STATUS_ERROR)) {
-                        getGToken();
-                    } else {
-                        startSync();
-                    }
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
+            try {
+                GoogleTokenStatusModel statusModel = restService.getGoogleTokenStatus(gToken);
+                if (statusModel.getStatus().equalsIgnoreCase(ConstantManager.STATUS_ERROR)) {
                     getGToken();
                 }
+            } catch (RetrofitError error) {
+                getGToken();
+            }
 
-            });
-
-            return;
         }
-
         startSync();
     }
 
-    @Background
+
+
+    @SupposeBackground
     void startSync() {
         boolean syncCategories = startSyncCategories();
         boolean syncExpenses = startSyncExpenses();
@@ -94,28 +110,23 @@ public class DbToRestBridge {
         }
     }
 
-    @Background
+    @SupposeBackground
     void getGToken() {
-
         Account account = new Account(prefs.googleAccountEmail().get(), ConstantManager.GOOGLE_ACCOUNT_TYPE);
 
         try {
             gToken = GoogleAuthUtil.getToken(context, account, ConstantManager.SCOPES);
             MoneyTrackerApplication.setGoogleToken(context, gToken);
-            startSyncCategories();
-            startSyncExpenses();
         } catch (IOException | GoogleAuthException ioEx) {
             ioEx.printStackTrace();
         }
-
     }
 
     private String getCategoriesDataJson(List<Categories> categories) {
-
         ArrayList<String> data = new ArrayList<>();
         CategoryData categoryData = new CategoryData();
 
-        if(categories.size() == 0) return null;
+        if(categories.size() == 0) return "{}";
 
         for(Categories category : categories) {
             categoryData.setId(category.getsId());
@@ -130,7 +141,7 @@ public class DbToRestBridge {
         ArrayList<String> data = new ArrayList<>();
         ExpenseData expenseData = new ExpenseData();
 
-        if(expenses.size() == 0) return null;
+        if(expenses.size() == 0) return "{}";
 
         for(Expenses expense : expenses) {
             expenseData.setId(expense.getId());
@@ -146,11 +157,10 @@ public class DbToRestBridge {
 
     @SupposeBackground
     boolean startSyncCategories() {
-
         List<Categories> categories = Categories.getAllCategoriesOrderById();
         String jsonRequest = getCategoriesDataJson(categories);
 
-        if (jsonRequest == null || !prefs.needSyncCategories().get()) return false;
+        if (!prefs.needSyncCategories().get()) return false;
 
         try {
             UserCategoriesModel syncCategories = restService.syncCategories(jsonRequest, gToken);
@@ -179,11 +189,10 @@ public class DbToRestBridge {
 
     @SupposeBackground
     boolean startSyncExpenses(){
-
         List<Expenses> expenses = Expenses.getAllExpensesOrderById();
         String jsonRequest = getExpensesDataJson(expenses);
 
-        if(jsonRequest == null || prefs.needSyncCategories().get() || !prefs.needSyncExpenses().get()) return false;
+        if(prefs.needSyncCategories().get() || !prefs.needSyncExpenses().get()) return false;
 
         try {
             UserExpensesModel syncExpenses = restService.syncExpenses(jsonRequest, gToken);
@@ -209,5 +218,4 @@ public class DbToRestBridge {
 
         return true;
     }
-
 }
