@@ -10,7 +10,8 @@ import com.agrotrading.kancher.moneytracker.rest.model.UserRegistrationModel;
 import com.agrotrading.kancher.moneytracker.rest.model.category.UserCategoriesModel;
 import com.agrotrading.kancher.moneytracker.rest.model.expense.UserExpensesModel;
 import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
-import com.agrotrading.kancher.moneytracker.utils.exceptions.UnauthorizedException;
+
+import retrofit.RetrofitError;
 
 public class RestService {
 
@@ -36,15 +37,15 @@ public class RestService {
         return restClient.getCategoryApi().getAllCategories(gToken, MoneyTrackerApplication.getAuthToken());
     }
 
-    public UserCategoriesModel syncCategories(String data, String gToken) throws UnauthorizedException {
+    public UserCategoriesModel syncCategories(String data, String gToken) {
         return restClient.getCategoryApi().syncCategories(data, gToken, MoneyTrackerApplication.getAuthToken());
     }
 
-    public UserBalanceModel getBalance(String gToken) throws UnauthorizedException {
+    public UserBalanceModel getBalance(String gToken) {
         return restClient.getUserBalanceApi().getBalance(gToken, MoneyTrackerApplication.getAuthToken());
     }
     
-    public UserBalanceModel setBalance(float balance, String gToken) throws UnauthorizedException{
+    public UserBalanceModel setBalance(float balance, String gToken) {
         return restClient.getUserBalanceApi().setBalance(balance, gToken, MoneyTrackerApplication.getAuthToken());
     }
 
@@ -52,11 +53,11 @@ public class RestService {
         return restClient.getUserExpenseApi().getAllExpenses(gToken, MoneyTrackerApplication.getAuthToken());
     }
 
-    public UserExpensesModel syncExpenses(String data, String gToken) throws UnauthorizedException {
+    public UserExpensesModel syncExpenses(String data, String gToken) {
         return restClient.getUserExpenseApi().syncExpenses(data, gToken, MoneyTrackerApplication.getAuthToken());
     }
 
-    public GoogleTokenStatusModel getGoogleTokenStatus(String gToken) {
+    public GoogleTokenStatusModel getGoogleTokenStatus(String gToken) throws RetrofitError {
         return restClient.getCheckGoogleTokenApi().tokenStatus(gToken);
     }
 

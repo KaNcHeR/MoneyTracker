@@ -52,6 +52,7 @@
 
     <string name="network_not_available">Отсутствует подключение к сети :(</string>
     <string name="server_error">Ошибка синхронизации с сервером :(</string>
+    <string name="connection_timeout">Тайм-аут соединения, попробуйте снова :(</string>
     <string name="wrong_login">Такого логина не существует</string>
     <string name="wrong_password">Неверный пароль</string>
     <string name="login_title">Вход</string>
@@ -88,5 +89,7 @@
 
     <string name="title_dialog_logout">Выход из аккаунта</string>
     <string name="message_dialog_logout">Выход из аккаунта будет произведен после успешной синхронизации. Вы действительно хотите выйти?</string>
+    <string name="message_dialog_logout_without_sync">Вы действительно хотите выйти из аккаунта?</string>
+    <string name="sign_in_google_plus_button_text">Войти через аккаунт Google</string>
 
 </resources>

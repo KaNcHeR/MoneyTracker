@@ -7,11 +7,12 @@ import android.widget.TextView;
 
 import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
 import com.agrotrading.kancher.moneytracker.R;
-import com.agrotrading.kancher.moneytracker.utils.exceptions.UnauthorizedException;
 import com.agrotrading.kancher.moneytracker.rest.RestService;
 import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
+import com.agrotrading.kancher.moneytracker.utils.DialogHelper;
 import com.agrotrading.kancher.moneytracker.utils.GoogleAuthHelper;
-import com.agrotrading.kancher.moneytracker.utils.NetworkStatusChecker;
+import com.agrotrading.kancher.moneytracker.utils.RetrofitEventBusBridge;
+import com.agrotrading.kancher.moneytracker.utils.event.MessageEvent;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -23,11 +24,17 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.api.BackgroundExecutor;
 
+import de.greenrobot.event.EventBus;
+import retrofit.RetrofitError;
+
 @EActivity(R.layout.activity_splash)
 public class SplashActivity extends AppCompatActivity {
 
     @Bean
     GoogleAuthHelper googleAuthHelper;
+
+    @Bean
+    DialogHelper dialogHelper;
 
     @ViewById(R.id.error_network)
     TextView errorNetwork;
@@ -49,47 +56,42 @@ public class SplashActivity extends AppCompatActivity {
 
     @Click(R.id.retry_button)
     void retryStart() {
-        if(NetworkStatusChecker.isNetworkAvailable(this)) {
-            goneError();
-            start();
-        }
+        goneError();
+        start();
     }
 
     @Background(delay = 3000)
     void doInBackground() {
-        if(NetworkStatusChecker.isNetworkAvailable(this)) {
-            start();
-            return;
-        }
-
-        visibleError();
+        start();
     }
 
     @Background(id = "start")
     void start() {
-        if(!MoneyTrackerApplication.getGoogleToken(this).equalsIgnoreCase(ConstantManager.DEFAULT_GOOGLE_TOKEN)) {
+        String token = MoneyTrackerApplication.getAuthToken();
+        String gToken = MoneyTrackerApplication.getGoogleToken(this);
+        RestService restService;
+
+        if(token == null && gToken.equalsIgnoreCase(ConstantManager.DEFAULT_GOOGLE_TOKEN)) {
+            UserLoginActivity_.intent(this).start();
+            finish();
+            return;
+        }
+
+        dialogHelper.showProgressDialog(getString(R.string.progress_dialog_sync));
+
+        if(!gToken.equalsIgnoreCase(ConstantManager.DEFAULT_GOOGLE_TOKEN)) {
             googleAuthHelper.checkTokenValid();
             return;
         }
 
-        if(MoneyTrackerApplication.getAuthToken() == null &&
-                MoneyTrackerApplication.getGoogleToken(this).equalsIgnoreCase(ConstantManager.DEFAULT_GOOGLE_TOKEN)) {
-            UserLoginActivity_.intent(this).start();
-            finish();
-            return;
-        }
-
         try {
-            RestService restService = new RestService();
-            String gToken = MoneyTrackerApplication.getGoogleToken(this);
+            restService = new RestService();
             restService.getBalance(gToken);
             MainActivity_.intent(this).start();
-        } catch (UnauthorizedException e) {
-            UserLoginActivity_.intent(this).start();
-        } finally {
             finish();
+        } catch (RetrofitError error) {
+            RetrofitEventBusBridge.showEvent(error);
         }
-
     }
 
     @UiThread
@@ -108,5 +110,37 @@ public class SplashActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         BackgroundExecutor.cancelAll("start", true);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    public void onEventMainThread(MessageEvent event) {
+        dialogHelper.hideProgressDialog();
+        switch (event.code) {
+            case MessageEvent.ALERT_UNAUTHORIZED:
+                UserLoginActivity_.intent(this).start();
+                finish();
+                break;
+            case MessageEvent.ALERT_NO_INTERNET:
+                errorNetwork.setText(R.string.network_not_available);
+                break;
+            case MessageEvent.CONNECTION_TIMEOUT:
+                errorNetwork.setText(R.string.connection_timeout);
+                break;
+            case MessageEvent.SERVER_NOT_RESPOND:
+                errorNetwork.setText(R.string.server_error);
+                break;
+        }
+        visibleError();
     }
 }

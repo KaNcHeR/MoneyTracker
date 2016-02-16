@@ -35,6 +35,7 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
@@ -69,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
 
     @AfterViews
     void ready() {
-
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().replace(R.id.main_container, new ExpensesFragment_()).commit();
             drawerHelper.initDrawerItemIdStack(R.id.drawer_expenses);
@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment;
 
                 drawerLayout.closeDrawers();
-                drawerHelper.addToDrawerItemIdStack(menuItem.setChecked(true).getItemId());
 
                 switch (menuItem.getItemId()) {
                     case R.id.drawer_expenses:
@@ -132,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new ExpensesFragment_();
                         break;
                 }
-
+                drawerHelper.addToDrawerItemIdStack(menuItem.setChecked(true).getItemId());
                 getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).addToBackStack(null).commit();
                 return false;
             }
@@ -140,13 +139,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void logoutInit() {
+        int rId = R.string.message_dialog_logout;
+        boolean sync = true;
 
-        dialogHelper.showAlertDialog(R.string.title_dialog_logout, R.string.message_dialog_logout, new DialogInterface.OnClickListener() {
+        if (!prefs.needSyncCategories().get() && !prefs.needSyncExpenses().get()) {
+            rId = R.string.message_dialog_logout_without_sync;
+            sync = false;
+        }
+
+        final boolean finalSync = sync;
+        dialogHelper.showAlertDialog(R.string.title_dialog_logout, rId, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                dialogHelper.showProgressDialog(getString(R.string.progress_dialog_sync));
-                dbRestBridge.initSync();
+                if(finalSync) {
+                    dialogHelper.showProgressDialog(getString(R.string.progress_dialog_sync));
+                    dbRestBridge.initSync();
+                }
                 logout();
             }
         });
@@ -154,23 +163,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Background(serial = "sync")
     void logout() {
-
         if (!prefs.needSyncCategories().get() && !prefs.needSyncExpenses().get()) {
-
             MoneyTrackerApplication.setGoogleToken(this, ConstantManager.DEFAULT_GOOGLE_TOKEN);
             MoneyTrackerApplication.setAuthToken(null);
             TrackerSyncAdapter.onRemoveSync(this);
             Categories.truncate();
             prefs.clear();
-
             UserLoginActivity_.intent(this).start();
             finish();
-
-            return;
         }
-
-        dialogHelper.hideProgressDialog();
-        Snackbar.make(drawerLayout, getString(R.string.server_error), Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -199,14 +200,29 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
     }
 
-    public void onEventMainThread(MessageEvent event) {
+    @UiThread
+    void showSnackBar(int resId) {
+        Fragment findingFragment = getFragmentManager().findFragmentById(R.id.main_container);
+        if(findingFragment.getView() != null) {
+            Snackbar.make(findingFragment.getView(), resId, Snackbar.LENGTH_LONG).show();
+        }
+    }
 
+    public void onEventMainThread(MessageEvent event) {
+        dialogHelper.hideProgressDialog();
         switch (event.code) {
             case MessageEvent.MOVE_USER_TO_LOGIN:
                 UserLoginActivity_.intent(this).start();
                 finish();
                 break;
-            default:
+            case MessageEvent.ALERT_NO_INTERNET:
+                showSnackBar(R.string.network_not_available);
+                break;
+            case MessageEvent.CONNECTION_TIMEOUT:
+                showSnackBar(R.string.connection_timeout);
+                break;
+            case MessageEvent.SERVER_NOT_RESPOND:
+                showSnackBar(R.string.server_error);
                 break;
         }
     }

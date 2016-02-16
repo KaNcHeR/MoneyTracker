@@ -12,6 +12,7 @@ import com.agrotrading.kancher.moneytracker.rest.RestService;
 import com.agrotrading.kancher.moneytracker.rest.model.GoogleTokenStatusModel;
 import com.agrotrading.kancher.moneytracker.rest.model.GoogleTokenUserDataModel;
 import com.agrotrading.kancher.moneytracker.ui.activities.MainActivity_;
+import com.agrotrading.kancher.moneytracker.utils.event.MessageEvent;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
@@ -25,6 +26,7 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.io.IOException;
 
+import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
 
 @EBean
@@ -45,41 +47,48 @@ public class GoogleAuthHelper {
     @Background
     public void checkTokenValid() {
 
-        boolean startMainActivity = false;
+        boolean startMainActivity = true;
         String accountEmail = prefs.googleAccountEmail().get();
 
         try {
             String gToken = MoneyTrackerApplication.getGoogleToken(context);
             GoogleTokenStatusModel statusModel = restService.getGoogleTokenStatus(gToken);
             if (!statusModel.getStatus().equalsIgnoreCase(ConstantManager.STATUS_ERROR)) {
-                startMainActivity = true;
+                startMainActivity = false;
             }
         } catch (RetrofitError error) {
-            accountEmail = "";
+            RetrofitEventBusBridge.showEvent(error);
+            return;
         }
 
         if(!startMainActivity) {
-            if(accountEmail.equalsIgnoreCase("")) {
-                doubleTokenEcx();
-            } else {
-                Intent intentDummy = new Intent();
-                intentDummy.putExtra(AccountManager.KEY_ACCOUNT_NAME, accountEmail);
-                intentDummy.putExtra(AccountManager.KEY_ACCOUNT_TYPE, ConstantManager.GOOGLE_ACCOUNT_TYPE);
-                getToken(intentDummy);
-            }
+            Intent intentDummy = new Intent();
+            intentDummy.putExtra(AccountManager.KEY_ACCOUNT_NAME, accountEmail);
+            intentDummy.putExtra(AccountManager.KEY_ACCOUNT_TYPE, ConstantManager.GOOGLE_ACCOUNT_TYPE);
+            getToken(intentDummy);
         } else {
             startMainActivityWithGToken();
         }
     }
 
-    private void editPrefs() {
+    private boolean editPrefs() {
         String gToken = MoneyTrackerApplication.getGoogleToken(context);
-        GoogleTokenUserDataModel accountData = restService.getGoogleUserData(gToken);
+        GoogleTokenUserDataModel accountData;
+
+        try {
+            accountData = restService.getGoogleUserData(gToken);
+        } catch (RetrofitError error) {
+            RetrofitEventBusBridge.showEvent(error);
+            return false;
+        }
+
         prefs.edit()
                 .googleAccountName().put(accountData.getName())
                 .googleAccountEmail().put(accountData.getEmail())
                 .googleAccountPictureSrc().put(accountData.getPicture())
                 .apply();
+
+        return true;
     }
 
     @Background
@@ -88,8 +97,9 @@ public class GoogleAuthHelper {
     }
 
     private void startMainActivityWithGToken() {
-        editPrefs();
-        startMainActivity();
+        if(editPrefs()) {
+            startMainActivity();
+        }
     }
 
     private void startMainActivity() {
@@ -122,6 +132,7 @@ public class GoogleAuthHelper {
         } catch (UserRecoverableAuthException userAuthEx) {
             ((Activity) context).startActivityForResult(userAuthEx.getIntent(), ConstantManager.GET_GOOGLE_TOKEN_REQUEST_CODE);
         } catch (IOException ioEx) {
+            EventBus.getDefault().post(new MessageEvent(MessageEvent.ALERT_NO_INTERNET));
             ioEx.printStackTrace();
         } catch (GoogleAuthException fatalAuthEx) {
             fatalAuthEx.printStackTrace();

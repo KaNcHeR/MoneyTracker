@@ -12,8 +12,6 @@ import com.agrotrading.kancher.moneytracker.rest.model.category.CategoryData;
 import com.agrotrading.kancher.moneytracker.rest.model.category.UserCategoriesModel;
 import com.agrotrading.kancher.moneytracker.rest.model.expense.ExpenseData;
 import com.agrotrading.kancher.moneytracker.rest.model.expense.UserExpensesModel;
-import com.agrotrading.kancher.moneytracker.utils.event.MessageEvent;
-import com.agrotrading.kancher.moneytracker.utils.exceptions.UnauthorizedException;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.gson.Gson;
@@ -30,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
 
 @EBean
@@ -91,9 +88,9 @@ public class DBRestBridge {
                     getGToken();
                 }
             } catch (RetrofitError error) {
-                getGToken();
+                RetrofitEventBusBridge.showEvent(error);
+                return;
             }
-
         }
         startSync();
     }
@@ -180,8 +177,8 @@ public class DBRestBridge {
 
             prefs.needSyncCategories().put(false);
 
-        } catch (UnauthorizedException e) {
-            EventBus.getDefault().post(new MessageEvent(MessageEvent.MOVE_USER_TO_LOGIN));
+        } catch (RetrofitError error) {
+            RetrofitEventBusBridge.showEvent(error);
         }
 
         return true;
@@ -212,8 +209,8 @@ public class DBRestBridge {
 
             prefs.needSyncExpenses().put(false);
 
-        } catch (UnauthorizedException e) {
-            EventBus.getDefault().post(new MessageEvent(MessageEvent.MOVE_USER_TO_LOGIN));
+        } catch (RetrofitError error) {
+            RetrofitEventBusBridge.showEvent(error);
         }
 
         return true;

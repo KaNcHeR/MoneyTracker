@@ -26,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/logo_layout"
+        android:layout_centerInParent="true"
         android:paddingLeft="@dimen/user_registration_fields_padding"
         android:paddingRight="@dimen/user_registration_fields_padding">
 
@@ -49,11 +50,12 @@
             android:layout_marginTop="@dimen/button_margin_vertical"
             android:text="@string/login" />
 
-        <com.google.android.gms.common.SignInButton
+        <Button
             android:id="@+id/sign_in_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/login_button" />
+            style="@style/SignInButton"
+            android:layout_below="@+id/login_button"
+            android:text="@string/sign_in_google_plus_button_text"
+            android:textAllCaps="false" />
 
         <TextView
             android:id="@+id/tv_registration_button"

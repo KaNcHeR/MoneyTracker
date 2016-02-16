@@ -104,10 +104,17 @@
     <style name="UserRegistrationButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/buttons_padding</item>
         <item name="android:background">@drawable/button</item>
         <item name="android:textColor">@color/color_text_button</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">@dimen/button_text_size</item>
+    </style>
+
+    <style name="SignInButton" parent="UserRegistrationButton">
+        <item name="android:background">@drawable/button_sign_in_google</item>
+        <item name="android:paddingLeft">@dimen/sign_in_button_padding_icon</item>
+        <item name="android:drawableLeft">@mipmap/ic_google_plus_white_24dp</item>
     </style>
 
     <style name="QuestionRegistrationTextView">
