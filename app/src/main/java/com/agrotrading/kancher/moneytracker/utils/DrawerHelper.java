@@ -9,13 +9,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.agrotrading.kancher.moneytracker.R;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.bumptech.glide.Glide;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.util.ArrayDeque;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 @EBean
 public class DrawerHelper {
@@ -45,7 +47,9 @@ public class DrawerHelper {
             subtitleLayout.setVisibility(View.VISIBLE);
             pictureImageView.setVisibility(View.VISIBLE);
 
-            ImageLoader.getInstance().displayImage(prefs.googleAccountPictureSrc().get(), pictureImageView);
+            Glide.with(context).load(prefs.googleAccountPictureSrc().get())
+                    .bitmapTransform(new CropCircleTransformation(context))
+                    .into(pictureImageView);
         }
     }
 

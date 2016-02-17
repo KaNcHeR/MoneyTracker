@@ -91,5 +91,6 @@
     <string name="message_dialog_logout">Выход из аккаунта будет произведен после успешной синхронизации. Вы действительно хотите выйти?</string>
     <string name="message_dialog_logout_without_sync">Вы действительно хотите выйти из аккаунта?</string>
     <string name="sign_in_google_plus_button_text">Войти через аккаунт Google</string>
+    <string name="circleAvatarDescription">circleAvatar</string>
 
 </resources>
