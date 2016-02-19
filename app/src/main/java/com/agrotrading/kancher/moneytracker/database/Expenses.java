@@ -42,6 +42,7 @@ public class Expenses extends Model {
     }
 
     public Expenses(long sId, String name, Double price, String date, Categories category) {
+        super();
         this.sId = sId;
         this.name = name;
         this.price = price;

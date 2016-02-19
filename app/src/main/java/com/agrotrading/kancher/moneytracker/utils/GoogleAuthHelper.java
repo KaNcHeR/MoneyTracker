@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.util.Log;
 
 import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
@@ -22,6 +23,7 @@ import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.io.IOException;
@@ -53,7 +55,7 @@ public class GoogleAuthHelper {
         try {
             String gToken = MoneyTrackerApplication.getGoogleToken(context);
             GoogleTokenStatusModel statusModel = restService.getGoogleTokenStatus(gToken);
-            if (!statusModel.getStatus().equalsIgnoreCase(ConstantManager.STATUS_ERROR)) {
+            if (statusModel.getStatus().equalsIgnoreCase(ConstantManager.STATUS_ERROR)) {
                 startMainActivity = false;
             }
         } catch (RetrofitError error) {
@@ -102,13 +104,20 @@ public class GoogleAuthHelper {
         }
     }
 
-    private void startMainActivity() {
+    void startMainActivity() {
+
         if(prefs.needFirstSync().get()) {
             dbRestBridge.firstSync();
             prefs.needFirstSync().put(false);
         }
-        MainActivity_.intent(context).start();
-        ((Activity) context).finish();
+        startTransition();
+    }
+
+    @UiThread
+    void startTransition() {
+        //noinspection unchecked
+        ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context);
+        MainActivity_.intent(context).withOptions(transitionActivityOptions.toBundle()).start();
     }
 
     private void doubleTokenEcx() {

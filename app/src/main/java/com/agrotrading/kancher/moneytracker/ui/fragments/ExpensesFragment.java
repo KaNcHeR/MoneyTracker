@@ -5,15 +5,16 @@ import android.app.LoaderManager;
 import android.content.AsyncTaskLoader;
 import android.content.Loader;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
@@ -52,9 +53,6 @@ public class ExpensesFragment extends Fragment {
     @Bean
     ExpensesAdapter expensesAdapter;
 
-    @ViewById(R.id.main_content)
-    CoordinatorLayout coordinatorLayout;
-
     @ViewById(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -69,12 +67,14 @@ public class ExpensesFragment extends Fragment {
 
     @Click(R.id.fab)
     void startAddExpenseActivity() {
-        AddExpenseActivity_.intent(this).start();
-        getActivity().overridePendingTransition(R.anim.from_middle, R.anim.to_middle);
+        //noinspection unchecked
+        ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity());
+        AddExpenseActivity_.intent(getActivity()).withOptions(transitionActivityOptions.toBundle()).start();
     }
 
     @AfterViews
     void ready() {
+        //setupWindowAnimations();
         getActivity().setTitle(getString(R.string.nav_drawer_expenses));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -84,7 +84,6 @@ public class ExpensesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Snackbar.make(coordinatorLayout, getString(R.string.nav_drawer_expenses), Snackbar.LENGTH_SHORT).show();
         loadData("");
         initSwipeToRefresh();
         initTouchHelper();
@@ -232,5 +231,13 @@ public class ExpensesFragment extends Fragment {
             expensesAdapter.clearSelection();
             actionMode = null;
         }
+    }
+
+    private void setupWindowAnimations() {
+        Slide slideTransition = new Slide();
+        slideTransition.setSlideEdge(Gravity.LEFT);
+        slideTransition.setDuration(500);
+        //setEnterTransition(slideTransition);
+        setExitTransition(slideTransition);
     }
 }

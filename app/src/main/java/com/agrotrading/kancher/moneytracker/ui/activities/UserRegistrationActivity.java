@@ -3,6 +3,7 @@ package com.agrotrading.kancher.moneytracker.ui.activities;
 import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Fade;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import com.agrotrading.kancher.moneytracker.utils.DialogHelper;
 import com.agrotrading.kancher.moneytracker.utils.RetrofitEventBusBridge;
 import com.agrotrading.kancher.moneytracker.utils.event.MessageEvent;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
@@ -43,6 +45,11 @@ public class UserRegistrationActivity extends AppCompatActivity {
 
     @ViewById(R.id.registration_button)
     Button bRegistration;
+
+    @AfterViews
+    void init() {
+        setupWindowAnimations();
+    }
 
     @Click(R.id.tv_login_button)
     void registration() {
@@ -131,5 +138,12 @@ public class UserRegistrationActivity extends AppCompatActivity {
                 showSnackBar(R.string.server_error);
                 break;
         }
+    }
+
+    private void setupWindowAnimations() {
+        Fade enterTransition = new Fade();
+        enterTransition.setDuration(500);
+        getWindow().setEnterTransition(enterTransition);
+        getWindow().setExitTransition(enterTransition);
     }
 }

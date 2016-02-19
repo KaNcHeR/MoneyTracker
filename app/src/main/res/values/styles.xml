@@ -4,13 +4,14 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">false</item>
+        <item name="android:windowAllowReturnTransitionOverlap">false</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds" android:targetApi="lollipop">true</item>
-        <item name="android:statusBarColor" android:targetApi="lollipop">@color/colorPrimaryDark</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeStyle">@style/ContextualActionModeStyle</item>
     </style>
@@ -30,7 +31,7 @@
     </style>
 
     <style name="Container.MainBackground">
-        <item name="android:background">@color/white</item>
+
     </style>
 
     <style name="Container.DarkBackground">

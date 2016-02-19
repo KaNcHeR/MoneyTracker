@@ -22,7 +22,7 @@
         <meta-data android:name="AA_DB_VERSION" android:value="1" />
         <meta-data
             android:name="AA_MODELS"
-            android:value="com.agrotrading.kancher.moneytracker.database.Expenses, com.agrotrading.kancher.moneytracker.database.Categories" />
+            android:value="com.agrotrading.kancher.moneytracker.database.Expenses, com.agrotrading.kancher.moneytracker.database.Categories, com.agrotrading.kancher.moneytracker.database.notable.Expenses" />
 
         <activity
             android:name=".ui.activities.SplashActivity_"
@@ -35,37 +35,21 @@
 
         <activity
             android:name=".ui.activities.UserLoginActivity_">
-            <intent-filter>
-                <action android:name="android.intent.action.LOGIN" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-
         </activity>
 
         <activity
             android:name=".ui.activities.UserRegistrationActivity_">
-            <intent-filter>
-                <action android:name="android.intent.action.REGISTRATION" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
 
         <activity
             android:name=".ui.activities.MainActivity_"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="com.agrotrading.kancher.moneytracker.MAINACTIVITY" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
 
         <activity
             android:name=".ui.activities.AddExpenseActivity_"
             android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.MainActivity_" />
         </activity>
         
         <provider

@@ -34,6 +34,8 @@ import retrofit.RetrofitError;
 @EActivity(R.layout.activity_login)
 public class UserLoginActivity extends AppCompatActivity {
 
+    boolean timeToFinish = false;
+
     @Bean
     GoogleAuthHelper googleAuthHelper;
 
@@ -60,8 +62,9 @@ public class UserLoginActivity extends AppCompatActivity {
                 googleAuthHelper.getToken(data);
             } catch (RetrofitError error) {
                 RetrofitEventBusBridge.showEvent(error);
+                return;
             }
-
+            timeToFinish = true;
         }
     }
 
@@ -140,6 +143,9 @@ public class UserLoginActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
+        if(timeToFinish) {
+            finish();
+        }
         EventBus.getDefault().unregister(this);
     }
 
@@ -161,4 +167,5 @@ public class UserLoginActivity extends AppCompatActivity {
                 break;
         }
     }
+
 }

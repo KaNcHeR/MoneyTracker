@@ -28,4 +28,8 @@ public class CategoryItemView extends RelativeLayout {
         nameText.setText(categories.toString());
         selectedOverlay.setVisibility(selected ? VISIBLE : INVISIBLE);
     }
+
+    public TextView getNameText() {
+        return nameText;
+    }
 }

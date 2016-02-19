@@ -3,10 +3,10 @@ package com.agrotrading.kancher.moneytracker.adapters;
 import android.content.Context;
 import android.view.ViewGroup;
 
+import com.agrotrading.kancher.moneytracker.ViewWrapper;
 import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.views.CategoryItemView;
 import com.agrotrading.kancher.moneytracker.views.CategoryItemView_;
-import com.agrotrading.kancher.moneytracker.ViewWrapper;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
@@ -25,6 +25,9 @@ public class CategoriesAdapter extends RecyclerViewAdapterBase<Categories, Categ
         CategoryItemView view = holder.getView();
         Categories categories = items.get(position);
         view.bind(categories, isSelected(position));
+        if(isItemAnimation) {
+            setAnimation(view.getNameText(), position, context);
+        }
     }
 
     @Override
@@ -45,4 +48,5 @@ public class CategoriesAdapter extends RecyclerViewAdapterBase<Categories, Categ
 
         notifyItemInserted(items.indexOf(category));
     }
+
 }

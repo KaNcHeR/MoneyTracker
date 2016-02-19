@@ -14,6 +14,9 @@ public class CategoriesSumModel {
     private double sum;
     private int color;
 
+    public CategoriesSumModel() { super();
+    }
+
     public CategoriesSumModel(String name, double sum, int color) {
         this.name = name;
         this.sum = sum;

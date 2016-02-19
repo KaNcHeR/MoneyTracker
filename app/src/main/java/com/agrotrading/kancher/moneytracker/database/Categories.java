@@ -11,7 +11,6 @@ import com.activeandroid.query.Select;
 import com.agrotrading.kancher.moneytracker.database.notable.CategoriesSumModel;
 import com.agrotrading.kancher.moneytracker.utils.ColorHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "Categories")
@@ -65,9 +64,8 @@ public class Categories extends Model {
 
     public static List<CategoriesSumModel> getCategoryWithSum() {
 
-        List<CategoriesSumModel> categoriesSum = new ArrayList<>();
-
-        From query =  new Select(new String[]{"Categories.Name as name, SUM(Expenses.Price) AS sum, Categories.Color as color"})
+        //List<CategoriesSumModel> categoriesSum = new ArrayList<>();
+        From query = new Select(new String[]{"Categories.Name as name", "SUM(Expenses.Price) AS sum", "Categories.Color as color"})
                 .from(Expenses.class)
                 .groupBy("Category")
                 .leftJoin(Categories.class)

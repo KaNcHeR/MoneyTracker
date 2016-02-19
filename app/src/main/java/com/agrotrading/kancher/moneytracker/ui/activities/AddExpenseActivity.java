@@ -4,6 +4,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Fade;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -38,7 +39,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     DialogHelper dialogHelper;
 
     @Pref
-    static ApplicationPreferences_ prefs;
+    ApplicationPreferences_ prefs;
 
     @ViewById
     Toolbar toolbar;
@@ -63,7 +64,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
     @AfterViews
     void ready() {
-
+        setupWindowAnimations();
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -76,9 +77,9 @@ public class AddExpenseActivity extends AppCompatActivity {
         categorySpinner.setAdapter(categoriesSpinnerAdapter);
     }
 
-    @OptionsItem(R.id.home)
+    @OptionsItem(android.R.id.home)
     void back() {
-        finish();
+        supportFinishAfterTransition();
     }
 
     @Click(R.id.date_field)
@@ -88,7 +89,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
     @Click(R.id.cancel_button)
     void cancel() {
-        finish();
+        supportFinishAfterTransition();
     }
 
     @TextChange(R.id.sum_field)
@@ -119,7 +120,14 @@ public class AddExpenseActivity extends AppCompatActivity {
             ).save();
 
             prefs.needSyncExpenses().put(true);
-            finish();
+            supportFinishAfterTransition();
         }
+    }
+
+    private void setupWindowAnimations() {
+        Fade fadeTransition = new Fade();
+        fadeTransition.setDuration(500);
+        getWindow().setEnterTransition(fadeTransition);
+        getWindow().setExitTransition(fadeTransition);
     }
 }

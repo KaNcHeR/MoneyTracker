@@ -1,9 +1,14 @@
 package com.agrotrading.kancher.moneytracker.adapters;
 
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.activeandroid.Model;
+import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.ViewWrapper;
 
 import java.util.ArrayList;
@@ -15,6 +20,9 @@ public abstract class RecyclerViewAdapterBase<T extends Model, V extends View> e
 
     protected List<T> items = new ArrayList<>();
     protected ViewWrapper.ClickListener clickListener;
+    protected RecyclerView recyclerView;
+    protected boolean isItemAnimation;
+    protected int lastPosition;
 
     @Override
     public int getItemCount() {
@@ -26,11 +34,27 @@ public abstract class RecyclerViewAdapterBase<T extends Model, V extends View> e
         return new ViewWrapper<>(onCreateItemView(parent, viewType), clickListener);
     }
 
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        this.recyclerView = recyclerView;
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                isItemAnimation = false;
+                recyclerView.removeOnScrollListener(this);
+            }
+        });
+    }
+
     protected abstract V onCreateItemView(ViewGroup parent, int viewType);
 
     public void init(List<T> items, ViewWrapper.ClickListener clickListener) {
         this.items = items;
         this.clickListener = clickListener;
+        isItemAnimation = true;
+        lastPosition = -1;
     }
 
     public void removeItem(int position) {
@@ -59,6 +83,15 @@ public abstract class RecyclerViewAdapterBase<T extends Model, V extends View> e
             positions.remove(0);
         }
 
+    }
+
+    protected void setAnimation(View viewToAnimate, int position, Context context) {
+        if(position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_right);
+            animation.setStartOffset(position * 50);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 
 }

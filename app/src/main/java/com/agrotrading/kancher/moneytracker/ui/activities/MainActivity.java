@@ -2,7 +2,6 @@ package com.agrotrading.kancher.moneytracker.ui.activities;
 
 import android.app.Fragment;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -13,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.agrotrading.kancher.moneytracker.MoneyTrackerApplication;
 import com.agrotrading.kancher.moneytracker.R;
@@ -70,9 +70,13 @@ public class MainActivity extends AppCompatActivity {
 
     @AfterViews
     void ready() {
+        setupWindowAnimations();
+
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction().replace(R.id.main_container, new ExpensesFragment_()).commit();
+            Fragment fragment = new ExpensesFragment_();
+            applyAnimation(fragment);
             drawerHelper.initDrawerItemIdStack(R.id.drawer_expenses);
+            getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
         }
 
         setupToolbar();
@@ -116,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.drawer_categories:
                         fragment = new CategoriesFragment_();
-                        animationShowCategories(fragment);
                         break;
                     case R.id.drawer_statistics:
                         fragment = new StatisticsFragment_();
@@ -132,10 +135,18 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
                 drawerHelper.addToDrawerItemIdStack(menuItem.setChecked(true).getItemId());
+                applyAnimation(fragment);
                 getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).addToBackStack(null).commit();
                 return false;
             }
         });
+    }
+
+    private void applyAnimation(Fragment fragment) {
+        Slide slide = new Slide(Gravity.RIGHT);
+        slide.setDuration(300);
+        fragment.setEnterTransition(slide);
+        fragment.setExitTransition(slide);
     }
 
     void logoutInit() {
@@ -152,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                if(finalSync) {
+                if (finalSync) {
                     dialogHelper.showProgressDialog(getString(R.string.progress_dialog_sync));
                     dbRestBridge.initSync();
                 }
@@ -180,8 +191,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else if(findingFragment != null && findingFragment instanceof ExpensesFragment_) {
+        } else if (findingFragment != null && findingFragment instanceof ExpensesFragment_) {
             super.onBackPressed();
+            finish();
         } else {
             getFragmentManager().popBackStack();
             navigationView.getMenu().findItem(drawerHelper.getCheckedId()).setChecked(true);
@@ -202,10 +214,14 @@ public class MainActivity extends AppCompatActivity {
 
     @UiThread
     void showSnackBar(int resId) {
+        View view;
         Fragment findingFragment = getFragmentManager().findFragmentById(R.id.main_container);
-        if(findingFragment.getView() != null) {
-            Snackbar.make(findingFragment.getView(), resId, Snackbar.LENGTH_LONG).show();
+        if (findingFragment.getView() != null) {
+            view = findingFragment.getView();
+        } else {
+            view = drawerLayout;
         }
+        Snackbar.make(view, resId, Snackbar.LENGTH_LONG).show();
     }
 
     public void onEventMainThread(MessageEvent event) {
@@ -227,12 +243,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void animationShowCategories(Fragment fragment) {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Slide slide = new Slide(Gravity.TOP);
-            slide.setDuration(600);
-            fragment.setEnterTransition(slide);
-        }
+    private void setupWindowAnimations() {
+        Slide slideTransition = new Slide(Gravity.LEFT);
+        slideTransition.setDuration(500);
+        getWindow().setEnterTransition(slideTransition);
+        getWindow().setExitTransition(slideTransition);
     }
 }

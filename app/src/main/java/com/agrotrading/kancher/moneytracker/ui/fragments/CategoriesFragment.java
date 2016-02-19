@@ -63,10 +63,10 @@ public class CategoriesFragment extends Fragment {
     @AfterViews
     void ready() {
         getActivity().setTitle(getString(R.string.nav_drawer_categories));
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         categoriesRecyclerView.setLayoutManager(linearLayoutManager);
+        categoriesRecyclerView.setHasFixedSize(true);
     }
 
     @Click(R.id.fab)
