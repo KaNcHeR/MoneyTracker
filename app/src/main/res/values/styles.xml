@@ -4,14 +4,20 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">false</item>
+        <item name="android:windowAllowReturnTransitionOverlap">false</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds" android:targetApi="lollipop">true</item>
-        <item name="android:statusBarColor" android:targetApi="lollipop">@color/colorPrimaryDark</item>
         <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeStyle">@style/ContextualActionModeStyle</item>
+    </style>
+
+    <style name="ContextualActionModeStyle" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="background">@color/contextual_action_bar_bg</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -25,7 +31,7 @@
     </style>
 
     <style name="Container.MainBackground">
-        <item name="android:background">@color/white</item>
+
     </style>
 
     <style name="Container.DarkBackground">
@@ -99,10 +105,17 @@
     <style name="UserRegistrationButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/buttons_padding</item>
         <item name="android:background">@drawable/button</item>
         <item name="android:textColor">@color/color_text_button</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">@dimen/button_text_size</item>
+    </style>
+
+    <style name="SignInButton" parent="UserRegistrationButton">
+        <item name="android:background">@drawable/button_sign_in_google</item>
+        <item name="android:paddingLeft">@dimen/sign_in_button_padding_icon</item>
+        <item name="android:drawableLeft">@mipmap/ic_google_plus_white_24dp</item>
     </style>
 
     <style name="QuestionRegistrationTextView">

@@ -18,7 +18,9 @@ import com.agrotrading.kancher.moneytracker.R;
 import com.agrotrading.kancher.moneytracker.ViewWrapper;
 import com.agrotrading.kancher.moneytracker.adapters.CategoriesAdapter;
 import com.agrotrading.kancher.moneytracker.database.Categories;
+import com.agrotrading.kancher.moneytracker.utils.ApplicationPreferences_;
 import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
+import com.agrotrading.kancher.moneytracker.utils.DialogHelper;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -28,19 +30,20 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.OptionsMenuItem;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.androidannotations.api.BackgroundExecutor;
 
 import java.util.List;
 
 @EFragment(R.layout.categories_fragment)
 @OptionsMenu(R.menu.search_menu)
-public class CategoriesFragment extends Fragment{
+public class CategoriesFragment extends Fragment {
 
-    @ViewById(R.id.swipe_refresh)
-    SwipeRefreshLayout swipeRefreshLayout;
+    private ActionModeCallback actionModeCallback = new ActionModeCallback();
+    private ActionMode actionMode;
 
-    @ViewById(R.id.context_recyclerview)
-    RecyclerView categoriesRecyclerView;
+    @Pref
+    ApplicationPreferences_ prefs;
 
     @OptionsMenuItem(R.id.search_action)
     MenuItem menuItem;
@@ -48,27 +51,33 @@ public class CategoriesFragment extends Fragment{
     @Bean
     CategoriesAdapter categoriesAdapter;
 
-    private ActionModeCallback actionModeCallback = new ActionModeCallback();
-    private ActionMode actionMode;
+    @Bean
+    DialogHelper dialogHelper;
+
+    @ViewById(R.id.swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    @ViewById(R.id.context_recyclerview)
+    RecyclerView categoriesRecyclerView;
 
     @AfterViews
     void ready() {
+        getActivity().setTitle(getString(R.string.nav_drawer_categories));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         categoriesRecyclerView.setLayoutManager(linearLayoutManager);
-        getActivity().setTitle(getString(R.string.nav_drawer_categories));
+        categoriesRecyclerView.setHasFixedSize(true);
     }
 
     @Click(R.id.fab)
-    void startAddExpenseActivity(){
-        AddCategoryDialogFragment_ addCategoryDialogFragment = new AddCategoryDialogFragment_();
-        addCategoryDialogFragment.initListener(new AddCategoryDialogFragment.AddingCategoryListener() {
+    void showAddCategoryDialog() {
+        dialogHelper.showAddCategoryDialogFragment(new AddCategoryDialogFragment.AddingCategoryListener() {
             @Override
             public void onCategoryAdded(Categories category) {
                 categoriesAdapter.insertItemNameAsc(category);
+                prefs.needSyncCategories().put(true);
             }
         });
-        addCategoryDialogFragment.show(getFragmentManager(), "addCategoryDialogFragment");
     }
 
     @Override
@@ -116,7 +125,7 @@ public class CategoriesFragment extends Fragment{
         loadData(filter);
     }
 
-    private void loadData(final String filter){
+    private void loadData(final String filter) {
         getLoaderManager().restartLoader(1, null, new LoaderManager.LoaderCallbacks<List<Categories>>() {
             @Override
             public Loader<List<Categories>> onCreateLoader(int id, Bundle args) {
@@ -155,19 +164,17 @@ public class CategoriesFragment extends Fragment{
             }
 
             @Override
-            public void onLoaderReset(Loader<List<Categories>> loader) {
-
-            }
+            public void onLoaderReset(Loader<List<Categories>> loader) {}
         });
     }
 
     private void toggleSelection(int position) {
         categoriesAdapter.toggleSelection(position);
         int count = categoriesAdapter.getSelectedItemCount();
-        if(count == 0) {
+        if (count == 0) {
             actionMode.finish();
         } else {
-            actionMode.setTitle(String.valueOf(count));
+            actionMode.setTitle(getString(R.string.contextual_action_bar_title, count));
             actionMode.invalidate();
         }
     }
@@ -203,5 +210,4 @@ public class CategoriesFragment extends Fragment{
             actionMode = null;
         }
     }
-
 }

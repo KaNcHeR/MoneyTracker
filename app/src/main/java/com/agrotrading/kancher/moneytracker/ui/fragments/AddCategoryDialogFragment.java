@@ -58,7 +58,6 @@ public class AddCategoryDialogFragment extends DialogFragment {
         }
 
         dismiss();
-
     }
 
     @Click(R.id.cancel_button)

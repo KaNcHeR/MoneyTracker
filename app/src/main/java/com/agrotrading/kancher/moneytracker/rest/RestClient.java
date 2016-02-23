@@ -1,18 +1,16 @@
 package com.agrotrading.kancher.moneytracker.rest;
 
-import com.agrotrading.kancher.moneytracker.utils.handlers.RetrofitErrorHandler;
-import com.agrotrading.kancher.moneytracker.rest.api.UserGoogleAccountApi;
-import com.agrotrading.kancher.moneytracker.rest.api.UserCategoryApi;
 import com.agrotrading.kancher.moneytracker.rest.api.UserAccountApi;
 import com.agrotrading.kancher.moneytracker.rest.api.UserBalanceApi;
+import com.agrotrading.kancher.moneytracker.rest.api.UserCategoryApi;
 import com.agrotrading.kancher.moneytracker.rest.api.UserExpenseApi;
+import com.agrotrading.kancher.moneytracker.rest.api.UserGoogleAccountApi;
 import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
-import com.squareup.okhttp.OkHttpClient;
-
-import java.util.concurrent.TimeUnit;
+import com.google.gson.Gson;
 
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
+import retrofit.converter.GsonConverter;
 
 public class RestClient {
 
@@ -24,10 +22,10 @@ public class RestClient {
 
     public RestClient() {
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setClient(new OkClient(getClient()))
+                .setClient(new OkClient())
                 .setEndpoint(ConstantManager.BASE_URL)
-                .setErrorHandler(new RetrofitErrorHandler())
                 .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setConverter(new GsonConverter(new Gson()))
                 .build();
 
         userAccountApi = restAdapter.create(UserAccountApi.class);
@@ -36,13 +34,6 @@ public class RestClient {
         userExpenseApi = restAdapter.create(UserExpenseApi.class);
         checkGoogleTokenApi = restAdapter.create(UserGoogleAccountApi.class);
 
-    }
-
-    private OkHttpClient getClient() {
-        OkHttpClient client = new OkHttpClient();
-        client.setConnectTimeout(60, TimeUnit.SECONDS);
-        client.setReadTimeout(60, TimeUnit.SECONDS);
-        return client;
     }
 
     public UserAccountApi getUserAccountApi() { return userAccountApi; }

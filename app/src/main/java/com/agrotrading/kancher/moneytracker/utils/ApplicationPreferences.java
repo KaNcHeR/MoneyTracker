@@ -12,10 +12,15 @@ public interface ApplicationPreferences {
     @DefaultBoolean(false)
     boolean needSyncExpenses();
 
+    @DefaultBoolean(true)
+    boolean firstStartAfterAuth();
+
+    @DefaultBoolean(true)
+    boolean needFirstSync();
+
     String googleAccountName();
 
     String googleAccountEmail();
 
     String googleAccountPictureSrc();
-
 }

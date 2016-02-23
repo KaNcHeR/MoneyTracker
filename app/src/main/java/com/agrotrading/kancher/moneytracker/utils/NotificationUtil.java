@@ -57,7 +57,7 @@ public class NotificationUtil {
 
         i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         builder.setContentIntent(intent);
-        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setSmallIcon(R.mipmap.ic_logo_status_bar);
 
         if(prefs.indicatorNotifications().get()) builder.setLights(Color.BLUE, 300, 1500);
         if(prefs.vibrateNotifications().get()) builder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});

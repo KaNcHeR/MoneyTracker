@@ -2,9 +2,11 @@ package com.agrotrading.kancher.moneytracker.database;
 
 import android.database.Cursor;
 
+import com.activeandroid.Cache;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
 import java.util.List;
@@ -25,7 +27,7 @@ public class Expenses extends Model {
     private String date;
 
     @Column(name = "category", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
-    public Categories category;
+    private Categories category;
 
     public Expenses() {
         super();
@@ -39,10 +41,19 @@ public class Expenses extends Model {
         this.category = category;
     }
 
+    public Expenses(long sId, String name, Double price, String date, Categories category) {
+        super();
+        this.sId = sId;
+        this.name = name;
+        this.price = price;
+        this.date = date;
+        this.category = category;
+    }
+
     public static List<Expenses> getAllExpenses(String filter) {
         return new Select()
                 .from(Expenses.class)
-                .where("Name LIKE ?", new String[] {'%' + filter + '%'})
+                .where("Name LIKE ?", "%" + filter + "%")
                 .execute();
     }
 
@@ -51,6 +62,19 @@ public class Expenses extends Model {
                 .from(Expenses.class)
                 .orderBy("id ASC")
                 .execute();
+    }
+
+    public static double inTotal() {
+        double inTotal = 0;
+        From query = new Select(new String[]{"SUM(Price) AS inTotal"}).from(Expenses.class);
+
+        Cursor cursor = Cache.openDatabase().rawQuery(query.toSql(), query.getArguments());
+        if(cursor.moveToFirst()) {
+            inTotal = cursor.getDouble(cursor.getColumnIndex("inTotal"));
+        }
+        cursor.close();
+
+        return inTotal;
     }
 
     public long getCategoryId(){

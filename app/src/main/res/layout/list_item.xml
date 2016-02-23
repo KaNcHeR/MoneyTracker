@@ -8,8 +8,7 @@
     card_view:cardBackgroundColor="@color/colorAccent"
     card_view:cardCornerRadius="@dimen/card_view_cardCornerRadius">
 
-    <RelativeLayout
-        style="@style/Container.Formatted">
+    <RelativeLayout style="@style/Container.Formatted">
 
         <TextView
             android:id="@+id/name_text"

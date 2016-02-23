@@ -1,11 +1,11 @@
 package com.agrotrading.kancher.moneytracker.ui.activities;
 
-import android.app.DatePickerDialog;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Fade;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -14,6 +14,7 @@ import com.agrotrading.kancher.moneytracker.adapters.CategoriesSpinnerAdapter;
 import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.database.Expenses;
 import com.agrotrading.kancher.moneytracker.utils.ApplicationPreferences_;
+import com.agrotrading.kancher.moneytracker.utils.DialogHelper;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -25,15 +26,20 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 @EActivity(R.layout.activity_add_expense)
 public class AddExpenseActivity extends AppCompatActivity {
 
+    @Bean
+    CategoriesSpinnerAdapter categoriesSpinnerAdapter;
+
+    @Bean
+    DialogHelper dialogHelper;
+
     @Pref
-    static ApplicationPreferences_ prefs;
+    ApplicationPreferences_ prefs;
 
     @ViewById
     Toolbar toolbar;
@@ -56,52 +62,34 @@ public class AddExpenseActivity extends AppCompatActivity {
     @ViewById(R.id.date_field)
     EditText expenseDate;
 
-    @Bean
-    CategoriesSpinnerAdapter categoriesSpinnerAdapter;
-
-    @OptionsItem(R.id.home)
-    void back() {
-        onBackPressed();
-        finish();
-    }
-
     @AfterViews
     void ready() {
+        setupWindowAnimations();
         setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        setTitle(getString(R.string.add_expense));
+
         SimpleDateFormat dateFormat = new SimpleDateFormat(getString(R.string.date_format), Locale.getDefault());
         expenseDate.setText(dateFormat.format(new Date()));
-        setTitle(getString(R.string.add_expense));
+
+        categorySpinner.setAdapter(categoriesSpinnerAdapter);
     }
 
-    @AfterViews
-    void bindAdapter() {
-        categorySpinner.setAdapter(categoriesSpinnerAdapter);
+    @OptionsItem(android.R.id.home)
+    void back() {
+        supportFinishAfterTransition();
     }
 
     @Click(R.id.date_field)
     void changeDate() {
-
-        Calendar calendar = Calendar.getInstance();
-        final Date date = new Date();
-        DatePickerDialog datePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                monthOfYear++;
-                String month = (monthOfYear < 10 ? "0" : "") + monthOfYear;
-                String day = (dayOfMonth < 10 ? "0" : "") + dayOfMonth;
-                String dateWithFormat = getString(R.string.date_format_string, year, month, day);
-                expenseDate.setText(dateWithFormat);
-            }
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        datePicker.show();
+        dialogHelper.showDatePickerDialogForTextView(expenseDate);
     }
 
     @Click(R.id.cancel_button)
     void cancel() {
-        back();
+        supportFinishAfterTransition();
     }
 
     @TextChange(R.id.sum_field)
@@ -117,21 +105,29 @@ public class AddExpenseActivity extends AppCompatActivity {
     @Click(R.id.add_button)
     void addExpense(View clickedView) {
 
-        if(expenseSum.length() == 0) {
+        if (categorySpinner.getAdapter().getCount() < 1) {
+            Snackbar.make(clickedView, getString(R.string.no_categories), Snackbar.LENGTH_LONG).show();
+        } else if (expenseSum.length() == 0) {
             expenseSumLayout.setError(getString(R.string.error_required_field));
-            return;
-        }
-
-        if(expenseComment.length() == 0) {
+        } else if (expenseComment.length() == 0) {
             expenseCommentLayout.setError(getString(R.string.error_required_field));
-            return;
-        }
+        } else {
+            new Expenses(
+                    Double.parseDouble(expenseSum.getText().toString()),
+                    expenseComment.getText().toString(),
+                    expenseDate.getText().toString(),
+                    (Categories) categorySpinner.getSelectedItem()
+            ).save();
 
-        Categories category = (Categories) categorySpinner.getSelectedItem();
-        Expenses expense = new Expenses(Double.parseDouble(expenseSum.getText().toString()), expenseComment.getText().toString(), expenseDate.getText().toString(), category);
-        expense.save();
-        prefs.needSyncExpenses().put(true);
-        finish();
+            prefs.needSyncExpenses().put(true);
+            supportFinishAfterTransition();
+        }
     }
 
+    private void setupWindowAnimations() {
+        Fade fadeTransition = new Fade();
+        fadeTransition.setDuration(500);
+        getWindow().setEnterTransition(fadeTransition);
+        getWindow().setExitTransition(fadeTransition);
+    }
 }
