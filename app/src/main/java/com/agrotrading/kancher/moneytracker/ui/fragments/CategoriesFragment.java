@@ -21,6 +21,7 @@ import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.utils.ApplicationPreferences_;
 import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
 import com.agrotrading.kancher.moneytracker.utils.DialogHelper;
+import com.agrotrading.kancher.moneytracker.utils.DividerItemDecoration;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -67,6 +68,7 @@ public class CategoriesFragment extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         categoriesRecyclerView.setLayoutManager(linearLayoutManager);
         categoriesRecyclerView.setHasFixedSize(true);
+        categoriesRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
     }
 
     @Click(R.id.fab)
