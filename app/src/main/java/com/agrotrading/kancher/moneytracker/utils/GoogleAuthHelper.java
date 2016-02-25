@@ -25,10 +25,10 @@ import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 
-import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
 
 @EBean

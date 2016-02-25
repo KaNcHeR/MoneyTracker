@@ -1,7 +1,9 @@
 package com.agrotrading.kancher.moneytracker.ui.activities;
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -28,6 +30,7 @@ import com.agrotrading.kancher.moneytracker.utils.DBRestBridge;
 import com.agrotrading.kancher.moneytracker.utils.DialogHelper;
 import com.agrotrading.kancher.moneytracker.utils.DrawerHelper;
 import com.agrotrading.kancher.moneytracker.utils.event.MessageEvent;
+import com.bumptech.glide.Glide;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -38,8 +41,8 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
-
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity {
@@ -94,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_menu_white_24dp);
@@ -142,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void applyAnimation(Fragment fragment) {
         Slide slide = new Slide(Gravity.RIGHT);
         slide.setDuration(300);
@@ -180,9 +183,16 @@ public class MainActivity extends AppCompatActivity {
             TrackerSyncAdapter.onRemoveSync(this);
             Categories.truncate();
             prefs.clear();
+            Glide.get(this).clearDiskCache();
+            clearMemoryCacheGlide();
             UserLoginActivity_.intent(this).start();
             finish();
         }
+    }
+
+    @UiThread
+    void clearMemoryCacheGlide() {
+        Glide.get(this).clearMemory();
     }
 
     @Override
@@ -224,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
         Snackbar.make(view, resId, Snackbar.LENGTH_LONG).show();
     }
 
+    @Subscribe
     public void onEventMainThread(MessageEvent event) {
         dialogHelper.hideProgressDialog();
         switch (event.code) {
@@ -243,10 +254,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setupWindowAnimations() {
         Slide slideTransition = new Slide(Gravity.LEFT);
         slideTransition.setDuration(500);
         getWindow().setEnterTransition(slideTransition);
         getWindow().setExitTransition(slideTransition);
+        getWindow().setReenterTransition(slideTransition);
+        getWindow().setReturnTransition(slideTransition);
     }
 }

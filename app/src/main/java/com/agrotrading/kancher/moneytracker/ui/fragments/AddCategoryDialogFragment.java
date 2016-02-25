@@ -25,13 +25,14 @@ public class AddCategoryDialogFragment extends DialogFragment {
     }
 
     @ViewById(R.id.til_category)
-    TextInputLayout categoryFiledLayout;
+    TextInputLayout categoryFieldLayout;
 
     @ViewById(R.id.category_field)
     EditText categoryField;
 
     @AfterViews
     void init() {
+        categoryFieldLayout.setHint(getString(R.string.add_category_field_title, getResources().getInteger(R.integer.max_length_category_name)));
         getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
     }
@@ -46,7 +47,7 @@ public class AddCategoryDialogFragment extends DialogFragment {
     void addCategory() {
 
         if(categoryField.length() == 0) {
-            categoryFiledLayout.setError(getString(R.string.error_required_field));
+            categoryFieldLayout.setError(getString(R.string.error_required_field));
             return;
         }
 

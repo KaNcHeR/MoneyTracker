@@ -13,10 +13,9 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.transition.Slide;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
 
 import com.agrotrading.kancher.moneytracker.R;
@@ -74,19 +73,19 @@ public class ExpensesFragment extends Fragment {
 
     @AfterViews
     void ready() {
-        //setupWindowAnimations();
         getActivity().setTitle(getString(R.string.nav_drawer_expenses));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         expensesRecyclerView.setLayoutManager(linearLayoutManager);
+
+        initSwipeToRefresh();
+        initTouchHelper();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         loadData("");
-        initSwipeToRefresh();
-        initTouchHelper();
     }
 
     private void initSwipeToRefresh() {
@@ -146,6 +145,7 @@ public class ExpensesFragment extends Fragment {
     }
 
     private void loadData(final String filter) {
+        expensesRecyclerView.setVisibility(View.INVISIBLE);
         getLoaderManager().restartLoader(0, null, new LoaderManager.LoaderCallbacks<List<Expenses>>() {
             @Override
             public Loader<List<Expenses>> onCreateLoader(int id, Bundle args) {
@@ -181,6 +181,7 @@ public class ExpensesFragment extends Fragment {
                     }
                 });
                 expensesRecyclerView.setAdapter(expensesAdapter);
+                expensesRecyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -231,13 +232,5 @@ public class ExpensesFragment extends Fragment {
             expensesAdapter.clearSelection();
             actionMode = null;
         }
-    }
-
-    private void setupWindowAnimations() {
-        Slide slideTransition = new Slide();
-        slideTransition.setSlideEdge(Gravity.LEFT);
-        slideTransition.setDuration(500);
-        //setEnterTransition(slideTransition);
-        setExitTransition(slideTransition);
     }
 }

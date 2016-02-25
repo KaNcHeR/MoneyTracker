@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="max_length_category_name">27</integer>
+    <integer name="max_length_expense_name">10</integer>
+    <integer name="num_char_before_dot">5</integer>
+    <integer name="num_char_after_dot">1</integer>
+</resources>

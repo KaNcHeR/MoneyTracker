@@ -24,8 +24,9 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
-import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
 
 @EActivity(R.layout.activity_user_registration)
@@ -125,6 +126,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
         Snackbar.make(rootView, resId, Snackbar.LENGTH_LONG).show();
     }
 
+    @Subscribe
     public void onEventMainThread(MessageEvent event) {
         dialogHelper.hideProgressDialog();
         switch (event.code) {

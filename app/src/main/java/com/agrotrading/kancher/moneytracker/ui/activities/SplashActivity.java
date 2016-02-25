@@ -27,8 +27,9 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.androidannotations.api.BackgroundExecutor;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
-import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
 
 @EActivity(R.layout.activity_splash)
@@ -153,6 +154,7 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
+    @Subscribe
     public void onEventMainThread(MessageEvent event) {
         dialogHelper.hideProgressDialog();
         switch (event.code) {

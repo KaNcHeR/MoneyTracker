@@ -2,10 +2,11 @@ package com.agrotrading.kancher.moneytracker.utils;
 
 import com.agrotrading.kancher.moneytracker.utils.event.MessageEvent;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
-import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 

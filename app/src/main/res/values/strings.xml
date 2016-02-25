@@ -24,9 +24,9 @@
 
     <string name="add_expense">Добавить трату</string>
     <string name="add_expense_sum">Сумма</string>
-    <string name="add_expense_comment">Примечание</string>
+    <string name="add_expense_comment">Примечание (макс. %d символов)</string>
     <string name="add_expense_category">Категория</string>
-    <string name="add_category_field_title">Название категории</string>
+    <string name="add_category_field_title" translatable="false">Название категории (макс. %d символов)</string>
     <string name="add_category_title">Добавить категорию</string>
     <string name="add_expense_date">Дата</string>
     <string name="expense_date_format" translatable="false">%d.%s.%s</string>
@@ -40,6 +40,7 @@
     <string name="cancel_button">Отмена</string>
 
     <string name="error_required_field">Заполните поле</string>
+    <string name="error_sum_field" translatable="false">Не более %d знаков(а) перед точкой, и %d после</string>
 
 
     <string name="user_registration">Регистрация</string>
