@@ -27,10 +27,6 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="Container.MainBackground">
-
-    </style>
-
     <style name="Container.DarkBackground">
         <item name="android:background">@color/colorAccent</item>
     </style>

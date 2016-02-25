@@ -18,14 +18,6 @@
         android:visibility="invisible"
         android:contentDescription="@string/circleAvatarDescription" />
 
-    <!--<de.hdodenhof.circleimageview.CircleImageView-->
-        <!--android:id="@+id/avatar"-->
-        <!--android:layout_width="@dimen/drawer_header_avatar_circle_radius"-->
-        <!--android:layout_height="@dimen/drawer_header_avatar_circle_radius"-->
-        <!--android:layout_marginTop="@dimen/drawer_header_padding_top"-->
-        <!--android:src="@mipmap/avatar"-->
-        <!--android:visibility="invisible" />-->
-
     <LinearLayout
         android:id="@+id/subtitle"
         android:layout_width="match_parent"

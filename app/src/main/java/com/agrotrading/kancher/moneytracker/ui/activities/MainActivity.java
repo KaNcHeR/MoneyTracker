@@ -144,12 +144,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void applyAnimation(Fragment fragment) {
-        Slide slide = new Slide(Gravity.RIGHT);
-        slide.setDuration(300);
-        fragment.setEnterTransition(slide);
-        fragment.setExitTransition(slide);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Slide slide = new Slide(Gravity.RIGHT);
+            slide.setDuration(300);
+            fragment.setEnterTransition(slide);
+            fragment.setExitTransition(slide);
+        }
     }
 
     void logoutInit() {
@@ -256,11 +257,13 @@ public class MainActivity extends AppCompatActivity {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setupWindowAnimations() {
-        Slide slideTransition = new Slide(Gravity.LEFT);
-        slideTransition.setDuration(500);
-        getWindow().setEnterTransition(slideTransition);
-        getWindow().setExitTransition(slideTransition);
-        getWindow().setReenterTransition(slideTransition);
-        getWindow().setReturnTransition(slideTransition);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Slide slideTransition = new Slide(Gravity.LEFT);
+            slideTransition.setDuration(500);
+            getWindow().setEnterTransition(slideTransition);
+            getWindow().setExitTransition(slideTransition);
+            getWindow().setReenterTransition(slideTransition);
+            getWindow().setReturnTransition(slideTransition);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.agrotrading.kancher.moneytracker.ui.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.Fade;
@@ -176,9 +177,11 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void setupWindowAnimations() {
-        Fade fadeTransition = new Fade();
-        fadeTransition.setDuration(500);
-        getWindow().setExitTransition(fadeTransition);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Fade fadeTransition = new Fade();
+            fadeTransition.setDuration(500);
+            getWindow().setExitTransition(fadeTransition);
+        }
     }
 
 }

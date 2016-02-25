@@ -1,6 +1,5 @@
 package com.agrotrading.kancher.moneytracker.ui.activities;
 
-import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
@@ -148,11 +147,12 @@ public class AddExpenseActivity extends AppCompatActivity {
         return m.matches();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setupWindowAnimations() {
-        Fade fadeTransition = new Fade();
-        fadeTransition.setDuration(500);
-        getWindow().setEnterTransition(fadeTransition);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Fade fadeTransition = new Fade();
+            fadeTransition.setDuration(500);
+            getWindow().setEnterTransition(fadeTransition);
+        }
     }
 
     private void finishCross() {
