@@ -4,14 +4,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowAllowEnterTransitionOverlap">false</item>
-        <item name="android:windowAllowReturnTransitionOverlap">false</item>
-        <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
-    </style>
-
-    <style name="MyDatePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
-        <item name="android:colorAccent">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
