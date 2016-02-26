@@ -1,6 +1,7 @@
 package com.agrotrading.kancher.moneytracker.ui.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.Fade;
@@ -27,8 +28,9 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.androidannotations.api.BackgroundExecutor;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
-import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
 
 @EActivity(R.layout.activity_splash)
@@ -153,6 +155,7 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
+    @Subscribe
     public void onEventMainThread(MessageEvent event) {
         dialogHelper.hideProgressDialog();
         switch (event.code) {
@@ -174,9 +177,11 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void setupWindowAnimations() {
-        Fade fadeTransition = new Fade();
-        fadeTransition.setDuration(500);
-        getWindow().setExitTransition(fadeTransition);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Fade fadeTransition = new Fade();
+            fadeTransition.setDuration(500);
+            getWindow().setExitTransition(fadeTransition);
+        }
     }
 
 }

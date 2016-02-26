@@ -10,7 +10,7 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.activities.MainActivity">
 
-    <RelativeLayout style="@style/Container.MainBackground">
+    <RelativeLayout style="@style/Container">
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar"/>

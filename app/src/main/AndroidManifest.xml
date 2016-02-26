@@ -2,13 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.agrotrading.kancher.moneytracker">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".MoneyTrackerApplication"
@@ -18,11 +18,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
 
-        <meta-data android:name="AA_DB_NAME" android:value="MoneyTrackerDB.db" />
-        <meta-data android:name="AA_DB_VERSION" android:value="1" />
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="MoneyTrackerDB.db" />
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="1" />
+
         <meta-data
             android:name="AA_MODELS"
             android:value="com.agrotrading.kancher.moneytracker.database.Expenses, com.agrotrading.kancher.moneytracker.database.Categories, com.agrotrading.kancher.moneytracker.database.notable.Expenses" />
+
+        <meta-data
+            android:name="com.bumptech.glide.integration.okhttp.OkHttpGlideModule"
+            android:value="GlideModule" />
 
         <activity
             android:name=".ui.activities.SplashActivity_"
@@ -33,30 +42,21 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.activities.UserLoginActivity_">
-        </activity>
+        <activity android:name=".ui.activities.UserLoginActivity_" />
 
-        <activity
-            android:name=".ui.activities.UserRegistrationActivity_">
-        </activity>
+        <activity android:name=".ui.activities.UserRegistrationActivity_" />
 
-        <activity
-            android:name=".ui.activities.MainActivity_"
+        <activity android:name=".ui.activities.MainActivity_"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
 
-        <activity
-            android:name=".ui.activities.AddExpenseActivity_"
-            android:screenOrientation="portrait">
-        </activity>
-        
+        <activity android:name=".ui.activities.AddExpenseActivity_" />
+
         <provider
-            android:authorities="@string/content_authority"
             android:name=".sync.StubContentProvider"
-            android:syncable="true"
-            android:exported="false" />
+            android:authorities="@string/content_authority"
+            android:exported="false"
+            android:syncable="true" />
 
         <service android:name=".sync.TrackerAuthenticatorService">
             <intent-filter>
@@ -66,8 +66,9 @@
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
-        
-        <service android:name=".sync.TrackerSyncServices"
+
+        <service
+            android:name=".sync.TrackerSyncServices"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />

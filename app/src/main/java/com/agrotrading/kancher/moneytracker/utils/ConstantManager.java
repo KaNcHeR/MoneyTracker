@@ -26,4 +26,6 @@ public class ConstantManager {
 
     public static final String FILTER_ID = "filter_id";
     public static final int FILTER_DELAY = 700;
+
+    public static final String PATTERN_SUM_FIELD = "^[0-9]{1,%d}(\\.[0-9]{1,%d})?$";
 }

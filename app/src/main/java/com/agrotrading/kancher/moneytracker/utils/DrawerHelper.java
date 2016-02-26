@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.agrotrading.kancher.moneytracker.R;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
@@ -48,6 +49,7 @@ public class DrawerHelper {
             pictureImageView.setVisibility(View.VISIBLE);
 
             Glide.with(context).load(prefs.googleAccountPictureSrc().get())
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .bitmapTransform(new CropCircleTransformation(context))
                     .into(pictureImageView);
         }

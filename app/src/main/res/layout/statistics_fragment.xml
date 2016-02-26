@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:orientation="vertical"
-android:layout_width="match_parent"
-android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/statistics_fragment_padding_horizontal"
+    android:paddingRight="@dimen/statistics_fragment_padding_horizontal">
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/help_text"/>
+        android:layout_above="@+id/help_text" />
 
     <TextView
         android:id="@+id/help_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/help_text_statistics"
-        android:textColor="@color/default_hint_color"
-        android:gravity="center_horizontal"
         android:layout_alignParentBottom="true"
-        android:paddingTop="@dimen/help_text_statistics_fragment_padding_vertical"
+        android:gravity="center_horizontal"
         android:paddingBottom="@dimen/help_text_statistics_fragment_padding_vertical"
         android:paddingLeft="@dimen/help_text_statistics_fragment_padding_horizontal"
         android:paddingRight="@dimen/help_text_statistics_fragment_padding_horizontal"
- />
+        android:paddingTop="@dimen/help_text_statistics_fragment_padding_vertical"
+        android:text="@string/help_text_statistics"
+        android:textColor="@color/default_hint_color" />
 
 </RelativeLayout>

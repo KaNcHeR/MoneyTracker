@@ -1,5 +1,6 @@
 package com.agrotrading.kancher.moneytracker.ui.activities;
 
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import com.agrotrading.kancher.moneytracker.adapters.CategoriesSpinnerAdapter;
 import com.agrotrading.kancher.moneytracker.database.Categories;
 import com.agrotrading.kancher.moneytracker.database.Expenses;
 import com.agrotrading.kancher.moneytracker.utils.ApplicationPreferences_;
+import com.agrotrading.kancher.moneytracker.utils.ConstantManager;
 import com.agrotrading.kancher.moneytracker.utils.DialogHelper;
 
 import org.androidannotations.annotations.AfterViews;
@@ -28,9 +30,14 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @EActivity(R.layout.activity_add_expense)
 public class AddExpenseActivity extends AppCompatActivity {
+
+    int numCharBeforeDot = 0;
+    int numCharAfterDot = 0;
 
     @Bean
     CategoriesSpinnerAdapter categoriesSpinnerAdapter;
@@ -65,21 +72,29 @@ public class AddExpenseActivity extends AppCompatActivity {
     @AfterViews
     void ready() {
         setupWindowAnimations();
+
         setSupportActionBar(toolbar);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
         setTitle(getString(R.string.add_expense));
+
+        expenseCommentLayout.setHint(getString(R.string.add_expense_comment, getResources().getInteger(R.integer.max_length_expense_name)));
 
         SimpleDateFormat dateFormat = new SimpleDateFormat(getString(R.string.date_format), Locale.getDefault());
         expenseDate.setText(dateFormat.format(new Date()));
 
         categorySpinner.setAdapter(categoriesSpinnerAdapter);
+
+        numCharBeforeDot = getResources().getInteger(R.integer.num_char_before_dot);
+        numCharAfterDot = getResources().getInteger(R.integer.num_char_after_dot);
     }
 
     @OptionsItem(android.R.id.home)
     void back() {
-        supportFinishAfterTransition();
+        finishCross();
     }
 
     @Click(R.id.date_field)
@@ -89,11 +104,11 @@ public class AddExpenseActivity extends AppCompatActivity {
 
     @Click(R.id.cancel_button)
     void cancel() {
-        supportFinishAfterTransition();
+        finishCross();
     }
 
     @TextChange(R.id.sum_field)
-    void sumFieldChange() {
+    void sumFieldChange(CharSequence text) {
         expenseSumLayout.setErrorEnabled(false);
     }
 
@@ -107,8 +122,8 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         if (categorySpinner.getAdapter().getCount() < 1) {
             Snackbar.make(clickedView, getString(R.string.no_categories), Snackbar.LENGTH_LONG).show();
-        } else if (expenseSum.length() == 0) {
-            expenseSumLayout.setError(getString(R.string.error_required_field));
+        } else if (!checkExpenseSumValid()) {
+            expenseSumLayout.setError(getString(R.string.error_sum_field, numCharBeforeDot, numCharAfterDot));
         } else if (expenseComment.length() == 0) {
             expenseCommentLayout.setError(getString(R.string.error_required_field));
         } else {
@@ -120,14 +135,31 @@ public class AddExpenseActivity extends AppCompatActivity {
             ).save();
 
             prefs.needSyncExpenses().put(true);
-            supportFinishAfterTransition();
+            finishCross();
         }
     }
 
+    private boolean checkExpenseSumValid() {
+        String pattern = ConstantManager.PATTERN_SUM_FIELD;
+        Pattern p = Pattern.compile(String.format(pattern, numCharBeforeDot, numCharAfterDot));
+        Matcher m = p.matcher(expenseSum.getText().toString());
+
+        return m.matches();
+    }
+
     private void setupWindowAnimations() {
-        Fade fadeTransition = new Fade();
-        fadeTransition.setDuration(500);
-        getWindow().setEnterTransition(fadeTransition);
-        getWindow().setExitTransition(fadeTransition);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Fade fadeTransition = new Fade();
+            fadeTransition.setDuration(500);
+            getWindow().setEnterTransition(fadeTransition);
+        }
+    }
+
+    private void finishCross() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAfterTransition();
+        } else {
+            finish();
+        }
     }
 }

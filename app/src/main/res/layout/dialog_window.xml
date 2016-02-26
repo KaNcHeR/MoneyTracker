@@ -13,6 +13,7 @@
 
         <EditText
             android:id="@+id/category_field"
+            android:maxLength="@integer/max_length_category_name"
             style="@style/AddExpenseEditText" />
     </android.support.design.widget.TextInputLayout>
 

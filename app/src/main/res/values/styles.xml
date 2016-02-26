@@ -4,9 +4,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowAllowEnterTransitionOverlap">false</item>
-        <item name="android:windowAllowReturnTransitionOverlap">false</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -30,10 +27,6 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="Container.MainBackground">
-
-    </style>
-
     <style name="Container.DarkBackground">
         <item name="android:background">@color/colorAccent</item>
     </style>
@@ -47,10 +40,13 @@
     <style name="AddExpenseEditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center_vertical</item>
         <item name="android:textSize">@dimen/edit_text_size</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textColor">@color/default_text_color</item>
+    </style>
+
+    <style name="AddExpenseEditText.SpinnerListLandscape">
+        <item name="android:paddingTop">@dimen/spinner_list_landscape_padding_top</item>
     </style>
 
     <style name="AddExpenseEditText.SpinnerDropDownList">
@@ -128,8 +124,8 @@
     </style>
 
     <style name="DialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/dialog_slide_left</item>
-        <item name="android:windowExitAnimation">@anim/dialog_slide_right</item>
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
 
 </resources>

@@ -38,5 +38,7 @@
 
     <color name="bg_pie_hole">#DFE5E8</color>
 
+    <color name="line_divider">#5F607D8B</color>
+
 
 </resources>
